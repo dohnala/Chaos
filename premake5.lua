@@ -30,6 +30,7 @@ project "Chaos"
 	includedirs
 	{
 		"%{prj.name}/src",
+		"%{prj.name}/vendor/spdlog/include"
 	}
 
 	filter "system:windows"
@@ -68,7 +69,8 @@ project "Example"
 
 	includedirs
 	{
-		"Chaos/src"
+		"Chaos/src",
+		"Chaos/vendor/spdlog/include"
 	}
 
 	links

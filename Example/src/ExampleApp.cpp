@@ -5,7 +5,7 @@ class ExampleApp : public Chaos::Application
 public:
 	ExampleApp()
 	{
-		Chaos::Log("ExampleApp started");
+		CH_INFO("ExampleApp started");
 	}
 
 	~ExampleApp()
