@@ -7,7 +7,7 @@ extern Chaos::Application* Chaos::CreateApplication();
 int main()
 {
 	Chaos::Log::Init();
-	CH_ENGINE_INFO("Chaos engine initialized");
+	CH_CORE_INFO("Chaos engine initialized");
 
 	auto app = Chaos::CreateApplication();
 	app->Run();
