@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Chaos/Core/Window.h"
 
 #ifdef CH_PLATFORM_WINDOWS

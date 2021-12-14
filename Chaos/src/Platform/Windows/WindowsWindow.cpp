@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Platform/Windows/WindowsWindow.h"
 
 namespace Chaos

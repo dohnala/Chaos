@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Chaos/Core/Application.h"
 
 namespace Chaos

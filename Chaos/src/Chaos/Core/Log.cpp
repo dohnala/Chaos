@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Chaos/Core/Log.h"
 
 #include "spdlog/sinks/stdout_color_sinks.h"
