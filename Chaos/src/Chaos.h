@@ -1,5 +1,5 @@
 #pragma once
 
-#include "Chaos/Application.h"
-#include "Chaos/EntryPoint.h"
-#include "Chaos/Log.h"
+#include "Chaos/Core/Application.h"
+#include "Chaos/Core/EntryPoint.h"
+#include "Chaos/Core/Log.h"

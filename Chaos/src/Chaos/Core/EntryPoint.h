@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Log.h"
+#include "Chaos/Core/Log.h"
 
 extern Chaos::Application* Chaos::CreateApplication();
 
