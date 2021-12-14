@@ -16,6 +16,7 @@ namespace Chaos
 		inline static Application& Get() { return *s_Instance; }
 	private:
 		Scope<Window> m_Window;
+		bool m_Running = true;
 	private:
 		static Application* s_Instance;
 	};

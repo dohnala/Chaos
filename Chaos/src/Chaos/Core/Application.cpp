@@ -18,7 +18,7 @@ namespace Chaos
 
 	void Application::Run()
 	{
-		while (true)
+		while (m_Running)
 		{
 			m_Window->OnUpdate();
 		}

@@ -11,6 +11,12 @@ workspace "Chaos"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["spdlog"] = "Chaos/vendor/spdlog/include"
+IncludeDir["glfw"] = "Chaos/vendor/glfw/include"
+
+include "Chaos/vendor/glfw"
+
 project "Chaos"
 	location "Chaos"
 	kind "StaticLib"
@@ -33,7 +39,14 @@ project "Chaos"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include"
+		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.glfw}"
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
