@@ -5,7 +5,7 @@
 
 extern Chaos::Application* Chaos::CreateApplication();
 
-int main()
+int main(int argc, char** argv)
 {
 	Chaos::Log::Init();
 
