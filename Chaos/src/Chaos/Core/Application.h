@@ -2,6 +2,7 @@
 
 #include "Chaos/Core/Base.h"
 #include "Chaos/Core/Window.h"
+#include "Chaos/Core/LayerStack.h"
 
 namespace Chaos
 {
@@ -12,10 +13,17 @@ namespace Chaos
 		virtual ~Application();
 
 		void Run();
+		void Close();
+
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* overlay);
+
+		Window& GetWindow() { return *m_Window; }
 
 		inline static Application& Get() { return *s_Instance; }
 	private:
 		Scope<Window> m_Window;
+		LayerStack m_LayerStack;
 		bool m_Running = true;
 	private:
 		static Application* s_Instance;
