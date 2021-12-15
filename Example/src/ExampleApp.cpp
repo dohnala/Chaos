@@ -20,6 +20,10 @@ public:
 
 	void OnUpdate() override
 	{
+		if (Chaos::Input::IsKeyPressed(Chaos::Key::F))
+		{
+			CH_INFO("F Pressed");
+		}
 	}
 
 	void OnEvent(Chaos::Event& event) override

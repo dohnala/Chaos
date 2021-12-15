@@ -34,6 +34,8 @@ namespace Chaos
 
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
 
+		virtual void* GetNativeWindow() const = 0;
+
 		static Scope<Window> Create(const WindowProps& props = WindowProps());
 	};
 }
