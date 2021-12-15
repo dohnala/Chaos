@@ -20,7 +20,11 @@ public:
 
 	void OnUpdate() override
 	{
-		CH_TRACE("ExampleLayer::OnUpdate");
+	}
+
+	void OnEvent(Chaos::Event& event) override
+	{
+		CH_TRACE("ExampleLayer::OnEvent - {0}", event);
 	}
 };
 

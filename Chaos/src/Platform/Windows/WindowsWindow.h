@@ -19,6 +19,8 @@ namespace Chaos
 
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
+
+		void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
@@ -31,6 +33,7 @@ namespace Chaos
 			uint32_t Width;
 			uint32_t Height;
 			bool VSync;
+			EventCallbackFn EventCallback;
 		};
 
 		WindowData m_Data;

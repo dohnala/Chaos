@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Chaos/Core/Base.h"
+#include "Chaos/Events/Event.h"
 
 namespace Chaos
 {
@@ -10,9 +11,10 @@ namespace Chaos
 		Layer(const std::string& name = "Layer");
 		virtual ~Layer() = default;
 
-		virtual void OnAttach() = 0;
-		virtual void OnDetach() = 0;
-		virtual void OnUpdate() = 0;
+		virtual void OnAttach() {};
+		virtual void OnDetach() {};
+		virtual void OnUpdate() {};
+		virtual void OnEvent(Event& event) {}
 
 		const std::string& GetName() const { return m_Name; }
 	protected:
