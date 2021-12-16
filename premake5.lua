@@ -14,8 +14,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["spdlog"] = "Chaos/vendor/spdlog/include"
 IncludeDir["glfw"] = "Chaos/vendor/glfw/include"
+IncludeDir["glad"] = "Chaos/vendor/glad/include"
 
 include "Chaos/vendor/glfw"
+include "Chaos/vendor/glad"
 
 project "Chaos"
 	location "Chaos"
@@ -36,16 +38,24 @@ project "Chaos"
 		"%{prj.name}/src/**.cpp",
 	}
 
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS",
+		"GLFW_INCLUDE_NONE"
+	}
+
 	includedirs
 	{
 		"%{prj.name}/src",
 		"%{IncludeDir.spdlog}",
-		"%{IncludeDir.glfw}"
+		"%{IncludeDir.glfw}",
+		"%{IncludeDir.glad}",
 	}
 
 	links
 	{
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 

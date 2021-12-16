@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Chaos/Core/Window.h"
+#include "Chaos/Renderer/GraphicsContext.h"
 
-#include <GLFW/glfw3.h>
+struct GLFWwindow;
 
 namespace Chaos
 {
@@ -28,6 +29,7 @@ namespace Chaos
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+		Scope<GraphicsContext> m_Context;
 
 		struct WindowData
 		{

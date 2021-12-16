@@ -5,6 +5,8 @@
 #include "Chaos/Events/MouseEvent.h"
 #include "Chaos/Events/KeyEvent.h"
 
+#include <GLFW/glfw3.h>
+
 namespace Chaos
 {
 	static uint8_t s_GLFWWindowCount = 0;
@@ -42,7 +44,9 @@ namespace Chaos
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		++s_GLFWWindowCount;
 
-		glfwMakeContextCurrent(m_Window);
+		m_Context = GraphicsContext::Create(m_Window);
+		m_Context->Init();
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
@@ -156,16 +160,8 @@ namespace Chaos
 
 	void WindowsWindow::OnUpdate()
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		glBegin(GL_TRIANGLES);
-		glVertex2f(-0.5f, -0.5f);
-		glVertex2f(0.0f, 0.5f);
-		glVertex2f(0.5f, -0.5f);
-		glEnd();
-
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
