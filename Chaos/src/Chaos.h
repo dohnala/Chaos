@@ -12,4 +12,7 @@
 #include "Chaos/Core/KeyCodes.h"
 #include "Chaos/Core/MouseCodes.h"
 
+#include "Chaos/Renderer/Renderer.h"
+#include "Chaos/Renderer/Buffer.h"
+
 #include "Chaos/Core/EntryPoint.h"

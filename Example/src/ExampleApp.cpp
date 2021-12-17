@@ -9,6 +9,15 @@ public:
 		: Layer("ExampleLayer")
 	{
 		glm::vec2 posi = glm::vec2(1.0f);
+
+		float vertices[3*4] = {
+			-0.5f, -0.5f, 0.0f,
+			 0.5f, -0.5f, 0.0f,
+			 0.5f,  0.5f, 0.0f,
+			-0.5f,  0.5f, 0.0f
+		};
+
+		m_VertexBuffer = Chaos::VertexBuffer::Create(vertices, sizeof(vertices));
 	}
 
 	void OnAttach() override
@@ -33,6 +42,8 @@ public:
 	{
 		CH_TRACE("ExampleLayer::OnEvent - {0}", event);
 	}
+private:
+	Chaos::Ref<Chaos::VertexBuffer> m_VertexBuffer;
 };
 
 class ExampleApp : public Chaos::Application
