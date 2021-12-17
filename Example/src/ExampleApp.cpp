@@ -17,10 +17,14 @@ public:
 			-0.5f,  0.5f, 0.0f
 		};
 
+		uint32_t indices[6] = { 0, 1, 2, 2, 3, 0 };
+
 		m_VertexBuffer = Chaos::VertexBuffer::Create(vertices, sizeof(vertices));
 		m_VertexBuffer->SetLayout({
 			{Chaos::ShaderDataType::Float3, "a_Position"},
 		});
+
+		m_IndexBuffer = Chaos::IndexBuffer::Create(indices, sizeof(indices));
 	}
 
 	void OnAttach() override
@@ -47,6 +51,7 @@ public:
 	}
 private:
 	Chaos::Ref<Chaos::VertexBuffer> m_VertexBuffer;
+	Chaos::Ref<Chaos::IndexBuffer> m_IndexBuffer;
 };
 
 class ExampleApp : public Chaos::Application

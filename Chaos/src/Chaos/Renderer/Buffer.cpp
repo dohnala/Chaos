@@ -17,4 +17,16 @@ namespace Chaos
 		CH_CORE_ASSERT(false, "Unknown GraphicsAPI!");
 		return nullptr;
 	}
+
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t size)
+	{
+		switch (Renderer::GetAPI())
+		{
+		case GraphicsAPI::API::None:    CH_CORE_ASSERT(false, "GraphicsAPI::None is currently not supported!"); return nullptr;
+		case GraphicsAPI::API::OpenGL:  return CreateRef<OpenGLIndexBuffer>(indices, size);
+		}
+
+		CH_CORE_ASSERT(false, "Unknown GraphicsAPI!");
+		return nullptr;
+	}
 }
