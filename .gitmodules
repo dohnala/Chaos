@@ -4,3 +4,6 @@
 [submodule "Chaos/vendor/glfw"]
 	path = Chaos/vendor/glfw
 	url = https://github.com/dohnala/glfw
+[submodule "Chaos/vendor/glm"]
+	path = Chaos/vendor/glm
+	url = https://github.com/g-truc/glm

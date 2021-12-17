@@ -15,6 +15,7 @@ IncludeDir = {}
 IncludeDir["spdlog"] = "Chaos/vendor/spdlog/include"
 IncludeDir["glfw"] = "Chaos/vendor/glfw/include"
 IncludeDir["glad"] = "Chaos/vendor/glad/include"
+IncludeDir["glm"] = "Chaos/vendor/glm"
 
 include "Chaos/vendor/glfw"
 include "Chaos/vendor/glad"
@@ -36,6 +37,8 @@ project "Chaos"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
 
 	defines
@@ -50,6 +53,7 @@ project "Chaos"
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.glad}",
+		"%{IncludeDir.glm}"
 	}
 
 	links
@@ -96,7 +100,8 @@ project "Example"
 	includedirs
 	{
 		"Chaos/src",
-		"Chaos/vendor/spdlog/include"
+		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.glm}"
 	}
 
 	links

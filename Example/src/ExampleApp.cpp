@@ -1,11 +1,14 @@
 #include <Chaos.h>
 
+#include <glm/glm.hpp>
+
 class ExampleLayer : public Chaos::Layer
 {
 public:
 	ExampleLayer()
 		: Layer("ExampleLayer")
 	{
+		glm::vec2 posi = glm::vec2(1.0f);
 	}
 
 	void OnAttach() override
