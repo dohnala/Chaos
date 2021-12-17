@@ -18,6 +18,9 @@ public:
 		};
 
 		m_VertexBuffer = Chaos::VertexBuffer::Create(vertices, sizeof(vertices));
+		m_VertexBuffer->SetLayout({
+			{Chaos::ShaderDataType::Float3, "a_Position"},
+		});
 	}
 
 	void OnAttach() override
