@@ -12,7 +12,7 @@ namespace Chaos
 	class Application
 	{
 	public:
-		Application(const std::string& name = "Chaos App");
+		Application(const std::string& name = "Chaos App", uint32_t width = 1280, uint32_t height = 720);
 		virtual ~Application();
 
 		void OnEvent(Event& e);

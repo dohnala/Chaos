@@ -41,7 +41,7 @@ class ExampleApp : public Chaos::Application
 {
 public:
 	ExampleApp()
-		: Application("Example App")
+		: Application("Example App", 600, 600)
 	{
 		CH_INFO("ExampleApp started");
 
