@@ -8,30 +8,7 @@ public:
 	ExampleLayer()
 		: Layer("ExampleLayer")
 	{
-		m_VertexArray = Chaos::VertexArray::Create();
-
-		float vertices[] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f
-		};
-
-		auto m_VertexBuffer = Chaos::VertexBuffer::Create(vertices, sizeof(vertices));
-		m_VertexBuffer->SetLayout({
-			{Chaos::ShaderDataType::Float3, "a_Position"},
-		});
-
-		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
-
-		uint32_t indices[] = { 
-			0, 1, 2, 
-			2, 3, 0 
-		};
-
-		auto m_IndexBuffer = Chaos::IndexBuffer::Create(indices, sizeof(indices));
-
-		m_VertexArray->AddIndexBuffer(m_IndexBuffer);
+		
 	}
 
 	void OnAttach() override
@@ -46,10 +23,10 @@ public:
 
 	void OnUpdate() override
 	{
-		if (Chaos::Input::IsKeyPressed(Chaos::Key::F))
-		{
-			CH_INFO("F Pressed");
-		}
+		Chaos::Renderer::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+		Chaos::Renderer::Clear();
+
+		Chaos::Renderer::DrawRect();
 	}
 
 	void OnEvent(Chaos::Event& event) override

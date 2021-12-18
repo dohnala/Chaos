@@ -1,16 +1,17 @@
 #include "pch.h"
 #include "Chaos/Core/Application.h"
+#include "Chaos/Renderer/Renderer.h"
 
 namespace Chaos
 {
-	Application* Application::s_Instance = nullptr;
-
 	Application::Application(const std::string& name)
 	{
 		CH_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 		m_Window = Window::Create(WindowProps(name));
-		m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
+		m_Window->SetEventCallback(CH_BIND_EVENT_FN(Application::OnEvent));
+
+		Renderer::Init();
 	}
 
 	Application::~Application()
@@ -20,8 +21,8 @@ namespace Chaos
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClose));
-		dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(Application::OnWindowResize));
+		dispatcher.Dispatch<WindowCloseEvent>(CH_BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(CH_BIND_EVENT_FN(Application::OnWindowResize));
 
 		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
 		{
@@ -77,6 +78,8 @@ namespace Chaos
 		}
 
 		m_Minimized = false;
+
+		Renderer::Resize(e.GetWidth(), e.GetHeight());
 
 		return false;
 	}

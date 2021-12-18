@@ -35,7 +35,7 @@ namespace Chaos
 		bool m_Running = true;
 		bool m_Minimized = false;
 	private:
-		static Application* s_Instance;
+		inline static Application* s_Instance = nullptr;
 		friend int ::main(int argc, char** argv);
 	};
 
