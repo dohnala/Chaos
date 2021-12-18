@@ -14,5 +14,6 @@
 
 #include "Chaos/Renderer/Renderer.h"
 #include "Chaos/Renderer/Buffer.h"
+#include "Chaos/Renderer/VertexArray.h"
 
 #include "Chaos/Core/EntryPoint.h"

@@ -8,23 +8,30 @@ public:
 	ExampleLayer()
 		: Layer("ExampleLayer")
 	{
-		glm::vec2 posi = glm::vec2(1.0f);
+		m_VertexArray = Chaos::VertexArray::Create();
 
-		float vertices[3*4] = {
+		float vertices[] = {
 			-0.5f, -0.5f, 0.0f,
 			 0.5f, -0.5f, 0.0f,
 			 0.5f,  0.5f, 0.0f,
 			-0.5f,  0.5f, 0.0f
 		};
 
-		uint32_t indices[6] = { 0, 1, 2, 2, 3, 0 };
-
-		m_VertexBuffer = Chaos::VertexBuffer::Create(vertices, sizeof(vertices));
+		auto m_VertexBuffer = Chaos::VertexBuffer::Create(vertices, sizeof(vertices));
 		m_VertexBuffer->SetLayout({
 			{Chaos::ShaderDataType::Float3, "a_Position"},
 		});
 
-		m_IndexBuffer = Chaos::IndexBuffer::Create(indices, sizeof(indices));
+		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
+
+		uint32_t indices[] = { 
+			0, 1, 2, 
+			2, 3, 0 
+		};
+
+		auto m_IndexBuffer = Chaos::IndexBuffer::Create(indices, sizeof(indices));
+
+		m_VertexArray->AddIndexBuffer(m_IndexBuffer);
 	}
 
 	void OnAttach() override
@@ -50,8 +57,7 @@ public:
 		CH_TRACE("ExampleLayer::OnEvent - {0}", event);
 	}
 private:
-	Chaos::Ref<Chaos::VertexBuffer> m_VertexBuffer;
-	Chaos::Ref<Chaos::IndexBuffer> m_IndexBuffer;
+	Chaos::Ref<Chaos::VertexArray> m_VertexArray;
 };
 
 class ExampleApp : public Chaos::Application
