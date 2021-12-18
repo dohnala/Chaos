@@ -1,10 +1,37 @@
 #include "pch.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 
+#include <fstream>
 #include <glad/glad.h>
 
 namespace Chaos
 {
+	static GLenum ShaderTypeFromString(const std::string& type)
+	{
+		if (type == "vertex")
+			return GL_VERTEX_SHADER;
+		if (type == "fragment" || type == "pixel")
+			return GL_FRAGMENT_SHADER;
+
+		CH_CORE_ASSERT(false, "Unknown shader type!");
+		return 0;
+	}
+
+	OpenGLShader::OpenGLShader(const std::string& filepath)
+	{
+		std::string fileContent = ReadFile(filepath);
+		auto sources = PreProcess(fileContent);
+
+		Compile(sources);
+
+		// Extract name from filepath
+		auto lastSlash = filepath.find_last_of("/\\");
+		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+		auto lastDot = filepath.rfind('.');
+		auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
+		m_Name = filepath.substr(lastSlash, count);
+	}
+
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 		: m_Name(name)
 	{
@@ -28,6 +55,61 @@ namespace Chaos
 	void OpenGLShader::Unbind() const
 	{
 		glUseProgram(0);
+	}
+
+	std::string OpenGLShader::ReadFile(const std::string& filepath)
+	{
+		std::string fileContent;
+		std::ifstream in(filepath, std::ios::in | std::ios::binary);
+		
+		if (in)
+		{
+			in.seekg(0, std::ios::end);
+			fileContent.resize(in.tellg());
+			in.seekg(0, std::ios::beg);
+			in.read(&fileContent[0], fileContent.size());
+			in.close();
+		}
+		else
+		{
+			CH_CORE_ERROR("Could not open file '{0}'", filepath);
+		}
+
+		return fileContent;
+	}
+
+	std::unordered_map<uint32_t, std::string> OpenGLShader::PreProcess(const std::string& fileContent)
+	{
+		std::unordered_map<GLenum, std::string> sources;
+
+		const char* typeToken = "#type";
+		size_t typeTokenLength = strlen(typeToken);
+
+		//Start of shader type declaration line
+		size_t pos = fileContent.find(typeToken, 0);
+
+		while (pos != std::string::npos)
+		{
+			//End of shader type declaration line
+			size_t eol = fileContent.find_first_of("\r\n", pos);
+			CH_CORE_ASSERT(eol != std::string::npos, "Syntax error");
+
+			//Start of shader type name (after "#type " keyword)
+			size_t begin = pos + typeTokenLength + 1;
+			std::string type = fileContent.substr(begin, eol - begin);
+			CH_CORE_ASSERT(ShaderTypeFromString(type), "Invalid shader type specified");
+
+			//Start of shader code after shader type declaration line
+			size_t nextLinePos = fileContent.find_first_not_of("\r\n", eol);
+			CH_CORE_ASSERT(nextLinePos != std::string::npos, "Syntax error");
+
+			//Start of next shader type declaration line
+			pos = fileContent.find(typeToken, nextLinePos);
+
+			sources[ShaderTypeFromString(type)] = (pos == std::string::npos) ? fileContent.substr(nextLinePos) : fileContent.substr(nextLinePos, pos - nextLinePos);
+		}
+
+		return sources;
 	}
 
 	void OpenGLShader::Compile(const std::unordered_map<uint32_t, std::string>& shaderSources)

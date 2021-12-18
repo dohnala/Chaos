@@ -6,6 +6,18 @@
 
 namespace Chaos
 {
+	Ref<Shader> Shader::Create(const std::string& filepath)
+	{
+		switch (Renderer::GetAPI())
+		{
+			case GraphicsAPI::API::None:    CH_CORE_ASSERT(false, "GraphicsAPI::None is currently not supported!"); return nullptr;
+			case GraphicsAPI::API::OpenGL:  return CreateScope<OpenGLShader>(filepath);
+		}
+
+		CH_CORE_ASSERT(false, "Unknown GraphicsAPI!");
+		return nullptr;
+	}
+
 	Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 	{
 		switch (Renderer::GetAPI())

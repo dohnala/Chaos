@@ -45,31 +45,9 @@ namespace Chaos
 
 		m_VertexArray->AddIndexBuffer(m_IndexBuffer);
 
-		std::string rectVertexShaderSrc = R"(
-			#version 330 core
-
-			layout(location = 0) in vec3 a_Position;
-
-			void main()
-			{
-				gl_Position = vec4(a_Position, 1.0);
-			}
-		)";
-
-		std::string rectFragmentShaderSrc = R"(
-			#version 330 core
-
-			layout(location = 0) out vec4 color;
-
-			void main()
-			{
-				color = vec4(0.2, 0.3, 0.8, 1.0);
-}
-		)";
-
 		s_Rect = new RendererPrimitive();
 		s_Rect->VertexArray = m_VertexArray;
-		s_Rect->Shader = Shader::Create("rect", rectVertexShaderSrc, rectFragmentShaderSrc);
+		s_Rect->Shader = Shader::Create("assets/shaders/Rect.glsl");
 
 		// currently we support only rects, so we bind vertex array and shader only once
 		// later it should be inside Draw* method
