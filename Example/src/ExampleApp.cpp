@@ -7,9 +7,7 @@ class ExampleLayer : public Chaos::Layer
 public:
 	ExampleLayer()
 		: Layer("ExampleLayer")
-	{
-		
-	}
+	{}
 
 	void OnAttach() override
 	{
@@ -26,15 +24,17 @@ public:
 		Chaos::Renderer::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Chaos::Renderer::Clear();
 
-		Chaos::Renderer::DrawRect();
+		// Position, Rotation, Size, Color
+		Chaos::Renderer::DrawRect({ -0.4f, -0.4f }, -45.0f, { 0.5f, 0.5f }, { 0.2, 0.8, 0.3, 1.0 });
+		Chaos::Renderer::DrawRect({  0.4f, -0.4f },  45.0f, { 0.5f, 0.5f }, { 0.8, 0.8, 0.3, 1.0 });
+		Chaos::Renderer::DrawRect({  0.4f,  0.4f }, 135.0f, { 0.5f, 0.5f }, { 0.2, 0.3, 0.8, 1.0 });
+		Chaos::Renderer::DrawRect({ -0.4f,  0.4f }, 225.0f, { 0.5f, 0.5f }, { 0.8, 0.2, 0.3, 1.0 });
 	}
 
 	void OnEvent(Chaos::Event& event) override
 	{
 		CH_TRACE("ExampleLayer::OnEvent - {0}", event);
 	}
-private:
-	Chaos::Ref<Chaos::VertexArray> m_VertexArray;
 };
 
 class ExampleApp : public Chaos::Application

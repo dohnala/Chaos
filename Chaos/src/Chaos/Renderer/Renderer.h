@@ -15,7 +15,7 @@ namespace Chaos
 		static void SetClearColor(const glm::vec4& color);
 		static void Clear();
 
-		static void DrawRect();
+		static void DrawRect(const glm::vec2& position, float rotation, const glm::vec2& size, const glm::vec4& color);
 
 		static GraphicsAPI::API GetAPI() { return s_GraphicsAPI->GetAPI(); }
 	private:

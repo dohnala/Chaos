@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Chaos
 {
@@ -55,6 +56,30 @@ namespace Chaos
 	void OpenGLShader::Unbind() const
 	{
 		glUseProgram(0);
+	}
+
+	void OpenGLShader::SetInt(const std::string& name, int value)
+	{
+		GLint location = glGetUniformLocation(m_ID, name.c_str());
+		glUniform1i(location, value);
+	}
+
+	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& value)
+	{
+		GLint location = glGetUniformLocation(m_ID, name.c_str());
+		glUniform3f(location, value.x, value.y, value.z);
+	}
+
+	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& value)
+	{
+		GLint location = glGetUniformLocation(m_ID, name.c_str());
+		glUniform4f(location, value.x, value.y, value.z, value.w);
+	}
+
+	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& value)
+	{
+		GLint location = glGetUniformLocation(m_ID, name.c_str());
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 	}
 
 	std::string OpenGLShader::ReadFile(const std::string& filepath)

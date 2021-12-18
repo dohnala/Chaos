@@ -4,6 +4,8 @@
 
 #include "Platform/OpenGL/OpenGLGraphicsAPI.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 namespace Chaos 
 {
 	Scope<GraphicsAPI> Renderer::s_GraphicsAPI = CreateScope<OpenGLGraphicsAPI>();
@@ -75,8 +77,15 @@ namespace Chaos
 		s_GraphicsAPI->Clear();
 	}
 
-	void Renderer::DrawRect()
+	void Renderer::DrawRect(const glm::vec2& position, float rotation, const glm::vec2& size, const glm::vec4& color)
 	{
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x, position.y, 0.0f })
+			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+		s_Rect->Shader->SetFloat4("u_Color", color);
+		s_Rect->Shader->SetMat4("u_Transform", transform);
+
 		s_GraphicsAPI->DrawIndexed(s_Rect->VertexArray);
 	}
 }
