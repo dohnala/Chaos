@@ -77,14 +77,27 @@ namespace Chaos
 		s_GraphicsAPI->Clear();
 	}
 
-	void Renderer::DrawRect(const glm::vec2& position, float rotation, const glm::vec2& size, const glm::vec4& color)
+	void Renderer::DrawRect(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
+	{
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x, position.y, 0.0f })
+			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+		DrawRect(transform, color);
+	}
+
+	void Renderer::DrawRotatedRect(const glm::vec2& position, float rotation, const glm::vec2& size, const glm::vec4& color)
 	{
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x, position.y, 0.0f })
 			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		s_Rect->Shader->SetFloat4("u_Color", color);
+		DrawRect(transform, color);
+	}
+
+	void Renderer::DrawRect(const glm::mat4& transform, const glm::vec4& color)
+	{
 		s_Rect->Shader->SetMat4("u_Transform", transform);
+		s_Rect->Shader->SetFloat4("u_Color", color);
 
 		s_GraphicsAPI->DrawIndexed(s_Rect->VertexArray);
 	}
