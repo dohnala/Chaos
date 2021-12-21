@@ -13,8 +13,7 @@ namespace Chaos
 
 		WindowProps(const std::string& title = "Chaos Engine", uint32_t width = 1280, uint32_t height = 720)
 			: Title(title), Width(width), Height(height)
-		{
-		}
+		{}
 	};
 
 	class Window
@@ -31,6 +30,8 @@ namespace Chaos
 
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
+
+		virtual float GetTime() const = 0;
 
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
 

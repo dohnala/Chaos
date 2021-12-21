@@ -6,6 +6,7 @@
 #include "Chaos/Core/Layer.h"
 #include "Chaos/Core/Log.h"
 #include "Chaos/Core/Assert.h"
+#include "Chaos/Core/Timestep.h"
 
 #include "Chaos/Events/Event.h"
 #include "Chaos/Core/Input.h"

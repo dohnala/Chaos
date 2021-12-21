@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Chaos/Core/Base.h"
+#include "Chaos/Core/Timestep.h"
 #include "Chaos/Events/Event.h"
 
 namespace Chaos
@@ -16,7 +17,7 @@ namespace Chaos
 
 		virtual void OnAttach() {};
 		virtual void OnDetach() {};
-		virtual void OnUpdate() {};
+		virtual void OnUpdate(Timestep ts) {};
 		virtual void OnEvent(Event& event) {}
 
 		const std::string& GetName() const { return m_Name; }

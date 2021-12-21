@@ -13,15 +13,17 @@ namespace Chaos
 		WindowsWindow(const WindowProps& props);
 		virtual ~WindowsWindow();
 
-		void OnUpdate() override;
+		virtual void OnUpdate() override;
 
-		uint32_t GetWidth() const override { return m_Data.Width; }
-		uint32_t GetHeight() const override { return m_Data.Height; }
+		virtual uint32_t GetWidth() const override { return m_Data.Width; }
+		virtual uint32_t GetHeight() const override { return m_Data.Height; }
 
-		void SetVSync(bool enabled) override;
-		bool IsVSync() const override;
+		virtual void SetVSync(bool enabled) override;
+		virtual bool IsVSync() const override;
 
-		void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
+		virtual float GetTime() const override;
+
+		virtual void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 
 		virtual void* GetNativeWindow() const { return m_Window; }
 	private:

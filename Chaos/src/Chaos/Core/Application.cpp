@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Chaos/Core/Application.h"
+#include "Chaos/Core/Timestep.h"
 #include "Chaos/Renderer/Renderer.h"
 
 namespace Chaos
@@ -53,10 +54,14 @@ namespace Chaos
 	{
 		while (m_Running)
 		{
+			float time = m_Window->GetTime();
+			Timestep timestep = time - m_LastFrameTime;
+			m_LastFrameTime = time;
+
 			if (!m_Minimized)
 			{
 				for (Layer* layer : m_LayerStack)
-					layer->OnUpdate();
+					layer->OnUpdate(timestep);
 			}
 
 			m_Window->OnUpdate();

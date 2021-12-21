@@ -34,6 +34,7 @@ namespace Chaos
 		LayerStack m_LayerStack;
 		bool m_Running = true;
 		bool m_Minimized = false;
+		float m_LastFrameTime = 0.0f;
 	private:
 		inline static Application* s_Instance = nullptr;
 		friend int ::main(int argc, char** argv);

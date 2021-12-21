@@ -22,7 +22,7 @@ public:
 		CH_TRACE("ExampleLayer::OnDetach");
 	}
 
-	void OnUpdate() override
+	void OnUpdate(Chaos::Timestep ts) override
 	{
 		Chaos::Renderer::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Chaos::Renderer::Clear();
@@ -65,7 +65,7 @@ class ExampleApp : public Chaos::Application
 {
 public:
 	ExampleApp()
-		: Application("Example App", 800, 600)
+		: Application("Example App", 1280, 720)
 	{
 		CH_INFO("ExampleApp started");
 
@@ -73,8 +73,7 @@ public:
 	}
 
 	~ExampleApp()
-	{
-	}
+	{}
 };
 
 Chaos::Application* Chaos::CreateApplication()
