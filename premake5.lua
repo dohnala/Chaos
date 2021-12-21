@@ -1,6 +1,6 @@
 workspace "Chaos"
 	architecture "x64"
-	startproject "Example"
+	startproject "Game"
 
 	configurations
 	{
@@ -81,8 +81,8 @@ project "Chaos"
 		runtime "Release"
 		optimize "on"
 
-project "Example"
-	location "Example"
+project "Game"
+	location "Game"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++20"

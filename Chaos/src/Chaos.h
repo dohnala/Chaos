@@ -18,5 +18,3 @@
 #include "Chaos/Renderer/VertexArray.h"
 #include "Chaos/Renderer/Shader.h"
 #include "Chaos/Renderer/OrthographicCamera.h"
-
-#include "Chaos/Core/EntryPoint.h"
