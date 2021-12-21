@@ -19,8 +19,6 @@ namespace Chaos
 	static RendererPrimitive* s_Rect;
 	static RendererPrimitive* s_Circle;
 
-	static glm::mat4 s_ortographicCamera;
-
 	void Renderer::Init()
 	{
 		s_GraphicsAPI->Init();
@@ -60,8 +58,6 @@ namespace Chaos
 
 		// currently we support only rects geometry, so we bind vertex array only once both for rects and circles
 		s_Rect->VertexArray->Bind();
-
-		s_ortographicCamera = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f);
 	}
 
 	void Renderer::Shutdown()
@@ -83,6 +79,18 @@ namespace Chaos
 	{
 		s_GraphicsAPI->Clear();
 	}
+
+	void Renderer::BeginScene(const OrthographicCamera& camera)
+	{
+		s_Rect->Shader->Bind();
+		s_Rect->Shader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+
+		s_Circle->Shader->Bind();
+		s_Circle->Shader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+	}
+
+	void Renderer::EndScene()
+	{}
 
 	void Renderer::DrawRect(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
 	{
@@ -112,7 +120,6 @@ namespace Chaos
 	void Renderer::DrawRect(const glm::mat4& transform, const glm::vec4& color)
 	{
 		s_Rect->Shader->Bind();
-		s_Rect->Shader->SetMat4("u_ViewProjection", s_ortographicCamera);
 		s_Rect->Shader->SetMat4("u_Transform", transform);
 		s_Rect->Shader->SetFloat4("u_Color", color);
 
@@ -122,7 +129,6 @@ namespace Chaos
 	void Renderer::DrawCircle(const glm::mat4& transform, const glm::vec4& color, float innerRadius, float outherAlpha)
 	{
 		s_Circle->Shader->Bind();
-		s_Circle->Shader->SetMat4("u_ViewProjection", s_ortographicCamera);
 		s_Circle->Shader->SetMat4("u_Transform", transform);
 		s_Circle->Shader->SetFloat4("u_Color", color);
 		s_Circle->Shader->SetFloat("u_InnerRadius", innerRadius);
