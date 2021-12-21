@@ -17,6 +17,9 @@ namespace Chaos
 	};
 
 	static RendererPrimitive* s_Rect;
+	static RendererPrimitive* s_Circle;
+
+	static glm::mat4 s_ortographicCamera;
 
 	void Renderer::Init()
 	{
@@ -51,10 +54,14 @@ namespace Chaos
 		s_Rect->VertexArray = m_VertexArray;
 		s_Rect->Shader = Shader::Create("assets/shaders/Rect.glsl");
 
-		// currently we support only rects, so we bind vertex array and shader only once
-		// later it should be inside Draw* method
+		s_Circle = new RendererPrimitive();
+		s_Circle->VertexArray = m_VertexArray;
+		s_Circle->Shader = Shader::Create("assets/shaders/Circle.glsl");
+
+		// currently we support only rects geometry, so we bind vertex array only once both for rects and circles
 		s_Rect->VertexArray->Bind();
-		s_Rect->Shader->Bind();
+
+		s_ortographicCamera = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f);
 	}
 
 	void Renderer::Shutdown()
@@ -94,11 +101,33 @@ namespace Chaos
 		DrawRect(transform, color);
 	}
 
+	void Renderer::DrawCircle(const glm::vec2& position, float radius, const glm::vec4& color, float innerRadius, float outherAlpha)
+	{
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x, position.y, 0.0f })
+			* glm::scale(glm::mat4(1.0f), { radius, radius, 1.0f });
+
+		DrawCircle(transform, color, innerRadius, outherAlpha);
+	}
+
 	void Renderer::DrawRect(const glm::mat4& transform, const glm::vec4& color)
 	{
+		s_Rect->Shader->Bind();
+		s_Rect->Shader->SetMat4("u_ViewProjection", s_ortographicCamera);
 		s_Rect->Shader->SetMat4("u_Transform", transform);
 		s_Rect->Shader->SetFloat4("u_Color", color);
 
 		s_GraphicsAPI->DrawIndexed(s_Rect->VertexArray);
+	}
+
+	void Renderer::DrawCircle(const glm::mat4& transform, const glm::vec4& color, float innerRadius, float outherAlpha)
+	{
+		s_Circle->Shader->Bind();
+		s_Circle->Shader->SetMat4("u_ViewProjection", s_ortographicCamera);
+		s_Circle->Shader->SetMat4("u_Transform", transform);
+		s_Circle->Shader->SetFloat4("u_Color", color);
+		s_Circle->Shader->SetFloat("u_InnerRadius", innerRadius);
+		s_Circle->Shader->SetFloat("u_OuterAlpha", outherAlpha);
+
+		s_GraphicsAPI->DrawIndexed(s_Circle->VertexArray);
 	}
 }

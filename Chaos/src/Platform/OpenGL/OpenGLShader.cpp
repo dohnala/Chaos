@@ -66,6 +66,22 @@ namespace Chaos
 		glUniform1i(location, value);
 	}
 
+	void OpenGLShader::SetFloat(const std::string& name, float value)
+	{
+		GLint location = glGetUniformLocation(m_ID, name.c_str());
+		CH_CORE_ASSERT(location != -1, "Unknown uniform '{0}'!", name);
+
+		glUniform1f(location, value);
+	}
+
+	void OpenGLShader::SetFloat2(const std::string& name, const glm::vec2& value)
+	{
+		GLint location = glGetUniformLocation(m_ID, name.c_str());
+		CH_CORE_ASSERT(location != -1, "Unknown uniform '{0}'!", name);
+
+		glUniform2f(location, value.x, value.y);
+	}
+
 	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& value)
 	{
 		GLint location = glGetUniformLocation(m_ID, name.c_str());

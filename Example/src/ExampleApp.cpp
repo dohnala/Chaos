@@ -25,10 +25,10 @@ public:
 		Chaos::Renderer::Clear();
 
 		// Position, Rotation, Size, Color
-		Chaos::Renderer::DrawRect({ -0.4f, -0.4f }, { 0.5f, 0.5f }, { 0.2, 0.8, 0.3, 1.0 });
-		Chaos::Renderer::DrawRect({  0.4f, -0.4f }, { 0.5f, 0.5f }, { 0.8, 0.8, 0.3, 1.0 });
-		Chaos::Renderer::DrawRotatedRect({  0.4f,  0.4f }, 135.0f, { 0.5f, 0.5f }, { 0.2, 0.3, 0.8, 1.0 });
-		Chaos::Renderer::DrawRotatedRect({ -0.4f,  0.4f }, 225.0f, { 0.5f, 0.5f }, { 0.8, 0.2, 0.3, 1.0 });
+		Chaos::Renderer::DrawCircle({ -4.0f, -4.0f }, 1.0f, { 0.8f, 0.8f, 0.3f, 1.0f }, 0.5f, 0.2f);
+		Chaos::Renderer::DrawCircle({  4.0f, -4.0f }, 2.0f, { 0.2f, 0.8f, 0.3f, 1.0f }, 0.6f, 0.2f);
+		Chaos::Renderer::DrawCircle({ 4.0f, 4.0f }, 4.0, { 0.2f, 0.3f, 0.8f, 1.0f });
+		Chaos::Renderer::DrawRotatedRect({ -4.0f, 4.0f }, 225.0f, { 4.0f, 4.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
 	}
 
 	void OnEvent(Chaos::Event& event) override
