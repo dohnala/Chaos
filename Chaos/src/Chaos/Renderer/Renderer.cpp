@@ -112,7 +112,7 @@ namespace Chaos
 	void Renderer::DrawCircle(const glm::vec2& position, float radius, const glm::vec4& color, float innerRadius, float outherAlpha)
 	{
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x, position.y, 0.0f })
-			* glm::scale(glm::mat4(1.0f), { radius, radius, 1.0f });
+			* glm::scale(glm::mat4(1.0f), { radius * 2.0f, radius * 2.0f, 1.0f });
 
 		DrawCircle(transform, color, innerRadius, outherAlpha);
 	}
