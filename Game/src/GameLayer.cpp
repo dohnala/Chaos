@@ -1,4 +1,5 @@
 #include "GameLayer.h"
+#include "Color.h"
 
 #include <glm/glm.hpp>
 
@@ -18,7 +19,7 @@ void GameLayer::OnUpdate(Chaos::Timestep ts)
 {
 	m_Map.OnUpdate(ts);
 
-	Chaos::Renderer::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+	Chaos::Renderer::SetClearColor(Color::DarkGrey);
 	Chaos::Renderer::Clear();
 
 	Chaos::Renderer::BeginScene(*m_Camera);
