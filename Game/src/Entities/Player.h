@@ -2,18 +2,18 @@
 
 #include "Chaos.h"
 #include "Color.h"
-#include "CircleShape.h"
+#include "Entities/CircleEntity.h"
 
-class Player : public CircleShape
+class Player : public CircleEntity
 {
 public:
 	void Init(const glm::vec2& position);
 
-	void OnUpdate(Chaos::Timestep ts);
-	void OnRender();
+	virtual void OnUpdate(Chaos::Timestep ts) override;
+	virtual void OnRender() const override;
 
-	virtual const float GetRadius() const override { return m_Radius * m_InnerRadiusPerc; }
-	virtual const float GetDisplayRadius() const override { return m_Radius; };
+	virtual const float GetColliderRadius() const override { return m_Radius * m_InnerRadiusPerc; }
+	virtual const float GetRenderRadius() const override { return m_Radius; };
 private:
 	glm::vec2 GetMoveDirection() const;
 private:

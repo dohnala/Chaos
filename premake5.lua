@@ -100,6 +100,7 @@ project "Game"
 	includedirs
 	{
 		"Chaos/src",
+		"%{prj.name}/src",
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glm}"
 	}

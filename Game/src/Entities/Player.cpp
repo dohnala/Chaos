@@ -13,7 +13,7 @@ void Player::OnUpdate(Chaos::Timestep ts)
 	m_Position += m_Velocity * (float)ts;
 }
 
-void Player::OnRender()
+void Player::OnRender() const
 {
 	Chaos::Renderer::DrawCircle(m_Position, m_Radius, m_Color, m_InnerRadiusPerc, m_OuterAlpha);
 	
