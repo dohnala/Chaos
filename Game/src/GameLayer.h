@@ -19,7 +19,8 @@ private:
 
 	void CreateCamera(uint32_t width, uint32_t height);
 private:
-	const float m_CameraHeight = 10.0f;
+	const MapProps m_MapProps = { { 40.0f, 40.0f } , 20 };
+	const float m_CameraHeight = 20.0f;
 	Chaos::Scope<Chaos::OrthographicCamera> m_Camera;
 	Map m_Map;
 };

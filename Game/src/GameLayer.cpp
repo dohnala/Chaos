@@ -12,7 +12,7 @@ GameLayer::GameLayer()
 
 void GameLayer::OnAttach()
 {
-	m_Map.Init();
+	m_Map.Init(m_MapProps);
 }
 
 void GameLayer::OnUpdate(Chaos::Timestep ts)
@@ -46,5 +46,9 @@ void GameLayer::CreateCamera(uint32_t width, uint32_t height)
 {
 	float aspectRation = (float)width / (float)height;
 
-	m_Camera = Chaos::CreateScope<Chaos::OrthographicCamera>(-m_CameraHeight * aspectRation, m_CameraHeight * aspectRation, -m_CameraHeight, m_CameraHeight);
+	m_Camera = Chaos::CreateScope<Chaos::OrthographicCamera>(
+		-m_CameraHeight * aspectRation * 0.5f,
+		m_CameraHeight * aspectRation * 0.5f,
+		-m_CameraHeight * 0.5f, 
+		m_CameraHeight * 0.5f);
 }

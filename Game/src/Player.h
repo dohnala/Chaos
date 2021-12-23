@@ -14,6 +14,7 @@ public:
 
 	virtual const glm::vec2& GetPosition() const override { return m_Position; }
 	virtual const float GetRadius() const override { return m_Radius * m_InnerRadiusPerc; }
+	virtual const float GetDisplayRadius() const override { return m_Radius; };
 private:
 	glm::vec2 GetMoveDirection() const;
 private:

@@ -1,26 +1,27 @@
 #include "Map.h"
 #include "Color.h"
 
-void Map::Init()
+void Map::Init(const MapProps& mapProps)
 {
+	m_MapSize = mapProps.MapSize;
+
 	m_Player.Init({ 0.0f, 0.0f });
 
-	m_Collectibles.resize(4);
-	m_Collectibles[0].Position = { -4.0f, -4.0f };
-	m_Collectibles[1].Position = {  4.0f, -4.0f };
-	m_Collectibles[2].Position = {  4.0f,  4.0f };
-	m_Collectibles[3].Position = { -4.0f,  4.0f };
+	m_Collectibles.resize(mapProps.CollectibleCount);
+
+	for (uint32_t i = 0; i < m_Collectibles.size(); i++)
+		CreateCollectible(i);
 }
 
 void Map::OnUpdate(Chaos::Timestep ts)
 {
 	m_Player.OnUpdate(ts);
 
-	for (const auto& collectible : m_Collectibles)
+	for (uint32_t i = 0; i < m_Collectibles.size(); i++)
 	{
-		if (CheckCollisiton(m_Player, collectible))
+		if (CheckCollisiton(m_Player, m_Collectibles[i]))
 		{
-			CH_TRACE("Collision");
+			CreateCollectible(i);
 		}
 	}
 }
@@ -28,11 +29,15 @@ void Map::OnUpdate(Chaos::Timestep ts)
 void Map::OnRender()
 {
 	for (const auto& collectible : m_Collectibles)
-	{
 		Chaos::Renderer::DrawCircle(collectible.Position, collectible.Radius, collectible.Color, collectible.InnerRadiusPerc, collectible.OuterAlpha);
-	}
 
 	m_Player.OnRender();
+}
+
+void Map::CreateCollectible(uint32_t index)
+{
+	Collectible& collectible = m_Collectibles[index];
+	collectible.Position = GetRandomLocation(collectible);
 }
 
 bool Map::CheckCollisiton(const CircleShape& circleA, const CircleShape& circleB)
@@ -40,4 +45,15 @@ bool Map::CheckCollisiton(const CircleShape& circleA, const CircleShape& circleB
 	auto distance = glm::distance(circleA.GetPosition(), circleB.GetPosition());
 
 	return distance <= circleA.GetRadius() + circleB.GetRadius();
+}
+
+glm::vec2 Map::GetRandomLocation(const CircleShape& gameObject)
+{
+	float width = m_MapSize.x - 2 * gameObject.GetDisplayRadius();
+	float height = m_MapSize.y - 2 * gameObject.GetDisplayRadius();
+	
+	return {
+		Chaos::Random::Float() * width - width * 0.5f,
+		Chaos::Random::Float() * height - height * 0.5f,
+	};
 }
