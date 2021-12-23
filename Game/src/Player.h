@@ -12,7 +12,6 @@ public:
 	void OnUpdate(Chaos::Timestep ts);
 	void OnRender();
 
-	virtual const glm::vec2& GetPosition() const override { return m_Position; }
 	virtual const float GetRadius() const override { return m_Radius * m_InnerRadiusPerc; }
 	virtual const float GetDisplayRadius() const override { return m_Radius; };
 private:
@@ -27,5 +26,4 @@ private:
 	// Physics
 	const float m_MaxSpeed = 10.0f;
 	glm::vec2 m_Velocity;
-	glm::vec2 m_Position;
 };

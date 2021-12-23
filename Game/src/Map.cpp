@@ -29,7 +29,7 @@ void Map::OnUpdate(Chaos::Timestep ts)
 void Map::OnRender()
 {
 	for (const auto& collectible : m_Collectibles)
-		Chaos::Renderer::DrawCircle(collectible.Position, collectible.Radius, collectible.Color, collectible.InnerRadiusPerc, collectible.OuterAlpha);
+		Chaos::Renderer::DrawCircle(collectible.GetPosition(), collectible.Radius, collectible.Color, collectible.InnerRadiusPerc, collectible.OuterAlpha);
 
 	m_Player.OnRender();
 }
@@ -37,7 +37,7 @@ void Map::OnRender()
 void Map::CreateCollectible(uint32_t index)
 {
 	Collectible& collectible = m_Collectibles[index];
-	collectible.Position = GetRandomLocation(collectible);
+	collectible.SetPosition(GetRandomLocation(collectible));
 }
 
 bool Map::CheckCollisiton(const CircleShape& circleA, const CircleShape& circleB)
@@ -47,10 +47,10 @@ bool Map::CheckCollisiton(const CircleShape& circleA, const CircleShape& circleB
 	return distance <= circleA.GetRadius() + circleB.GetRadius();
 }
 
-glm::vec2 Map::GetRandomLocation(const CircleShape& gameObject)
+glm::vec2 Map::GetRandomLocation(const CircleShape& circle)
 {
-	float width = m_MapSize.x - 2 * gameObject.GetDisplayRadius();
-	float height = m_MapSize.y - 2 * gameObject.GetDisplayRadius();
+	float width = m_MapSize.x - 2 * circle.GetDisplayRadius();
+	float height = m_MapSize.y - 2 * circle.GetDisplayRadius();
 	
 	return {
 		Chaos::Random::Float() * width - width * 0.5f,
