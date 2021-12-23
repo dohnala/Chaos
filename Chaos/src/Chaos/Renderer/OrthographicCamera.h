@@ -26,6 +26,6 @@ namespace Chaos
 		glm::mat4 m_ViewMatrix;
 		glm::mat4 m_ViewProjectionMatrix;
 
-		glm::vec2 m_Position;
+		glm::vec2 m_Position = {0.0f, 0.0f};
 	};
 }
