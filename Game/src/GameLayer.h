@@ -11,6 +11,7 @@ public:
 	virtual ~GameLayer() = default;
 
 	virtual void OnAttach() override;
+	virtual void OnDetach() override;
 	virtual void OnUpdate(Chaos::Timestep ts) override;
 	virtual void OnEvent(Chaos::Event& event) override;
 private:

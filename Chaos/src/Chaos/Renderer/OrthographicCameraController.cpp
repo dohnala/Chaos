@@ -13,12 +13,28 @@ namespace Chaos
 	{}
 
 	void OrthographicCameraController::OnUpdate(Timestep ts)
-	{}
+	{
+		if (m_EntityToFollow)
+		{
+			m_Position = m_EntityToFollow->GetPosition();
+			m_Camera.SetPosition(m_Position);
+		}
+	}
 
 	void OrthographicCameraController::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowResizeEvent>(CH_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
+	}
+
+	void OrthographicCameraController::StartFollow(const Entity* entity)
+	{
+		m_EntityToFollow = entity;
+	}
+
+	void OrthographicCameraController::StopFollow()
+	{
+		m_EntityToFollow = nullptr;
 	}
 
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e)

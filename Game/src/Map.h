@@ -18,6 +18,8 @@ public:
 
 	void OnUpdate(Chaos::Timestep ts);
 	void OnRender();
+
+	const Player& GetPlayer() const { return m_Player; }
 private:
 	void CreateCollectible(uint32_t index);
 	bool CheckCollisiton(const CircleEntity& circleA, const CircleEntity& circleB);

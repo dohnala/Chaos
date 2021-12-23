@@ -8,6 +8,13 @@ GameLayer::GameLayer()
 void GameLayer::OnAttach()
 {
 	m_Map.Init(m_MapProps);
+
+	m_CameraController.StartFollow(&m_Map.GetPlayer());
+}
+
+void GameLayer::OnDetach()
+{
+	m_CameraController.StopFollow();
 }
 
 void GameLayer::OnUpdate(Chaos::Timestep ts)
