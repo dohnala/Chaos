@@ -15,6 +15,8 @@ namespace Chaos
 		void OnUpdate(Timestep ts);
 		void OnEvent(Event& e);
 
+		void SetBounds(const Bounds bounds) { m_Bounds = bounds; };
+
 		void StartFollow(const Entity* entity);
 		void StopFollow();
 
@@ -25,9 +27,11 @@ namespace Chaos
 	private:
 		float m_AspectRatio;
 		float m_CameraHeight;
-		glm::vec2 m_Position = {0.0f, 0.0f};
 
-		const Entity* m_EntityToFollow;
+		glm::vec2 m_Position = {0.0f, 0.0f};
+		Bounds m_Bounds;
+
+		const Entity* m_EntityToFollow = nullptr;
 
 		OrthographicCamera m_Camera;
 	};

@@ -7,7 +7,7 @@ namespace Chaos
 	OrthographicCameraController::OrthographicCameraController(float aspectRatio, float cameraHeight)
 		: m_AspectRatio(aspectRatio), m_CameraHeight(cameraHeight), m_Camera(
 			-m_CameraHeight * m_AspectRatio * 0.5f,
-			m_CameraHeight* m_AspectRatio * 0.5f,
+			m_CameraHeight * m_AspectRatio * 0.5f,
 			-m_CameraHeight * 0.5f,
 			m_CameraHeight * 0.5f)
 	{}
@@ -16,7 +16,17 @@ namespace Chaos
 	{
 		if (m_EntityToFollow)
 		{
-			m_Position = m_EntityToFollow->GetPosition();
+			if (m_Bounds.Max - m_Bounds.Min == glm::vec2(0.0f))
+			{
+				m_Position = m_EntityToFollow->GetPosition();
+			}
+			else
+			{
+				m_Position = glm::clamp(m_EntityToFollow->GetPosition(), 
+					m_Bounds.Min + glm::vec2(m_CameraHeight * m_AspectRatio * 0.5f, m_CameraHeight * 0.5f),
+					m_Bounds.Max - glm::vec2(m_CameraHeight * m_AspectRatio * 0.5f, m_CameraHeight * 0.5f));
+			}
+
 			m_Camera.SetPosition(m_Position);
 		}
 	}

@@ -9,6 +9,7 @@ void GameLayer::OnAttach()
 {
 	m_Map.Init(m_MapProps);
 
+	m_CameraController.SetBounds(m_Map.GetBounds());
 	m_CameraController.StartFollow(&m_Map.GetPlayer());
 }
 

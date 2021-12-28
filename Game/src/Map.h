@@ -19,6 +19,7 @@ public:
 	void OnUpdate(Chaos::Timestep ts);
 	void OnRender();
 
+	const Chaos::Bounds GetBounds() const { return { -m_MapSize * glm::vec2(0.5f), m_MapSize * glm::vec2(0.5) }; }
 	const Player& GetPlayer() const { return m_Player; }
 private:
 	void CreateCollectible(uint32_t index);

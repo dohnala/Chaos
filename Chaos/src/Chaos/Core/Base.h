@@ -1,8 +1,9 @@
 #pragma once
 
-#include <memory>
-
 #include "Chaos/Core/PlatformDetection.h"
+
+#include <memory>
+#include <glm/glm.hpp>
 
 #ifdef CH_DEBUG
 	#define CH_ENABLE_ASSERTS
@@ -30,6 +31,12 @@ namespace Chaos
 	{
 		return std::make_shared<T>(std::forward<Args>(args)...);
 	}
+
+	struct Bounds
+	{
+		glm::vec2 Min = { 0.0f, 0.0f };
+		glm::vec2 Max = { 0.0f, 0.0f };
+	};
 }
 
 #include "Chaos/Core/Log.h"
