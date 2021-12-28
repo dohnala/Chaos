@@ -4,6 +4,7 @@
 void Map::Init(const MapProps& mapProps)
 {
 	m_MapSize = mapProps.MapSize;
+	m_Bounds = { -m_MapSize * glm::vec2(0.5f), m_MapSize * glm::vec2(0.5) };
 
 	m_Player.Init({ 0.0f, 0.0f });
 
@@ -17,9 +18,11 @@ void Map::OnUpdate(Chaos::Timestep ts)
 {
 	m_Player.OnUpdate(ts);
 
+	CheckMapCollision(m_Player);
+
 	for (uint32_t i = 0; i < m_Collectibles.size(); i++)
 	{
-		if (CheckCollisiton(m_Player, m_Collectibles[i]))
+		if (CheckCollision(m_Player, m_Collectibles[i]))
 		{
 			CreateCollectible(i);
 		}
@@ -40,7 +43,14 @@ void Map::CreateCollectible(uint32_t index)
 	collectible.SetPosition(GetRandomLocation(collectible));
 }
 
-bool Map::CheckCollisiton(const CircleEntity& circleA, const CircleEntity& circleB)
+void Map::CheckMapCollision(CircleEntity& circle)
+{
+	circle.SetPosition(glm::clamp(circle.GetPosition(), 
+		m_Bounds.Min + circle.GetColliderRadius(),
+		m_Bounds.Max - circle.GetColliderRadius()));
+}
+
+bool Map::CheckCollision(const CircleEntity& circleA, const CircleEntity& circleB)
 {
 	auto distance = glm::distance(circleA.GetPosition(), circleB.GetPosition());
 

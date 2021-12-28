@@ -19,14 +19,19 @@ public:
 	void OnUpdate(Chaos::Timestep ts);
 	void OnRender();
 
-	const Chaos::Bounds GetBounds() const { return { -m_MapSize * glm::vec2(0.5f), m_MapSize * glm::vec2(0.5) }; }
+	const Chaos::Bounds& GetBounds() const { return m_Bounds; }
 	const Player& GetPlayer() const { return m_Player; }
 private:
 	void CreateCollectible(uint32_t index);
-	bool CheckCollisiton(const CircleEntity& circleA, const CircleEntity& circleB);
+	
+	void CheckMapCollision(CircleEntity& circle);
+	bool CheckCollision(const CircleEntity& circleA, const CircleEntity& circleB);
+	
 	glm::vec2 GetRandomLocation(const CircleEntity& circle);
 private:
 	glm::vec2 m_MapSize;
+	Chaos::Bounds m_Bounds;
+
 	Player m_Player;
 	std::vector<Collectible> m_Collectibles;
 };
