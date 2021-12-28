@@ -16,8 +16,9 @@ public:
 	virtual void OnEvent(Chaos::Event& event) override;
 private:
 	const float m_CameraHeight = 20.0f;
-	Chaos::OrthographicCameraController m_CameraController;
-	
+	const float m_CameraSpeed = 3.0f;
 	const MapProps m_MapProps = { { 40.0f, 40.0f } , 20 };
+private:
+	Chaos::OrthographicCameraController m_CameraController;
 	Map m_Map;
 };

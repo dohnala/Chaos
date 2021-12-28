@@ -10,7 +10,7 @@ namespace Chaos
 	class OrthographicCameraController
 	{
 	public:
-		OrthographicCameraController(float aspectRatio, float cameraHeight);
+		OrthographicCameraController(float aspectRatio, float cameraHeight, float cameraSpeed);
 
 		void OnUpdate(Timestep ts);
 		void OnEvent(Event& e);
@@ -27,6 +27,7 @@ namespace Chaos
 	private:
 		float m_AspectRatio;
 		float m_CameraHeight;
+		float m_CameraSpeed;
 
 		glm::vec2 m_Position = {0.0f, 0.0f};
 		Bounds m_Bounds;

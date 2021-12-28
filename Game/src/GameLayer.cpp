@@ -2,7 +2,7 @@
 #include "Color.h"
 
 GameLayer::GameLayer()
-	: Layer("GameLayer"), m_CameraController(Chaos::Application::Get().GetWindow().GetAspectRatio(), m_CameraHeight)
+	: Layer("GameLayer"), m_CameraController(Chaos::Application::Get().GetWindow().GetAspectRatio(), m_CameraHeight, m_CameraSpeed)
 {}
 
 void GameLayer::OnAttach()
