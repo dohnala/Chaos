@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Chaos/Renderer/OrthographicCameraController.h"
+#include "Chaos/Other/OrthographicCameraController.h"
 #include "Chaos/Core/Application.h"
 
 namespace Chaos
