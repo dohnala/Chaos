@@ -34,4 +34,7 @@ private:
 
 	Player m_Player;
 	std::vector<Collectible> m_Collectibles;
+
+	Chaos::ParticleProps m_CollectParticle;
+	Chaos::ParticleSystem m_CollectParticleSystem = Chaos::ParticleSystem(100);
 };

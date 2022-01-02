@@ -12,6 +12,18 @@ void Map::Init(const MapProps& mapProps)
 
 	for (uint32_t i = 0; i < m_Collectibles.size(); i++)
 		CreateCollectible(i);
+
+	m_CollectParticle.DirectionAngleVariance = glm::radians(360.0f);
+	m_CollectParticle.Speed = 2.0f;
+	m_CollectParticle.SpeedVariance = 4.0f;
+	m_CollectParticle.Size = 0.05f;
+	m_CollectParticle.SizeVariance = 0.025f;
+	m_CollectParticle.Color = Color::Yellow;
+	m_CollectParticle.Alpha = 0.5f;
+	m_CollectParticle.AlphaVariance = 1.0f;
+	m_CollectParticle.AlphaEnd = 0.0f;
+	m_CollectParticle.LifeTime = 1.0f;
+	m_CollectParticle.LifeTimeVariance = 1.0f;
 }
 
 void Map::OnUpdate(Chaos::Timestep ts)
@@ -24,9 +36,14 @@ void Map::OnUpdate(Chaos::Timestep ts)
 	{
 		if (CheckCollision(m_Player, m_Collectibles[i]))
 		{
+			m_CollectParticle.Position = m_Collectibles[i].GetPosition();
+			m_CollectParticleSystem.Emit(m_CollectParticle, 10);
+
 			CreateCollectible(i);
 		}
 	}
+
+	m_CollectParticleSystem.OnUpdate(ts);
 }
 
 void Map::OnRender()
@@ -35,6 +52,8 @@ void Map::OnRender()
 		collectible.OnRender();
 
 	m_Player.OnRender();
+
+	m_CollectParticleSystem.OnRender();
 }
 
 void Map::CreateCollectible(uint32_t index)

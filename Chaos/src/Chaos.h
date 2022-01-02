@@ -23,3 +23,4 @@
 #include "Chaos/Renderer/OrthographicCamera.h"
 
 #include "Chaos/Other/OrthographicCameraController.h"
+#include "Chaos/Other/ParticleSystem.h"
