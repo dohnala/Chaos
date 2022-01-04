@@ -20,7 +20,7 @@ private:
 	// Appearance
 	const float m_Radius = 1.0f;
 	const float m_InnerRadiusPerc = 0.6f;
-	const float m_OuterAlpha = 0.2f;
+	const float m_OuterAlpha = 0.05f;
 	const glm::vec4 m_Color = Color::Green;
 
 	// Physics

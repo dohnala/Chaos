@@ -15,6 +15,6 @@ public:
 	// Appearance
 	inline static const float s_Radius = 0.5f;
 	inline static const float s_InnerRadiusPerc = 0.5f;
-	inline static const float s_OuterAlpha = 0.2f;
+	inline static const float s_OuterAlpha = 0.05f;
 	inline static glm::vec4 s_Color = Color::Yellow;
 };
