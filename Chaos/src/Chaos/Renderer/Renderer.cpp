@@ -109,12 +109,17 @@ namespace Chaos
 		DrawRect(transform, color);
 	}
 
-	void Renderer::DrawCircle(const glm::vec2& position, float radius, const glm::vec4& color, float innerRadius, float outherAlpha)
+	void Renderer::DrawCircle(const glm::vec2& position, float radius, const glm::vec4& color)
 	{
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x, position.y, 0.0f })
 			* glm::scale(glm::mat4(1.0f), { radius * 2.0f, radius * 2.0f, 1.0f });
 
-		DrawCircle(transform, color, innerRadius, outherAlpha);
+		s_Circle->Shader->Bind();
+		s_Circle->Shader->SetMat4("u_Transform", transform);
+		s_Circle->Shader->SetFloat4("u_Color", color);
+		s_Circle->Shader->SetFloat("u_Radius", radius);
+
+		s_GraphicsAPI->DrawIndexed(s_Circle->VertexArray);
 	}
 
 	void Renderer::DrawRect(const glm::mat4& transform, const glm::vec4& color)
@@ -124,16 +129,5 @@ namespace Chaos
 		s_Rect->Shader->SetFloat4("u_Color", color);
 
 		s_GraphicsAPI->DrawIndexed(s_Rect->VertexArray);
-	}
-
-	void Renderer::DrawCircle(const glm::mat4& transform, const glm::vec4& color, float innerRadius, float outherAlpha)
-	{
-		s_Circle->Shader->Bind();
-		s_Circle->Shader->SetMat4("u_Transform", transform);
-		s_Circle->Shader->SetFloat4("u_Color", color);
-		s_Circle->Shader->SetFloat("u_InnerRadius", innerRadius);
-		s_Circle->Shader->SetFloat("u_OuterAlpha", outherAlpha);
-
-		s_GraphicsAPI->DrawIndexed(s_Circle->VertexArray);
 	}
 }

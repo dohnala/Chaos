@@ -15,7 +15,8 @@ void Player::OnUpdate(Chaos::Timestep ts)
 
 void Player::OnRender() const
 {
-	Chaos::Renderer::DrawCircle(m_Position, m_Radius, m_Color, m_InnerRadiusPerc, m_OuterAlpha);
+	Chaos::Renderer::DrawCircle(m_Position, m_GlowRadius, { m_Color.r, m_Color.g, m_Color.b, m_GlowAlpha });
+	Chaos::Renderer::DrawCircle(m_Position, m_Radius, m_Color);
 	
 }
 

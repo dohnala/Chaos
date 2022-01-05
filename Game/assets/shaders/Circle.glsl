@@ -20,8 +20,7 @@ void main()
 layout(location = 0) out vec4 color;
 
 uniform vec4 u_Color;
-uniform float u_InnerRadius;
-uniform float u_OuterAlpha;
+uniform float u_Radius;
 
 layout (location = 0) in vec2 v_Position;
 
@@ -45,12 +44,13 @@ float noise( in vec2 p)
 }
 
 
-#define COLOR_NOISE_ENABLED 1
-#define COLOR_NOISE_FREQ 16
+#define COLOR_NOISE_ENABLED 1		// 0 or 1 -> should be uniform
 
-#define BORDER_NOISE_ENABLED 1
-#define BORDER_NOISE_DISTANCE 0.25
-#define BORDER_NOISE_FREQ 16
+#define BORDER_NOISE_ENABLED 1		// 0 or 1 -> should be uniform
+#define BORDER_NOISE_DISTANCE 0.5	// [0, 1] -> should be uniform
+#define BORDER_NOISE_FALLOFF 0.25	// [0, 1] -> should be uniform
+
+#define NOISE_FREQ 16
 
 void main()
 {
@@ -59,13 +59,12 @@ void main()
 
 	float distance = length(xy);
 
-	float colorNoise =  min(1, 1 - COLOR_NOISE_ENABLED + (0.7 + 0.3 * noise(xy * COLOR_NOISE_FREQ)));
-	float borderNoise = BORDER_NOISE_ENABLED * (0.7 + 0.3 * noise(xy * BORDER_NOISE_FREQ)) * BORDER_NOISE_DISTANCE;
+	float colorNoise =  min(1, 1 - COLOR_NOISE_ENABLED + (0.7 + 0.3 * noise(xy * (NOISE_FREQ * u_Radius))));
+	float borderNoise = BORDER_NOISE_ENABLED * BORDER_NOISE_DISTANCE * (1 - BORDER_NOISE_FALLOFF + BORDER_NOISE_FALLOFF * noise(xy * (NOISE_FREQ * u_Radius)));
 
 	// Anti-aliasing distance
 	float aaf = length(vec2(dFdx(distance), dFdy(distance))) * 2;
-	float a1 = smoothstep(0.0, aaf,  1.0 - distance) * u_OuterAlpha;
-	float a2 = smoothstep(1.0 - u_InnerRadius - borderNoise, 1.0 - u_InnerRadius + aaf, 1.0 - distance);
+	float circle = smoothstep(-borderNoise, aaf, 1.0 - BORDER_NOISE_ENABLED * BORDER_NOISE_DISTANCE - distance);
 
-	color = vec4(mix(u_Color.rgb, u_Color.rgb * colorNoise, a2), u_Color.a * max(a1, a2));
+	color = vec4(mix(u_Color.rgb, u_Color.rgb * colorNoise, circle), u_Color.a * circle);
 }

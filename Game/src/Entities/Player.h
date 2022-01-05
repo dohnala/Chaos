@@ -12,15 +12,14 @@ public:
 	virtual void OnUpdate(Chaos::Timestep ts) override;
 	virtual void OnRender() const override;
 
-	virtual const float GetColliderRadius() const override { return m_Radius * m_InnerRadiusPerc; }
-	virtual const float GetRenderRadius() const override { return m_Radius; };
+	virtual const float GetRadius() const override { return m_Radius; }
 private:
 	glm::vec2 GetMoveDirection() const;
 private:
 	// Appearance
-	const float m_Radius = 1.0f;
-	const float m_InnerRadiusPerc = 0.6f;
-	const float m_OuterAlpha = 0.05f;
+	const float m_Radius = 0.6f;
+	const float m_GlowRadius = 1.0f;
+	const float m_GlowAlpha = 0.05f;
 	const glm::vec4 m_Color = Color::Green;
 
 	// Physics

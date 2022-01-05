@@ -65,21 +65,21 @@ void Map::CreateCollectible(uint32_t index)
 void Map::CheckMapCollision(CircleEntity& circle)
 {
 	circle.SetPosition(glm::clamp(circle.GetPosition(), 
-		m_Bounds.Min + circle.GetColliderRadius(),
-		m_Bounds.Max - circle.GetColliderRadius()));
+		m_Bounds.Min + circle.GetRadius(),
+		m_Bounds.Max - circle.GetRadius()));
 }
 
 bool Map::CheckCollision(const CircleEntity& circleA, const CircleEntity& circleB)
 {
 	auto distance = glm::distance(circleA.GetPosition(), circleB.GetPosition());
 
-	return distance <= circleA.GetColliderRadius() + circleB.GetColliderRadius();
+	return distance <= circleA.GetRadius() + circleB.GetRadius();
 }
 
 glm::vec2 Map::GetRandomLocation(const CircleEntity& circle)
 {
-	float width = m_MapSize.x - 2 * circle.GetRenderRadius();
-	float height = m_MapSize.y - 2 * circle.GetRenderRadius();
+	float width = m_MapSize.x - 2 * circle.GetRadius();
+	float height = m_MapSize.y - 2 * circle.GetRadius();
 	
 	return {
 		Chaos::Random::Float() * width - width * 0.5f,
