@@ -3,7 +3,7 @@
 #include "Chaos/Core/Timestep.h"
 #include "Chaos/Renderer/GraphicsAPI.h"
 #include "Chaos/Renderer/OrthographicCamera.h"
-                         
+
 namespace Chaos
 {
 	class Renderer
@@ -23,7 +23,7 @@ namespace Chaos
 		static void DrawRect(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
 		static void DrawRotatedRect(const glm::vec2& position, float rotation, const glm::vec2& size, const glm::vec4& color);
 
-		static void DrawCircle(const glm::vec2& position, float radius, const glm::vec4& color);
+		static void DrawCircle(const glm::vec2& position, float radius, const glm::vec4& color, const glm::vec2& velocity = glm::vec2(0.0f));
 
 		static GraphicsAPI::API GetAPI() { return s_GraphicsAPI->GetAPI(); }
 	private:
