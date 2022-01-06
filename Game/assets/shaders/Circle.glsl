@@ -3,6 +3,7 @@
 
 layout(location = 0) in vec3 a_Position;
 
+uniform float u_Time;
 uniform mat4 u_ViewProjection;
 uniform mat4 u_Transform;
 
@@ -19,6 +20,7 @@ void main()
 
 layout(location = 0) out vec4 color;
 
+uniform float u_Time;
 uniform vec4 u_Color;
 uniform float u_Radius;
 

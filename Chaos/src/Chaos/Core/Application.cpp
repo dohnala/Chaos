@@ -52,10 +52,14 @@ namespace Chaos
 
 	void Application::Run()
 	{
+		float totalTime = 0.0f;
+
 		while (m_Running)
 		{
 			float time = m_Window->GetTime();
-			Timestep timestep = time - m_LastFrameTime;
+			float deltaTime = time - m_LastFrameTime;
+			totalTime += deltaTime;
+			Timestep timestep = Timestep(totalTime, deltaTime);
 			m_LastFrameTime = time;
 
 			if (!m_Minimized)

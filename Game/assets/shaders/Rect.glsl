@@ -16,6 +16,7 @@ void main()
 
 layout(location = 0) out vec4 color;
 
+uniform float u_Time;
 uniform vec4 u_Color;
 
 void main()

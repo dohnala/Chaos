@@ -5,15 +5,14 @@ namespace Chaos
 	class Timestep
 	{
 	public:
-		Timestep(float time = 0.0f)
-			: m_Time(time)
+		Timestep(float time, float deltaTime)
+			: m_Time(time), m_DeltaTime(deltaTime)
 		{}
 
-		operator float() const { return m_Time; }
-
-		float GetSeconds() const { return m_Time; }
-		float GetMilliseconds() const { return m_Time * 1000.0f; }
+		float GetTime() const { return m_Time; }
+		float GetDeltaTime() const { return m_DeltaTime; }
 	private:
 		float m_Time;
+		float m_DeltaTime;
 	};
 }

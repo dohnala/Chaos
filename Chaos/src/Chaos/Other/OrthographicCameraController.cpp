@@ -29,7 +29,7 @@ namespace Chaos
 					m_Bounds.Max - glm::vec2(m_CameraHeight * m_AspectRatio * 0.5f, m_CameraHeight * 0.5f));
 			}
 
-			m_Position = glm::mix(m_Position, target, m_CameraSpeed * (float)ts);
+			m_Position = glm::mix(m_Position, target, m_CameraSpeed * ts.GetDeltaTime());
 			m_Camera.SetPosition(m_Position);
 		}
 	}

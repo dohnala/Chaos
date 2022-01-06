@@ -26,7 +26,7 @@ void GameLayer::OnUpdate(Chaos::Timestep ts)
 	Chaos::Renderer::SetClearColor(Color::DarkGrey);
 	Chaos::Renderer::Clear();
 
-	Chaos::Renderer::BeginScene(m_CameraController.GetCamera());
+	Chaos::Renderer::BeginScene(m_CameraController.GetCamera(), ts);
 	m_Map.OnRender();
 	Chaos::Renderer::EndScene();
 }

@@ -80,12 +80,14 @@ namespace Chaos
 		s_GraphicsAPI->Clear();
 	}
 
-	void Renderer::BeginScene(const OrthographicCamera& camera)
+	void Renderer::BeginScene(const OrthographicCamera& camera, Timestep ts)
 	{
 		s_Rect->Shader->Bind();
+		s_Rect->Shader->SetFloat("u_Time", ts.GetTime());
 		s_Rect->Shader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 
 		s_Circle->Shader->Bind();
+		s_Circle->Shader->SetFloat("u_Time", ts.GetTime());
 		s_Circle->Shader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 	}
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Chaos/Core/Timestep.h"
 #include "Chaos/Renderer/GraphicsAPI.h"
 #include "Chaos/Renderer/OrthographicCamera.h"
                          
@@ -16,7 +17,7 @@ namespace Chaos
 		static void SetClearColor(const glm::vec4& color);
 		static void Clear();
 
-		static void BeginScene(const OrthographicCamera& camera);
+		static void BeginScene(const OrthographicCamera& camera, Timestep ts);
 		static void EndScene();
 
 		static void DrawRect(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);

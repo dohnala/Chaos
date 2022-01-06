@@ -27,8 +27,8 @@ namespace Chaos
 				continue;
 			}
 
-			particle.Position += particle.Velocity * (float)ts;
-			particle.LifeRemaining -= ts;
+			particle.Position += particle.Velocity * ts.GetDeltaTime();
+			particle.LifeRemaining -= ts.GetDeltaTime();
 		}
 	}
 

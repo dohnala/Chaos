@@ -10,7 +10,7 @@ void Player::OnUpdate(Chaos::Timestep ts)
 {
 	glm::vec2 direction = GetMoveDirection();
 	m_Velocity = direction * m_MaxSpeed;
-	m_Position += m_Velocity * (float)ts;
+	m_Position += m_Velocity * ts.GetDeltaTime();
 }
 
 void Player::OnRender() const
