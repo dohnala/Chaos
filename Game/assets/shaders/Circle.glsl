@@ -48,15 +48,19 @@ float noise(in vec2 p)
 #define COLOR_NOISE_ENABLED 1		// 0 or 1 -> should be uniform
 
 #define BORDER_NOISE_ENABLED 1		// 0 or 1 -> should be uniform
-#define BORDER_NOISE_DISTANCE 0.5	// [0, 1] -> should be uniform
+#define BORDER_NOISE_DISTANCE 0.25	// [0, 1] -> should be uniform
 #define BORDER_NOISE_FALLOFF 0.25	// [0, 1] -> should be uniform
 
+// Scale real velocity down for distortion computation
+#define VELOCITY_FORWARD_SCALE 0.05
+#define VELOCITY_SIDE_SCALE 0.2
+
 #define NOISE_FREQ 16
-#define NOISE_SPEED 0.25
+#define NOISE_SPEED 0.5
 
 float colorNoise(vec2 pos)
 {
-	vec2 offset = u_Velocity * u_Time * NOISE_SPEED;
+	vec2 offset = normalize(u_Velocity) * u_Time * NOISE_SPEED;
 	float freq = (NOISE_FREQ * u_Radius);
 
 	return min(1, 1 - COLOR_NOISE_ENABLED + (0.7 + 0.3 * noise((pos + offset) * freq)));
@@ -64,12 +68,18 @@ float colorNoise(vec2 pos)
 
 float borderNoise(vec2 pos)
 {
-	vec2 offset = u_Velocity * u_Time * NOISE_SPEED;
+	vec2 offset =  normalize(u_Velocity) * u_Time * NOISE_SPEED;
 	float freq = (NOISE_FREQ * u_Radius);
-	float dist = BORDER_NOISE_DISTANCE;
-	//float dist = BORDER_NOISE_DISTANCE * length((pos - normalize(u_Velocity)));
+	float dist = BORDER_NOISE_DISTANCE * clamp(length((pos - normalize(u_Velocity))), 0.0, 1);
 
 	return BORDER_NOISE_ENABLED * dist * (1 - BORDER_NOISE_FALLOFF + BORDER_NOISE_FALLOFF * noise((pos + offset) * freq));
+}
+
+float circleF(vec2 pos, vec2 center, float radius)
+{
+	float distance = length(pos - center);
+	float aaf = length(vec2(dFdx(distance), dFdy(distance))) * 2; 
+	return smoothstep(-borderNoise(pos), aaf, radius - BORDER_NOISE_ENABLED * BORDER_NOISE_DISTANCE - distance);
 }
 
 void main()
@@ -79,9 +89,24 @@ void main()
 
 	float distance = length(pos);
 
-	// Anti-aliasing
-	float aaf = length(vec2(dFdx(distance), dFdy(distance))) * 2; 
-	float circle = smoothstep(-borderNoise(pos), aaf, 1 - BORDER_NOISE_ENABLED * BORDER_NOISE_DISTANCE - distance);
+	// Normalize velocity to given scale
+	vec2 vForward = u_Velocity * VELOCITY_FORWARD_SCALE;
+	float vL = length(vForward);
 
-	color = vec4(mix(u_Color.rgb, u_Color.rgb * colorNoise(pos), circle), u_Color.a * circle);
+	// Velocity side offset based on velocity length
+	float vSide = 1 + vL * VELOCITY_SIDE_SCALE;
+
+	// Unit circle
+	float circle = circleF(pos, vec2(0), 1);
+
+	// Left side distortion by velocity
+	float leftD = circleF(pos, vForward + vSide * vec2(vForward.y, -vForward.x), sqrt(pow(1 + vL, 2) + pow(vSide * vL, 2)));
+
+	// Right side distortion by velocity
+	float rightD = circleF(pos, vForward + vSide * vec2(-vForward.y, vForward.x), sqrt(pow(1 + vL, 2) + pow(vSide * vL, 2)));
+
+	// Final shape
+	float shape = min(circle, min(leftD, rightD));
+
+	color = vec4(mix(u_Color.rgb, u_Color.rgb * colorNoise(pos), shape), u_Color.a * shape);
 }

@@ -54,18 +54,6 @@ void Map::OnRender()
 	m_Player.OnRender();
 
 	m_CollectParticleSystem.OnRender();
-
-	Chaos::Renderer::DrawCircle({ 0.0f, 0.0f }, 1.0f, Color::Green, { 0.0f, 0.0f });
-	Chaos::Renderer::DrawCircle({ 3.0f, 0.0f }, 1.0f, Color::Green, { 1.0f, 0.0f });
-	Chaos::Renderer::DrawCircle({ -3.0f, 0.0f }, 1.0f, Color::Green, { -1.0f, 0.0f });
-
-	Chaos::Renderer::DrawCircle({ 0.0f, 3.0f }, 1.0f, Color::Green, { 0.0f, 1.0f });
-	Chaos::Renderer::DrawCircle({ 3.0f, 3.0f }, 1.0f, Color::Green, { 1.0f, 1.0f });
-	Chaos::Renderer::DrawCircle({ -3.0f, 3.0f }, 1.0f, Color::Green, { -1.0f, 1.0f });
-
-	Chaos::Renderer::DrawCircle({ 0.0f, -3.0f }, 1.0f, Color::Green, { 0.0f, -1.0f });
-	Chaos::Renderer::DrawCircle({ 3.0f, -3.0f }, 1.0f, Color::Green, { 1.0f, -1.0f });
-	Chaos::Renderer::DrawCircle({ -3.0f, -3.0f }, 1.0f, Color::Green, { -1.0f, -1.0f });
 }
 
 void Map::CreateCollectible(uint32_t index)
