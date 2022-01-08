@@ -14,6 +14,11 @@ public:
 	// Appearance
 	inline static const float s_Radius = 0.25f;
 	inline static const float s_GlowRadius = 0.5f;
-	inline static const float s_GlowAlpha = 0.05f;
-	inline static glm::vec4 s_Color = Color::Yellow;
+
+	inline static const Chaos::CircleProps s_CollectibleProps = { Color::Yellow, Color::Black, 1.5f, 0.0f, {0.0f, 0.0f}, 0.0f };
+	inline static const Chaos::CircleProps s_GlowProps = { 
+		{ Color::Yellow.r, Color::Yellow.g, Color::Yellow.b, 0.05f },
+		{ Color::Yellow.r, Color::Yellow.g, Color::Yellow.b, 0.05f },
+		1.0f, 0.0f, { 0.0f, 0.0f }, 0.0f 
+	};
 };

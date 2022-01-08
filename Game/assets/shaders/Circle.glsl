@@ -17,12 +17,26 @@ void main()
 #type fragment
 #version 450 core
 
+// Controls frequency of the noise used
+#define NOISE_FREQ 16
+// Controls the speed of the noise used when animating shape and color
+#define NOISE_SPEED 0.5
+
+// Controls how falloff of the border noise distortion (0 - very blurry, 1 - very sharp)
+#define BORDER_DISTORTION_FALLOFF 0.3
+// Controls how much is the color gradient distorted (0 - no distortion, 1 - full distortion)
+#define COLOR_GRADIENT_DISTORTION 0.1
+
 layout(location = 0) out vec4 color;
 
 uniform float u_Time;
-uniform vec4 u_Color;
 uniform float u_Radius;
-uniform vec2 u_Velocity;
+uniform vec4 u_ColorInside;
+uniform vec4 u_ColorOutside;
+uniform float u_ColorRatio;
+uniform float u_BorderDistortion;
+uniform vec2 u_Direction;
+uniform float u_DirectionDistortion;
 
 layout (location = 0) in vec2 v_Position;
 
@@ -45,105 +59,58 @@ float noise(in vec2 p)
                    hash(i + vec2(1.0, 1.0)), u.x), u.y);
 }
 
-#define COLOR_NOISE_ENABLED 1		// 0 or 1 -> should be uniform
-
-#define BORDER_NOISE_ENABLED 1		// 0 or 1 -> should be uniform
-#define BORDER_NOISE_DISTANCE 0.2	// [0, 1] -> should be uniform
-#define BORDER_NOISE_FALLOFF 0.3	// [0, 1] -> should be uniform
-
-// Scale real velocity down for distortion computation
-#define VELOCITY_FORWARD_SCALE 0.05
-#define VELOCITY_SIDE_SCALE 0.2
-
-#define NOISE_FREQ 16
-#define NOISE_SPEED 0.5
-
-float shading(vec2 pos)
+float border(vec2 pos, vec2 dir)
 {
-	// Try to reimplement this using HSV light shifting
-
-	// should be uniform
-	// controls how much is the color shaded
-	// 0 - no shading
-	// 1 - really hard shading
-	float ratio = 0;
-
-	// should be uniform
-	// controls how far from center is shading applied
-	// 0 - shading is everywhere
-	// 0.5 - shading is not in the middle
-	// 1 - shading is on border
-	float distanceFromCenter = 0;
-
-	vec2 offset = normalize(u_Velocity) * u_Time * NOISE_SPEED;
+	vec2 offset = dir * u_Time * NOISE_SPEED;
 	float freq = (NOISE_FREQ * u_Radius);
-	float n = 1 - ratio + ratio * noise((pos + offset) * freq);
-	n += (1 - length(pos)) * distanceFromCenter;
+	float dist = u_BorderDistortion;
+	// Distortion of border based on velocity direction
+	// Problem: the distortion is very big on the sides in the front
+	dist *=  1 + clamp(length((pos - normalize(u_Direction))), 0, 1);
 
-	return min(1, 1 - COLOR_NOISE_ENABLED + n);
+	return dist * (1 - BORDER_DISTORTION_FALLOFF + BORDER_DISTORTION_FALLOFF * noise((pos + offset) * freq));
 }
 
-float border(vec2 pos)
-{
-	vec2 offset =  normalize(u_Velocity) * u_Time * NOISE_SPEED;
-	float freq = (NOISE_FREQ * u_Radius);
-	float dist = BORDER_NOISE_DISTANCE * clamp(length((pos - normalize(u_Velocity))), 0.0, 1);
-
-	return BORDER_NOISE_ENABLED * dist * (1 - BORDER_NOISE_FALLOFF + BORDER_NOISE_FALLOFF * noise((pos + offset) * freq));
-}
-
-float circleF(vec2 pos, vec2 center, float radius)
+float circle(vec2 pos, vec2 dir, vec2 center, float radius)
 {
 	float distance = length(pos - center);
 	float aaf = length(vec2(dFdx(distance), dFdy(distance))) * 2; 
-	return smoothstep(-border(pos), aaf, radius - BORDER_NOISE_ENABLED * BORDER_NOISE_DISTANCE - distance);
+	return smoothstep(-border(pos, dir), aaf, radius - u_BorderDistortion - distance);
 }
 
-vec3 colorGradient(vec2 pos, vec3 from, vec3 to)
+float distortion(vec2 pos, vec2 dir)
 {
-	// should be uniform
-	// controls the ration between from and to color
-	// 0 - only to color
-	// 1 - half to half
-	// 3 and more - only from color
-	float ratio = 1;
-	float a = clamp(1 - ratio + ratio * length(pos), 0, 1);
+	float dirL = length(dir);
+	float dirN = u_DirectionDistortion * dirL;
 
-	// should be parameter
-	float distortion = 0.1;
-	vec2 offset = normalize(u_Velocity) * u_Time * NOISE_SPEED;
-	a += distortion * noise((pos + offset) * (NOISE_FREQ * u_Radius));
+	// Left side distortion by velocity
+	float leftD = circle(pos, dir, dir + dirN * vec2(dir.y, -dir.x), sqrt(pow(1 + dirL, 2) + pow(dirN * dirL, 2)));
 
-	return mix(from, to, a) * shading(pos);
+	// Right side distortion by velocity
+	float rightD = circle(pos, dir, dir + dirN * vec2(-dir.y, dir.x), sqrt(pow(1 + dirL, 2) + pow(dirN * dirL, 2)));
+
+	return min(leftD, rightD);
+}
+
+vec4 colorGradient(vec2 pos, vec2 dir)
+{
+	float a = clamp(1 - u_ColorRatio + u_ColorRatio * length(pos), 0, 1);
+	vec2 offset = dir * u_Time * NOISE_SPEED;
+	a += COLOR_GRADIENT_DISTORTION * noise((pos + offset) * (NOISE_FREQ * u_Radius));
+
+	return mix(u_ColorInside, u_ColorOutside, a);
 }
 
 void main()
 {
 	// Convert position to from [-0.5, 0.5] to [-1, 1]
-	vec2 pos = v_Position * 2 ;
+	vec2 pos = v_Position * 2;
+	vec2 dir = normalize(u_Direction);
 
-	// Normalize velocity to given scale
-	vec2 vForward = u_Velocity * VELOCITY_FORWARD_SCALE;
-	float vL = length(vForward);
+	// Final shape from unit circle and shape distortion
+	float shape = min(circle(pos, dir, vec2(0), 1), distortion(pos, dir));
 
-	// Velocity side offset based on velocity length
-	float vSide = 1 + vL * VELOCITY_SIDE_SCALE;
+	vec4 gradient = colorGradient(pos, dir);
 
-	// Unit circle
-	float circle = circleF(pos, vec2(0), 1);
-
-	// Left side distortion by velocity
-	float leftD = circleF(pos, vForward + vSide * vec2(vForward.y, -vForward.x), sqrt(pow(1 + vL, 2) + pow(vSide * vL, 2)));
-
-	// Right side distortion by velocity
-	float rightD = circleF(pos, vForward + vSide * vec2(-vForward.y, vForward.x), sqrt(pow(1 + vL, 2) + pow(vSide * vL, 2)));
-
-	// Final shape
-	float shape = min(circle, min(leftD, rightD));
-
-	vec3 cFrom = vec3(0.94, 0.8, 0.21);
-	//vec3 cTo = vec3(0.15, 0.85, 0.15);
-	vec3 cTo = vec3(0.75, 0.14, 0.15);
-
-	color = vec4(colorGradient(pos, cFrom, cTo), u_Color.a * shape);
+	color = vec4(gradient.rgb, gradient.a * shape);
 }

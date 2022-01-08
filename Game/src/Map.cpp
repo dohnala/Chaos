@@ -54,6 +54,8 @@ void Map::OnRender()
 	m_Player.OnRender();
 
 	m_CollectParticleSystem.OnRender();
+
+	Chaos::Renderer::DrawCircle({ 6.0f, 5.0f }, 0.3f, { Color::Yellow, Color::Red, 1.0f, 0.3f, { 30.0f, 30.0f }, 2.0f });
 }
 
 void Map::CreateCollectible(uint32_t index)

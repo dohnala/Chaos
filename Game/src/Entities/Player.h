@@ -20,7 +20,7 @@ private:
 	const float m_Radius = 0.6f;
 	const float m_GlowRadius = 1.0f;
 	const float m_GlowAlpha = 0.05f;
-	const glm::vec4 m_Color = Color::Green;
+	Chaos::CircleProps circleProps;
 
 	// Physics
 	const float m_MaxSpeed = 10.0f;
