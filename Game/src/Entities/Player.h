@@ -17,12 +17,10 @@ private:
 	glm::vec2 GetMoveDirection() const;
 private:
 	// Appearance
-	const float m_Radius = 0.6f;
-	const float m_GlowRadius = 1.0f;
-	const float m_GlowAlpha = 0.05f;
+	const float m_Radius = 1.0f;
 	Chaos::CircleProps circleProps;
 
 	// Physics
-	const float m_MaxSpeed = 10.0f;
+	const float m_MaxSpeed = 15.0f;
 	glm::vec2 m_Velocity;
 };

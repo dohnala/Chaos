@@ -12,8 +12,8 @@ public:
 	virtual const float GetRadius() const override { return s_Radius; }
 public:
 	// Appearance
-	inline static const float s_Radius = 0.25f;
-	inline static const float s_GlowRadius = 0.5f;
+	inline static const float s_Radius = 0.4f;
+	inline static const float s_GlowRadius = 0.8f;
 
 	inline static const Chaos::CircleProps s_CollectibleProps = { Color::Yellow, Color::Black, 1.5f, 0.0f, {0.0f, 0.0f}, 0.0f };
 	inline static const Chaos::CircleProps s_GlowProps = { 

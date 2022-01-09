@@ -17,6 +17,8 @@ void main()
 #type fragment
 #version 450 core
 
+#define PIXELS_PER_UNIT 10
+
 // Controls frequency of the noise used
 #define NOISE_FREQ 16
 // Controls the speed of the noise used when animating shape and color
@@ -74,7 +76,7 @@ float border(vec2 pos, vec2 dir)
 float circle(vec2 pos, vec2 dir, vec2 center, float radius)
 {
 	float distance = length(pos - center);
-	float aaf = length(vec2(dFdx(distance), dFdy(distance))) * 2; 
+	float aaf = fwidth(length(v_Position)); 
 	return smoothstep(-border(pos, dir), aaf, radius - u_BorderDistortion - distance);
 }
 
@@ -103,8 +105,11 @@ vec4 colorGradient(vec2 pos, vec2 dir)
 
 void main()
 {
-	// Convert position to from [-0.5, 0.5] to [-1, 1]
-	vec2 pos = v_Position * 2;
+	float pixels = PIXELS_PER_UNIT * u_Radius;
+	
+	// Convert position to from [-0.5, 0.5] to [-1, 1] and pixelize them
+	vec2 pos = floor(v_Position * 2.0 * pixels) / pixels;
+
 	vec2 dir = normalize(u_Direction);
 
 	// Final shape from unit circle and shape distortion

@@ -14,10 +14,10 @@ void Map::Init(const MapProps& mapProps)
 		CreateCollectible(i);
 
 	m_CollectParticle.DirectionAngleVariance = glm::radians(360.0f);
-	m_CollectParticle.Speed = 2.0f;
-	m_CollectParticle.SpeedVariance = 4.0f;
-	m_CollectParticle.Size = 0.05f;
-	m_CollectParticle.SizeVariance = 0.025f;
+	m_CollectParticle.Speed = 3.0f;
+	m_CollectParticle.SpeedVariance = 6.0f;
+	m_CollectParticle.Size = 0.1f;
+	m_CollectParticle.SizeVariance = 0.05f;
 	m_CollectParticle.Color = Color::Yellow;
 	m_CollectParticle.Alpha = 0.5f;
 	m_CollectParticle.AlphaVariance = 1.0f;
@@ -55,7 +55,7 @@ void Map::OnRender()
 
 	m_CollectParticleSystem.OnRender();
 
-	Chaos::Renderer::DrawCircle({ 6.0f, 5.0f }, 0.3f, { Color::Yellow, Color::Red, 1.0f, 0.3f, { 30.0f, 30.0f }, 2.0f });
+	Chaos::Renderer::DrawCircle({ 6.0f, 5.0f }, 0.45f, { Color::Yellow, Color::Red, 1.0f, 0.4f, { 30.0f, 30.0f }, 3.0f });
 }
 
 void Map::CreateCollectible(uint32_t index)
