@@ -7,3 +7,6 @@
 [submodule "Chaos/vendor/glm"]
 	path = Chaos/vendor/glm
 	url = https://github.com/g-truc/glm
+[submodule "Chaos/vendor/imgui"]
+	path = Chaos/vendor/imgui
+	url = https://github.com/dohnala/imgui
