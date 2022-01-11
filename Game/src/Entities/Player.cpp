@@ -2,12 +2,6 @@
 
 void Player::Init(const glm::vec2& position)
 {
-	circleProps.ColorInside = Color::Green;
-	circleProps.ColorOutside = Color::Black;
-	circleProps.ColorRatio = 1.5f;
-	circleProps.BorderDistortion = 0.2f;
-	circleProps.DirectionDistortion = 0.0f;
-
 	m_Position = position;
 	m_Velocity = { 0.0f, 0.0f };
 }
@@ -18,13 +12,14 @@ void Player::OnUpdate(Chaos::Timestep ts)
 	m_Velocity = direction * m_MaxSpeed;
 	m_Position += m_Velocity * ts.GetDeltaTime();
 
-	circleProps.Direction = { direction.x, direction.y };
+	m_BorderProps.Direction = { direction.x, direction.y };
+	m_circleProps.Direction = { direction.x, direction.y };
 }
 
 void Player::OnRender() const
 {
-	Chaos::Renderer::DrawCircle(m_Position, m_Radius, circleProps);
-	
+	Chaos::Renderer::DrawCircle(m_Position, m_BorderRadius, m_BorderProps);
+	Chaos::Renderer::DrawCircle(m_Position, m_Radius, m_circleProps);
 }
 
 glm::vec2 Player::GetMoveDirection() const
