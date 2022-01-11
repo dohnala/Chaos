@@ -4,6 +4,7 @@
 #include "Chaos/Core/Window.h"
 #include "Chaos/Core/LayerStack.h"
 #include "Chaos/Events/ApplicationEvent.h"
+#include "Chaos/ImGui/ImGuiLayer.h"
 
 int main(int argc, char** argv);
 
@@ -32,6 +33,7 @@ namespace Chaos
 	private:
 		Scope<Window> m_Window;
 		LayerStack m_LayerStack;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		bool m_Minimized = false;
 		float m_LastFrameTime = 0.0f;

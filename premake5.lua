@@ -104,9 +104,10 @@ project "Game"
 	includedirs
 	{
 		"Chaos/src",
+		"Chaos/vendor",
 		"%{prj.name}/src",
 		"%{IncludeDir.spdlog}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
 	}
 
 	links

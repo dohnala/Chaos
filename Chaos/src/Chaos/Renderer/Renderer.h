@@ -9,8 +9,8 @@ namespace Chaos
 	struct CircleProps
 	{
 		// Controls the color gradient
-		glm::vec4 ColorInside;
-		glm::vec4 ColorOutside;
+		glm::vec4 ColorInside = { 1.0f, 1.0f , 1.0f , 1.0f };
+		glm::vec4 ColorOutside = { 1.0f, 1.0f , 1.0f , 1.0f };
 
 		// Controls the gradient between inside and outside color
 		// 0 - 100% outside color
