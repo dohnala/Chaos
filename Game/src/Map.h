@@ -23,8 +23,9 @@ public:
 	const Player& GetPlayer() const { return m_Player; }
 private:
 	void CreateCollectible(uint32_t index);
+	void TakeCollectible(uint32_t index);
 	
-	void CheckMapCollision(CircleEntity& circle);
+	bool CheckMapCollision(CircleEntity& circle);
 	bool CheckCollision(const CircleEntity& circleA, const CircleEntity& circleB);
 	
 	glm::vec2 GetRandomLocation(const CircleEntity& circle);

@@ -32,14 +32,22 @@ void Map::OnUpdate(Chaos::Timestep ts)
 
 	CheckMapCollision(m_Player);
 
+	if (CheckMapCollision(m_Player.GetProjectile()))
+	{
+		m_Player.GetProjectile().Destroy();
+	}
+
 	for (uint32_t i = 0; i < m_Collectibles.size(); i++)
 	{
 		if (CheckCollision(m_Player, m_Collectibles[i]))
 		{
-			m_CollectParticle.Position = m_Collectibles[i].GetPosition();
-			m_CollectParticleSystem.Emit(m_CollectParticle, 10);
+			TakeCollectible(i);
+		}
 
-			CreateCollectible(i);
+		if (CheckCollision(m_Player.GetProjectile(), m_Collectibles[i]))
+		{
+			TakeCollectible(i);
+			m_Player.GetProjectile().Destroy();
 		}
 	}
 
@@ -54,8 +62,6 @@ void Map::OnRender()
 	m_Player.OnRender();
 
 	m_CollectParticleSystem.OnRender();
-
-	Chaos::Renderer::DrawCircle({ 6.0f, 5.0f }, 0.45f, { Color::Yellow, Color::Red, 1.0f, 0.4f, { 30.0f, 30.0f }, 3.0f });
 }
 
 void Map::CreateCollectible(uint32_t index)
@@ -64,11 +70,28 @@ void Map::CreateCollectible(uint32_t index)
 	collectible.SetPosition(GetRandomLocation(collectible));
 }
 
-void Map::CheckMapCollision(CircleEntity& circle)
+void Map::TakeCollectible(uint32_t index)
 {
+	m_CollectParticle.Position = m_Collectibles[index].GetPosition();
+	m_CollectParticleSystem.Emit(m_CollectParticle, 10);
+
+	CreateCollectible(index);
+}
+
+bool Map::CheckMapCollision(CircleEntity& circle)
+{
+	bool collision = false;
+
+	if (circle.GetPosition().x + circle.GetRadius() >= m_Bounds.Max.x) collision = true;
+	if (circle.GetPosition().x - circle.GetRadius() <= m_Bounds.Min.x) collision = true;
+	if (circle.GetPosition().y + circle.GetRadius() >= m_Bounds.Max.y) collision = true;
+	if (circle.GetPosition().y - circle.GetRadius() <= m_Bounds.Min.y) collision = true;
+
 	circle.SetPosition(glm::clamp(circle.GetPosition(), 
 		m_Bounds.Min + circle.GetRadius(),
 		m_Bounds.Max - circle.GetRadius()));
+
+	return collision;
 }
 
 bool Map::CheckCollision(const CircleEntity& circleA, const CircleEntity& circleB)

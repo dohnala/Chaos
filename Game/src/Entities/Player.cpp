@@ -13,13 +13,22 @@ void Player::OnUpdate(Chaos::Timestep ts)
 	m_Position += m_Velocity * ts.GetDeltaTime();
 
 	m_BorderProps.Direction = { direction.x, direction.y };
-	m_circleProps.Direction = { direction.x, direction.y };
+	m_CircleProps.Direction = { direction.x, direction.y };
+
+	if (Chaos::Input::IsMouseButtonPressed(Chaos::Mouse::ButtonLeft))
+	{
+		FireProjectile();
+	}
+
+	m_Projectile.OnUpdate(ts);
 }
 
 void Player::OnRender() const
 {
 	Chaos::Renderer::DrawCircle(m_Position, m_BorderRadius, m_BorderProps);
-	Chaos::Renderer::DrawCircle(m_Position, m_Radius, m_circleProps);
+	Chaos::Renderer::DrawCircle(m_Position, m_Radius, m_CircleProps);
+
+	m_Projectile.OnRender();
 }
 
 glm::vec2 Player::GetMoveDirection() const
@@ -47,4 +56,14 @@ glm::vec2 Player::GetMoveDirection() const
 	}
 
 	return direction;
+}
+
+void Player::FireProjectile()
+{
+	if (!m_Projectile.IsEnabled())
+	{
+		m_Projectile.SetPosition(m_Position);
+		m_Projectile.SetDirection({ 1.0f, 0.0f });
+		m_Projectile.Show();
+	}
 }
