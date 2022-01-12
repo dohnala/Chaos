@@ -4,7 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 CircleRendererDebugLayer::CircleRendererDebugLayer()
-	: Layer("CircleRendererDebugLayer"), m_CameraController(Chaos::Application::Get().GetWindow().GetAspectRatio(), m_CameraHeight, 0.0f)
+	: Layer("CircleRendererDebugLayer"), m_CameraController(Chaos::Application::Get().GetWindow().GetSize(), m_CameraHeight, 0.0f)
 {}
 
 void CircleRendererDebugLayer::OnAttach()

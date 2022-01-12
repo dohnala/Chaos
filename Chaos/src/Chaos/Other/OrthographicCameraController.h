@@ -10,7 +10,7 @@ namespace Chaos
 	class OrthographicCameraController
 	{
 	public:
-		OrthographicCameraController(float aspectRatio, float cameraHeight, float cameraSpeed);
+		OrthographicCameraController(const glm::vec2& screenSize, float cameraHeight, float cameraSpeed);
 
 		void OnUpdate(Timestep ts);
 		void OnEvent(Event& e);

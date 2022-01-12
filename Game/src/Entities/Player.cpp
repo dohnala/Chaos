@@ -17,7 +17,7 @@ void Player::OnUpdate(Chaos::Timestep ts)
 
 	if (Chaos::Input::IsMouseButtonPressed(Chaos::Mouse::ButtonLeft))
 	{
-		FireProjectile();
+		FireProjectile(Chaos::Input::GetMouseWorldPosition());
 	}
 
 	m_Projectile.OnUpdate(ts);
@@ -58,12 +58,14 @@ glm::vec2 Player::GetMoveDirection() const
 	return direction;
 }
 
-void Player::FireProjectile()
+void Player::FireProjectile(const glm::vec2& target)
 {
 	if (!m_Projectile.IsEnabled())
 	{
-		m_Projectile.SetPosition(m_Position);
-		m_Projectile.SetDirection({ 1.0f, 0.0f });
+		auto direction = glm::normalize(target - m_Position);
+
+		m_Projectile.SetPosition(m_Position + direction * (GetRadius() + m_Projectile.GetRadius()));
+		m_Projectile.SetDirection(direction);
 		m_Projectile.Show();
 	}
 }

@@ -9,9 +9,10 @@ namespace Chaos
 	class OrthographicCamera
 	{
 	public:
-		OrthographicCamera(float left, float right, float bottom, float top);
+		OrthographicCamera(float left, float right, float bottom, float top, const glm::vec4& viewport);
 
 		void SetProjection(float left, float right, float bottom, float top);
+		void SetViewport(const glm::vec4& viewport) { m_Viewport = viewport; };
 
 		const glm::vec2& GetPosition() const { return m_Position; }
 		void SetPosition(const glm::vec2& position) { m_Position = position; RecalculateViewMatrix(); }
@@ -19,12 +20,15 @@ namespace Chaos
 		const glm::mat4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
 		const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }
 		const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
+
+		glm::vec2 ScreenToWorldPosition(const glm::vec2& screenPosition) const;
 	private:
 		void RecalculateViewMatrix();
 	private:
 		glm::mat4 m_ProjectionMatrix;
 		glm::mat4 m_ViewMatrix;
 		glm::mat4 m_ViewProjectionMatrix;
+		glm::vec4 m_Viewport;
 
 		glm::vec2 m_Position = {0.0f, 0.0f};
 	};

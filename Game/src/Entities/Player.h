@@ -18,7 +18,7 @@ public:
 	Projectile& GetProjectile() { return m_Projectile; }
 private:
 	glm::vec2 GetMoveDirection() const;
-	void FireProjectile();
+	void FireProjectile(const glm::vec2& target);
 private:
 	// Appearance
 	const float m_BorderRadius = 1.0f;

@@ -4,12 +4,13 @@
 
 namespace Chaos
 {
-	OrthographicCameraController::OrthographicCameraController(float aspectRatio, float cameraHeight, float cameraSpeed)
-		: m_AspectRatio(aspectRatio), m_CameraHeight(cameraHeight), m_CameraSpeed(cameraSpeed), m_Camera(
+	OrthographicCameraController::OrthographicCameraController(const glm::vec2& screenSize, float cameraHeight, float cameraSpeed)
+		: m_AspectRatio(screenSize.x / screenSize.y), m_CameraHeight(cameraHeight), m_CameraSpeed(cameraSpeed), m_Camera(
 			-m_CameraHeight * m_AspectRatio * 0.5f,
 			m_CameraHeight * m_AspectRatio * 0.5f,
 			-m_CameraHeight * 0.5f,
-			m_CameraHeight * 0.5f)
+			m_CameraHeight * 0.5f,
+			glm::vec4(0, 0, screenSize.x, screenSize.y))
 	{}
 
 	void OrthographicCameraController::OnUpdate(Timestep ts)
@@ -58,6 +59,8 @@ namespace Chaos
 			m_CameraHeight * m_AspectRatio * 0.5f,
 			-m_CameraHeight * 0.5f,
 			m_CameraHeight * 0.5f);
+
+		m_Camera.SetViewport({ 0, 0, e.GetWidth(), e.GetHeight() });
 
 		return false;
 	}

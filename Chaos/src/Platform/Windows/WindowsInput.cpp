@@ -19,21 +19,12 @@ namespace Chaos {
 		return state == GLFW_PRESS;
 	}
 
-	float Input::GetMouseX()
+	glm::vec2 Input::GetMousePosition()
 	{
 		auto* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
 
-		return (float)xpos;
-	}
-
-	float Input::GetMouseY()
-	{
-		auto* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
-		double xpos, ypos;
-		glfwGetCursorPos(window, &xpos, &ypos);
-
-		return (float)ypos;
+		return { (float)xpos, (float)ypos };
 	}
 }

@@ -3,6 +3,8 @@
 #include "Chaos/Core/KeyCodes.h"
 #include "Chaos/Core/MouseCodes.h"
 
+#include <glm/glm.hpp>
+
 namespace Chaos
 {
 	class Input
@@ -11,7 +13,7 @@ namespace Chaos
 		static bool IsKeyPressed(KeyCode key);
 
 		static bool IsMouseButtonPressed(MouseCode button);
-		static float GetMouseX();
-		static float GetMouseY();
+		static glm::vec2 GetMousePosition();
+		static glm::vec2 GetMouseWorldPosition();
 	};
 }
