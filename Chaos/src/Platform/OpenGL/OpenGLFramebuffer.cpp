@@ -16,6 +16,7 @@ namespace Chaos
 	OpenGLFramebuffer::~OpenGLFramebuffer()
 	{
 		glDeleteFramebuffers(1, &m_ID);
+		glDeleteTextures(1, &m_ColorAttachment);
 	}
 
 	void OpenGLFramebuffer::Bind()
@@ -48,6 +49,7 @@ namespace Chaos
 		if (m_ID)
 		{
 			glDeleteFramebuffers(1, &m_ID);
+			glDeleteTextures(1, &m_ColorAttachment);
 		}
 
 		glCreateFramebuffers(1, &m_ID);
