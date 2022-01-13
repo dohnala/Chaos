@@ -30,5 +30,5 @@ private:
 	const float m_MaxSpeed = 15.0f;
 	glm::vec2 m_Velocity;
 
-	Projectile m_Projectile = { 0.45f, 30.0f, { Color::Yellow, Color::Red, 1.0f, 0.4f, { 30.0f, 30.0f }, 3.0f } };
+	Projectile m_Projectile = Projectiles::Fireball;
 };

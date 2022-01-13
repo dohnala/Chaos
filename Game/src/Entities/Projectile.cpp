@@ -1,7 +1,13 @@
 #include "Entities/Projectile.h"
 
-Projectile::Projectile(float radius, float speed, const Chaos::CircleProps& circleProps)
-	: m_Radius(radius), m_Speed(speed), m_CircleProps(circleProps)
+Projectile::Projectile(float radius, float speed, 
+	const Chaos::CircleProps& circleProps,
+	const Chaos::ParticleProps& explosionParticleProps, uint32_t explosionParticleCount)
+	: m_Radius(radius), 
+	  m_Speed(speed), 
+	  m_CircleProps(circleProps), 
+	  ExplosionParticleProps(explosionParticleProps), 
+	  ExplosionParticleCount(explosionParticleCount)
 {}
 
 void Projectile::OnUpdate(Chaos::Timestep ts)

@@ -62,7 +62,7 @@ namespace Chaos
 
 			particle.Size = particleProps.Size + (Random::Float() - 0.5f) * particleProps.SizeVariance;
 
-			particle.Color = particleProps.Color;
+			particle.Color = glm::lerp(particleProps.ColorFrom, particleProps.ColorTo, Random::Float());
 			particle.Alpha = glm::clamp(particleProps.Alpha + (Random::Float() - 0.5f) * particleProps.AlphaVariance, 0.0f, 1.0f);
 			particle.AlphaEnd = particleProps.AlphaEnd;
 

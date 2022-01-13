@@ -5,6 +5,12 @@
 #include "Entities/Player.h"
 #include "Entities/Collectible.h"
 
+struct CollisionInfo
+{
+	bool Collision;
+	glm::vec2 NormalDirection;
+};
+
 struct MapProps
 {
 	glm::vec2 MapSize;
@@ -24,9 +30,11 @@ public:
 private:
 	void CreateCollectible(uint32_t index);
 	void TakeCollectible(uint32_t index);
+
+	void DestroyProjectile(Projectile& projectile, const glm::vec2& direction);
 	
-	bool CheckMapCollision(CircleEntity& circle);
-	bool CheckCollision(const CircleEntity& circleA, const CircleEntity& circleB);
+	CollisionInfo CheckMapCollision(CircleEntity& circle);
+	CollisionInfo CheckCollision(const CircleEntity& circleA, const CircleEntity& circleB);
 	
 	glm::vec2 GetRandomLocation(const CircleEntity& circle);
 private:
@@ -36,6 +44,5 @@ private:
 	Player m_Player;
 	std::vector<Collectible> m_Collectibles;
 
-	Chaos::ParticleProps m_CollectParticle;
-	Chaos::ParticleSystem m_CollectParticleSystem = Chaos::ParticleSystem(100);
+	Chaos::ParticleSystem m_ParticleSystem = Chaos::ParticleSystem(500);
 };

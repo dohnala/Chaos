@@ -12,18 +12,6 @@ void Map::Init(const MapProps& mapProps)
 
 	for (uint32_t i = 0; i < m_Collectibles.size(); i++)
 		CreateCollectible(i);
-
-	m_CollectParticle.DirectionAngleVariance = glm::radians(360.0f);
-	m_CollectParticle.Speed = 3.0f;
-	m_CollectParticle.SpeedVariance = 6.0f;
-	m_CollectParticle.Size = 0.1f;
-	m_CollectParticle.SizeVariance = 0.05f;
-	m_CollectParticle.Color = Color::Yellow;
-	m_CollectParticle.Alpha = 0.5f;
-	m_CollectParticle.AlphaVariance = 1.0f;
-	m_CollectParticle.AlphaEnd = 0.0f;
-	m_CollectParticle.LifeTime = 1.0f;
-	m_CollectParticle.LifeTimeVariance = 1.0f;
 }
 
 void Map::OnUpdate(Chaos::Timestep ts)
@@ -32,26 +20,34 @@ void Map::OnUpdate(Chaos::Timestep ts)
 
 	CheckMapCollision(m_Player);
 
-	if (CheckMapCollision(m_Player.GetProjectile()))
+	if (m_Player.GetProjectile().IsEnabled())
 	{
-		m_Player.GetProjectile().Destroy();
+		auto collisionInfo = CheckMapCollision(m_Player.GetProjectile());
+
+		if (collisionInfo.Collision)
+			DestroyProjectile(m_Player.GetProjectile(), collisionInfo.NormalDirection);
 	}
 
 	for (uint32_t i = 0; i < m_Collectibles.size(); i++)
 	{
-		if (CheckCollision(m_Player, m_Collectibles[i]))
+		if (CheckCollision(m_Player, m_Collectibles[i]).Collision)
 		{
 			TakeCollectible(i);
 		}
 
-		if (CheckCollision(m_Player.GetProjectile(), m_Collectibles[i]))
+		if (m_Player.GetProjectile().IsEnabled())
 		{
-			TakeCollectible(i);
-			m_Player.GetProjectile().Destroy();
+			auto collisionInfo = CheckCollision(m_Player.GetProjectile(), m_Collectibles[i]);
+
+			if (collisionInfo.Collision)
+			{
+				DestroyProjectile(m_Player.GetProjectile(), collisionInfo.NormalDirection);
+				TakeCollectible(i);
+			}
 		}
 	}
 
-	m_CollectParticleSystem.OnUpdate(ts);
+	m_ParticleSystem.OnUpdate(ts);
 }
 
 void Map::OnRender()
@@ -61,7 +57,7 @@ void Map::OnRender()
 
 	m_Player.OnRender();
 
-	m_CollectParticleSystem.OnRender();
+	m_ParticleSystem.OnRender();
 }
 
 void Map::CreateCollectible(uint32_t index)
@@ -72,33 +68,45 @@ void Map::CreateCollectible(uint32_t index)
 
 void Map::TakeCollectible(uint32_t index)
 {
-	m_CollectParticle.Position = m_Collectibles[index].GetPosition();
-	m_CollectParticleSystem.Emit(m_CollectParticle, 10);
+	Collectible::CollectParticleProps.Position = m_Collectibles[index].GetPosition();
+	m_ParticleSystem.Emit(Collectible::CollectParticleProps, Collectible::CollectParticleCount);
 
 	CreateCollectible(index);
 }
 
-bool Map::CheckMapCollision(CircleEntity& circle)
+void Map::DestroyProjectile(Projectile& projectile, const glm::vec2& direction)
 {
-	bool collision = false;
+	projectile.ExplosionParticleProps.Position = projectile.GetPosition();
+	projectile.ExplosionParticleProps.Direction = direction;
+	m_ParticleSystem.Emit(projectile.ExplosionParticleProps, projectile.ExplosionParticleCount);
 
-	if (circle.GetPosition().x + circle.GetRadius() >= m_Bounds.Max.x) collision = true;
-	if (circle.GetPosition().x - circle.GetRadius() <= m_Bounds.Min.x) collision = true;
-	if (circle.GetPosition().y + circle.GetRadius() >= m_Bounds.Max.y) collision = true;
-	if (circle.GetPosition().y - circle.GetRadius() <= m_Bounds.Min.y) collision = true;
+	m_Player.GetProjectile().Destroy();
+}
+
+CollisionInfo Map::CheckMapCollision(CircleEntity& circle)
+{
+	CollisionInfo collisionInfo = { false, { 0.0f, 0.0f } };
+
+	if (circle.GetPosition().x + circle.GetRadius() >= m_Bounds.Max.x) collisionInfo = { true, { -1.0f,  0.0f } };
+	if (circle.GetPosition().x - circle.GetRadius() <= m_Bounds.Min.x) collisionInfo = { true, {  1.0f,  0.0f } };
+	if (circle.GetPosition().y + circle.GetRadius() >= m_Bounds.Max.y) collisionInfo = { true, {  0.0f, -1.0f } };
+	if (circle.GetPosition().y - circle.GetRadius() <= m_Bounds.Min.y) collisionInfo = { true, {  0.0f,  1.0f } };
 
 	circle.SetPosition(glm::clamp(circle.GetPosition(), 
 		m_Bounds.Min + circle.GetRadius(),
 		m_Bounds.Max - circle.GetRadius()));
 
-	return collision;
+	return collisionInfo;
 }
 
-bool Map::CheckCollision(const CircleEntity& circleA, const CircleEntity& circleB)
+CollisionInfo Map::CheckCollision(const CircleEntity& circleA, const CircleEntity& circleB)
 {
 	auto distance = glm::distance(circleA.GetPosition(), circleB.GetPosition());
 
-	return distance <= circleA.GetRadius() + circleB.GetRadius();
+	if (distance <= circleA.GetRadius() + circleB.GetRadius())
+		return { true, (circleB.GetPosition() - circleA.GetPosition()) * -1.0f };
+
+	return { false,  { 0.0f, 0.0f } };
 }
 
 glm::vec2 Map::GetRandomLocation(const CircleEntity& circle)

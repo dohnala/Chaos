@@ -20,7 +20,8 @@ namespace Chaos
 		float Size = 1.0f;
 		float SizeVariance = 0.0f;
 		
-		glm::vec4 Color = { 1.0f, 1.0f, 1.0f, 1.0f };
+		glm::vec4 ColorFrom = { 1.0f, 1.0f, 1.0f, 1.0f };
+		glm::vec4 ColorTo = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 		float Alpha = 1.0f;
 		float AlphaVariance = 0.0f;
