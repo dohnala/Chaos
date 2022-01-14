@@ -10,6 +10,7 @@ namespace Chaos
 	struct ParticleProps
 	{
 		glm::vec2 Position = { 0.0f, 0.0f };
+		float PositionRadiusVariance = 0.0f;
 		
 		glm::vec2 Direction = { 0.0f, 1.0f };
 		float DirectionAngleVariance = glm::radians(90.0f);

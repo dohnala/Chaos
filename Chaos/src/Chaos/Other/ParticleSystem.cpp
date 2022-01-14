@@ -5,6 +5,7 @@
 
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/compatibility.hpp>
+#include <glm/gtc/random.hpp>
 
 namespace Chaos
 {
@@ -55,6 +56,7 @@ namespace Chaos
 			particle.Active = true;
 
 			particle.Position = particleProps.Position;
+			particle.Position += particleProps.PositionRadiusVariance > 0.0f ? glm::circularRand(particleProps.PositionRadiusVariance) : glm::vec2(0.0f);
 
 			float angle = (Random::Float() - 0.5f) * particleProps.DirectionAngleVariance;
 			float speed = particleProps.Speed + (Random::Float() - 0.5f) * particleProps.SpeedVariance;

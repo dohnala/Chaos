@@ -47,6 +47,8 @@ void Map::OnUpdate(Chaos::Timestep ts)
 		}
 	}
 
+	EmitProjectileTrail(m_Player.GetProjectile());
+
 	m_ParticleSystem.OnUpdate(ts);
 }
 
@@ -81,6 +83,25 @@ void Map::DestroyProjectile(Projectile& projectile, const glm::vec2& direction)
 	m_ParticleSystem.Emit(projectile.ExplosionParticleProps, projectile.ExplosionParticleCount);
 
 	m_Player.GetProjectile().Destroy();
+}
+
+void Map::EmitProjectileTrail(Projectile& projectile)
+{
+	if (projectile.IsEnabled())
+	{
+		auto direction = glm::normalize(projectile.GetPosition() - projectile.GetOldPosition());
+		float distance = glm::length(projectile.GetPosition() - projectile.GetOldPosition());
+		uint32_t pixels = (uint32_t)std::ceil(distance * projectile.TrailParticleCountPerUnit);
+		auto delta = projectile.GetDirection() * (distance / pixels);
+
+		projectile.TrailParticleProps.Direction = direction;
+
+		for (uint32_t i = 0; i < pixels; i++)
+		{
+			projectile.TrailParticleProps.Position = projectile.GetOldPosition() + (float)i * delta;
+			m_ParticleSystem.Emit(projectile.TrailParticleProps, 1);
+		}
+	}
 }
 
 CollisionInfo Map::CheckMapCollision(CircleEntity& circle)
