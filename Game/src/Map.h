@@ -31,8 +31,8 @@ private:
 	void CreateCollectible(uint32_t index);
 	void TakeCollectible(uint32_t index);
 
-	void DestroyProjectile(Projectile& projectile, const glm::vec2& direction);
-	void EmitProjectileTrail(Projectile& projectile);
+	void DestroyProjectile(const Projectile& projectile, const glm::vec2& direction);
+	void EmitProjectileTrail(const Projectile& projectile);
 	
 	CollisionInfo CheckMapCollision(CircleEntity& circle);
 	CollisionInfo CheckCollision(const CircleEntity& circleA, const CircleEntity& circleB);

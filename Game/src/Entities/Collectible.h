@@ -11,7 +11,7 @@ public:
 
 	virtual const float GetRadius() const override { return s_Radius; }
 public:
-	inline static Chaos::ParticleProps CollectParticleProps = {
+	inline static const Chaos::ParticleProps CollectParticleProps = {
 		0.0f,											// PositionRadiusVariance
 		{ 0.0f, 1.0f }, glm::radians(360.0f),			// Direction, DirectionAngleVariance
 		3.0f, 6.0f,										// Speed, SpeedVariance

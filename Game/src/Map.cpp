@@ -75,14 +75,14 @@ void Map::TakeCollectible(uint32_t index)
 	CreateCollectible(index);
 }
 
-void Map::DestroyProjectile(Projectile& projectile, const glm::vec2& direction)
+void Map::DestroyProjectile(const Projectile& projectile, const glm::vec2& direction)
 {
 	m_ParticleSystem.Emit(projectile.ExplosionParticleProps, projectile.GetPosition(), direction, projectile.ExplosionParticleCount);
 
 	m_Player.GetProjectile().Destroy();
 }
 
-void Map::EmitProjectileTrail(Projectile& projectile)
+void Map::EmitProjectileTrail(const Projectile& projectile)
 {
 	if (projectile.IsEnabled())
 	{

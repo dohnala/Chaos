@@ -26,10 +26,10 @@ public:
 	void Show() { m_Active = true; }
 	void Destroy() { m_Active = false; }
 public:
-	Chaos::ParticleProps ExplosionParticleProps;
-	uint32_t ExplosionParticleCount;
-	Chaos::ParticleProps TrailParticleProps;
-	float TrailParticleCountPerUnit;
+	const Chaos::ParticleProps ExplosionParticleProps;
+	const uint32_t ExplosionParticleCount;
+	const Chaos::ParticleProps TrailParticleProps;
+	const float TrailParticleCountPerUnit;
 private:
 	glm::vec2 m_OldPosition;
 	float m_Radius;
