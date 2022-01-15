@@ -11,15 +11,13 @@ public:
 
 	virtual const float GetRadius() const override { return s_Radius; }
 public:
-	inline static const Chaos::ParticleProps CollectParticleProps = {
-		0.0f,											// PositionRadiusVariance
-		{ 0.0f, 1.0f }, glm::radians(360.0f),			// Direction, DirectionAngleVariance
-		3.0f, 6.0f,										// Speed, SpeedVariance
-		0.1f, 0.05f,									// Size, SizeVariance
-		Color::Yellow, Color::Yellow,					// ColorFrom, ColorTo
-		0.5f, 1.0f, 0.0f,								// Alpha, AlphaVariance, AlphaEnd
-		1.0f, 1.0f										// LifeTime, LifeTime
-	};
+	inline static const Chaos::ParticleProps CollectParticleProps = Chaos::ParticleProps::Create()
+		.WithDirectionVariance(glm::radians(360.0f))
+		.WithSpeed(3.0f, 6.0f)
+		.WithSize(0.1f, 0.05f)
+		.WithColor(Color::Yellow)
+		.WithAlpha(0.5f, 1.0f, 0.0f)
+		.WithLifeTime(1.0f, 1.0f);
 
 	inline static uint32_t CollectParticleCount = 10;
 private:

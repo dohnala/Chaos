@@ -46,26 +46,23 @@ namespace Projectiles
 		45.0f, // Speed
 		{ Color::Yellow, Color::Red, 1.0f, 0.4f, { 30.0f, 30.0f }, 3.0f }, // CircleProps
 		// ExplosionParticleProps
-		{ 
-			0.0f,											// PositionRadiusVariance
-			{ 0.0f, 1.0f }, glm::radians(120.0f),			// Direction, DirectionAngleVariance
-			1.0f, 2.0f,										// Speed, SpeedVariance
-			0.1f, 0.05f,									// Size, SizeVariance
-			Color::Yellow, Color::Red,						// ColorFrom, ColorTo
-			0.75f, 0.5f, 0.0f,								// Alpha, AlphaVariance, AlphaEnd
-			2.0f, 1.0f										// LifeTime, LifeTimeVariance
-		}, 
+		Chaos::ParticleProps::Create()
+			.WithDirectionVariance(glm::radians(120.0f))
+			.WithSpeed(1.0f, 2.0f)
+			.WithSize(0.1f, 0.05f)
+			.WithColorGradient(Color::Yellow, Color::Red)
+			.WithAlpha(0.75f, 0.5f, 0.0f)
+			.WithLifeTime(2.0f, 1.0f),
 		20,	// ExplosionParticleCount
 		// TrailParticleProps
-		{ 
-			0.1f,											// PositionRadiusVariance
-			{ 0.0f, 0.0f }, glm::radians(90.0f),			// Direction, DirectionAngleVariance
-			0.25f, 0.5f,									// Speed, SpeedVariance
-			0.1f, 0.05f,									// Size, SizeVariance
-			Color::Yellow, Color::Red,						// ColorFrom, ColorTo
-			0.75f, 0.5f, 0.0f,								// Alpha, AlphaVariance, AlphaEnd
-			0.25f, 0.5f										// LifeTime, LifeTimeVariance
-		},
+		Chaos::ParticleProps::Create()
+			.WithPositionVariance(0.1f)
+			.WithDirectionVariance(glm::radians(90.0f))
+			.WithSpeed(0.25f, 0.5f)
+			.WithSize(0.1f, 0.05f)
+			.WithColorGradient(Color::Yellow, Color::Red)
+			.WithAlpha(0.75f, 0.5f, 0.0f)
+			.WithLifeTime(0.25f, 0.5f),
 		8.0f // TrailParticleCountPerUnit
 	); 
 }
