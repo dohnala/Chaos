@@ -36,5 +36,5 @@ private:
 	const float m_MaxSpeed = 15.0f;
 	glm::vec2 m_Velocity;
 
-	Projectile m_Projectile = Projectiles::Fireball;
+	Projectile m_Projectile = Projectiles::PoisonBolt;
 };
