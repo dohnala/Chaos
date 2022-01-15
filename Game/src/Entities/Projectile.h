@@ -47,7 +47,7 @@ namespace Projectiles
 		{ Color::Yellow, Color::Red, 1.0f, 0.4f, { 30.0f, 30.0f }, 3.0f }, // CircleProps
 		// ExplosionParticleProps
 		{ 
-			{ 0.0f, 0.0f },	0.0f,							// Position, PositionRadiusVariance
+			0.0f,											// PositionRadiusVariance
 			{ 0.0f, 1.0f }, glm::radians(120.0f),			// Direction, DirectionAngleVariance
 			1.0f, 2.0f,										// Speed, SpeedVariance
 			0.1f, 0.05f,									// Size, SizeVariance
@@ -58,7 +58,7 @@ namespace Projectiles
 		20,	// ExplosionParticleCount
 		// TrailParticleProps
 		{ 
-			{ 0.0f, 0.0f },	0.1f,							// Position, PositionRadiusVariance
+			0.1f,											// PositionRadiusVariance
 			{ 0.0f, 0.0f }, glm::radians(90.0f),			// Direction, DirectionAngleVariance
 			0.25f, 0.5f,									// Speed, SpeedVariance
 			0.1f, 0.05f,									// Size, SizeVariance

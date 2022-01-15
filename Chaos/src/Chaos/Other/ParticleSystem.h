@@ -9,7 +9,6 @@ namespace Chaos
 {
 	struct ParticleProps
 	{
-		glm::vec2 Position = { 0.0f, 0.0f };
 		float PositionRadiusVariance = 0.0f;
 		
 		glm::vec2 Direction = { 0.0f, 1.0f };
@@ -40,7 +39,7 @@ namespace Chaos
 		void OnUpdate(Timestep ts);
 		void OnRender();
 
-		void Emit(const ParticleProps& particleProps, uint32_t count = 1);
+		void Emit(const ParticleProps& particleProps, const glm::vec2& position, uint32_t count = 1);
 	private:
 		struct Particle
 		{

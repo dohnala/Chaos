@@ -70,17 +70,15 @@ void Map::CreateCollectible(uint32_t index)
 
 void Map::TakeCollectible(uint32_t index)
 {
-	Collectible::CollectParticleProps.Position = m_Collectibles[index].GetPosition();
-	m_ParticleSystem.Emit(Collectible::CollectParticleProps, Collectible::CollectParticleCount);
+	m_ParticleSystem.Emit(Collectible::CollectParticleProps, m_Collectibles[index].GetPosition(), Collectible::CollectParticleCount);
 
 	CreateCollectible(index);
 }
 
 void Map::DestroyProjectile(Projectile& projectile, const glm::vec2& direction)
 {
-	projectile.ExplosionParticleProps.Position = projectile.GetPosition();
 	projectile.ExplosionParticleProps.Direction = direction;
-	m_ParticleSystem.Emit(projectile.ExplosionParticleProps, projectile.ExplosionParticleCount);
+	m_ParticleSystem.Emit(projectile.ExplosionParticleProps, projectile.GetPosition(), projectile.ExplosionParticleCount);
 
 	m_Player.GetProjectile().Destroy();
 }
@@ -98,8 +96,7 @@ void Map::EmitProjectileTrail(Projectile& projectile)
 
 		for (uint32_t i = 0; i < pixels; i++)
 		{
-			projectile.TrailParticleProps.Position = projectile.GetOldPosition() + (float)i * delta;
-			m_ParticleSystem.Emit(projectile.TrailParticleProps, 1);
+			m_ParticleSystem.Emit(projectile.TrailParticleProps, projectile.GetOldPosition() + (float)i * delta, 1);
 		}
 	}
 }

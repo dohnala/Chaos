@@ -47,7 +47,7 @@ namespace Chaos
 		}
 	}
 
-	void ParticleSystem::Emit(const ParticleProps& particleProps, uint32_t count)
+	void ParticleSystem::Emit(const ParticleProps& particleProps, const glm::vec2& position, uint32_t count)
 	{
 		for (uint32_t i = 0; i < count; i++)
 		{
@@ -55,7 +55,7 @@ namespace Chaos
 
 			particle.Active = true;
 
-			particle.Position = particleProps.Position;
+			particle.Position = position;
 			particle.Position += particleProps.PositionRadiusVariance > 0.0f ? glm::circularRand(particleProps.PositionRadiusVariance) : glm::vec2(0.0f);
 
 			float angle = (Random::Float() - 0.5f) * particleProps.DirectionAngleVariance;
