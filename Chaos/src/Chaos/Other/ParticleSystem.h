@@ -40,6 +40,7 @@ namespace Chaos
 		void OnRender();
 
 		void Emit(const ParticleProps& particleProps, const glm::vec2& position, uint32_t count = 1);
+		void Emit(const ParticleProps& particleProps, const glm::vec2& position, const glm::vec2& direction, uint32_t count = 1);
 	private:
 		struct Particle
 		{

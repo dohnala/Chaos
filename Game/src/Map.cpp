@@ -77,8 +77,7 @@ void Map::TakeCollectible(uint32_t index)
 
 void Map::DestroyProjectile(Projectile& projectile, const glm::vec2& direction)
 {
-	projectile.ExplosionParticleProps.Direction = direction;
-	m_ParticleSystem.Emit(projectile.ExplosionParticleProps, projectile.GetPosition(), projectile.ExplosionParticleCount);
+	m_ParticleSystem.Emit(projectile.ExplosionParticleProps, projectile.GetPosition(), direction, projectile.ExplosionParticleCount);
 
 	m_Player.GetProjectile().Destroy();
 }
@@ -92,11 +91,9 @@ void Map::EmitProjectileTrail(Projectile& projectile)
 		uint32_t pixels = (uint32_t)std::ceil(distance * projectile.TrailParticleCountPerUnit);
 		auto delta = projectile.GetDirection() * (distance / pixels);
 
-		projectile.TrailParticleProps.Direction = direction;
-
 		for (uint32_t i = 0; i < pixels; i++)
 		{
-			m_ParticleSystem.Emit(projectile.TrailParticleProps, projectile.GetOldPosition() + (float)i * delta, 1);
+			m_ParticleSystem.Emit(projectile.TrailParticleProps, projectile.GetOldPosition() + (float)i * delta, direction, 1);
 		}
 	}
 }

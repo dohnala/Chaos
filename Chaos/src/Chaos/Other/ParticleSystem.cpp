@@ -49,6 +49,11 @@ namespace Chaos
 
 	void ParticleSystem::Emit(const ParticleProps& particleProps, const glm::vec2& position, uint32_t count)
 	{
+		Emit(particleProps, position, particleProps.Direction, count);
+	}
+
+	void ParticleSystem::Emit(const ParticleProps& particleProps, const glm::vec2& position, const glm::vec2& direction, uint32_t count)
+	{
 		for (uint32_t i = 0; i < count; i++)
 		{
 			Particle& particle = m_ParticlePool[m_PoolIndex];
@@ -60,7 +65,7 @@ namespace Chaos
 
 			float angle = (Random::Float() - 0.5f) * particleProps.DirectionAngleVariance;
 			float speed = particleProps.Speed + (Random::Float() - 0.5f) * particleProps.SpeedVariance;
-			particle.Velocity = glm::rotate(particleProps.Direction, angle) * speed;
+			particle.Velocity = glm::rotate(direction, angle) * speed;
 
 			particle.Size = particleProps.Size + (Random::Float() - 0.5f) * particleProps.SizeVariance;
 
