@@ -1,17 +1,9 @@
 #include "Entities/Projectile.h"
 
-Projectile::Projectile(float radius, float speed, 
-	const Chaos::CircleProps& circleProps,
-	const Chaos::ParticleProps& explosionParticleProps, uint32_t explosionParticleCount,
-	const Chaos::ParticleProps& trailParticleProps, float trailParticleCountPerUnit)
-	: m_Radius(radius), 
-	  m_Speed(speed), 
-	  m_CircleProps(circleProps), 
-	  ExplosionParticleProps(explosionParticleProps), 
-	  ExplosionParticleCount(explosionParticleCount),
-	  TrailParticleProps(trailParticleProps),
-	  TrailParticleCountPerUnit(trailParticleCountPerUnit)
-{}
+ProjectileBuilder Projectile::Create()
+{
+	return ProjectileBuilder();
+}
 
 void Projectile::OnUpdate(Chaos::Timestep ts)
 {
