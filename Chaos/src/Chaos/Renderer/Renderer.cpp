@@ -19,6 +19,11 @@ namespace Chaos
 	static RendererPrimitive* s_Rect;
 	static RendererPrimitive* s_Circle;
 
+	CirclePropsBuilder CircleProps::Create()
+	{
+		return CirclePropsBuilder();
+	}
+
 	void Renderer::Init()
 	{
 		s_GraphicsAPI->Init();

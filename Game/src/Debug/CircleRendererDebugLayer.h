@@ -21,5 +21,5 @@ private:
 private:
 	Chaos::OrthographicCameraController m_CameraController;
 	float m_Radius = 1.0f;
-	Chaos::CircleProps m_CircleProps;
+	Chaos::CircleProps m_CircleProps = Chaos::CircleProps::Create();
 };

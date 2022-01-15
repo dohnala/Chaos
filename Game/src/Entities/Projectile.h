@@ -31,7 +31,7 @@ public:
 	const Chaos::ParticleProps TrailParticleProps;
 	const float TrailParticleCountPerUnit;
 private:
-	glm::vec2 m_OldPosition;
+	glm::vec2 m_OldPosition = { 0.0f, 0.0f };
 	float m_Radius;
 	float m_Speed;
 	Chaos::CircleProps m_CircleProps;
@@ -44,7 +44,11 @@ namespace Projectiles
 	inline static Projectile Fireball = Projectile(
 		0.45f, // Radius
 		45.0f, // Speed
-		{ Color::Yellow, Color::Red, 1.0f, 0.4f, { 30.0f, 30.0f }, 3.0f }, // CircleProps
+		// CircleProps
+		Chaos::CircleProps::Create()
+			.WithColorGradient(Color::Yellow, Color::Red, 1.0f)
+			.WithBorderDistortion(0.4f)
+			.WithDirectionDistortion(3.0f),
 		// ExplosionParticleProps
 		Chaos::ParticleProps::Create()
 			.WithDirectionVariance(glm::radians(120.0f))
