@@ -17,6 +17,6 @@ namespace Chaos
 		const glm::vec2& GetPosition() const { return m_Position; };
 		void SetPosition(const glm::vec2& position) { m_Position = position; }
 	protected:
-		glm::vec2 m_Position;
+		glm::vec2 m_Position = { 0.0f, 0.0f };
 	};
 }

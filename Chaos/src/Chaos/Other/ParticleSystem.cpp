@@ -52,12 +52,12 @@ namespace Chaos
 		}
 	}
 
-	void ParticleSystem::Emit(const ParticleProps& particleProps, const glm::vec2& position, uint32_t count)
+	void ParticleSystem::EmitFromPoint(const ParticleProps& particleProps, const glm::vec2& position, uint32_t count)
 	{
-		Emit(particleProps, position, particleProps.m_Direction, count);
+		EmitFromPoint(particleProps, position, particleProps.m_Direction, count);
 	}
 
-	void ParticleSystem::Emit(const ParticleProps& particleProps, const glm::vec2& position, const glm::vec2& direction, uint32_t count)
+	void ParticleSystem::EmitFromPoint(const ParticleProps& particleProps, const glm::vec2& position, const glm::vec2& direction, uint32_t count)
 	{
 		for (uint32_t i = 0; i < count; i++)
 		{
@@ -82,6 +82,22 @@ namespace Chaos
 			particle.LifeRemaining = particleProps.m_LifeTime;
 
 			m_PoolIndex = ((m_PoolIndex - 1) + m_ParticlePool.size()) % m_ParticlePool.size();
+		}
+	}
+
+	void ParticleSystem::EmitFromLine(const ParticleProps& particleProps, const glm::vec2& posStart, const glm::vec2& posEnd, uint32_t count)
+	{
+		EmitFromLine(particleProps, posStart, posEnd, particleProps.m_Direction, count);
+	}
+
+	void ParticleSystem::EmitFromLine(const ParticleProps& particleProps, const glm::vec2& posStart, const glm::vec2& posEnd,
+		const glm::vec2& direction, uint32_t count)
+	{
+		auto deltaPos = glm::normalize(posEnd - posStart) * (glm::length(posEnd - posStart) / count);
+
+		for (uint32_t i = 0; i < count; i++)
+		{
+			EmitFromPoint(particleProps, posStart + static_cast<float>(i) * deltaPos, direction, 1);
 		}
 	}
 }

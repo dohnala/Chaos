@@ -119,8 +119,11 @@ namespace Chaos
 		void OnUpdate(Timestep ts);
 		void OnRender();
 
-		void Emit(const ParticleProps& particleProps, const glm::vec2& position, uint32_t count = 1);
-		void Emit(const ParticleProps& particleProps, const glm::vec2& position, const glm::vec2& direction, uint32_t count = 1);
+		void EmitFromPoint(const ParticleProps& particleProps, const glm::vec2& position, uint32_t count);
+		void EmitFromPoint(const ParticleProps& particleProps, const glm::vec2& position, const glm::vec2& direction, uint32_t count);
+
+		void EmitFromLine(const ParticleProps& particleProps, const glm::vec2& posStart, const glm::vec2& posEnd, uint32_t count);
+		void EmitFromLine(const ParticleProps& particleProps, const glm::vec2& posStart, const glm::vec2& posEnd, const glm::vec2& direction, uint32_t count);
 	private:
 		struct Particle
 		{
