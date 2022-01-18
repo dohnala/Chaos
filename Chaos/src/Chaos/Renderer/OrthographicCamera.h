@@ -1,35 +1,32 @@
 #pragma once
 
 #include "Chaos/Core/Base.h"
+#include "Chaos/Renderer/Camera.h"
 
 #include <glm/glm.hpp>
 
 namespace Chaos
 {
-	class OrthographicCamera
+	class OrthographicCamera : public Camera
 	{
 	public:
-		OrthographicCamera(float left, float right, float bottom, float top, const glm::vec4& viewport);
+		OrthographicCamera();
+		virtual ~OrthographicCamera() = default;
 
-		void SetProjection(float left, float right, float bottom, float top);
-		void SetViewport(const glm::vec4& viewport) { m_Viewport = viewport; };
+		void SetProjection(float size, float zNear = -1.0f, float zFar = 1.0f);
+		void SetViewport(uint32_t width, uint32_t height);
 
-		const glm::vec2& GetPosition() const { return m_Position; }
-		void SetPosition(const glm::vec2& position) { m_Position = position; RecalculateViewMatrix(); }
+		float GetOrthographicSize() const { return m_Size; }
+		void SetOrthographicSize(float size) { m_Size = size; RecalculateProjection(); }
 
-		const glm::mat4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
-		const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }
-		const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
-
-		glm::vec2 ScreenToWorldPosition(const glm::vec2& screenPosition) const;
+		float GetAspectRatio() const { return m_AspectRatio; }
+		
 	private:
-		void RecalculateViewMatrix();
+		void RecalculateProjection();
 	private:
-		glm::mat4 m_ProjectionMatrix;
-		glm::mat4 m_ViewMatrix;
-		glm::mat4 m_ViewProjectionMatrix;
-		glm::vec4 m_Viewport;
-
-		glm::vec2 m_Position = {0.0f, 0.0f};
+		float m_Size = 10.0f;
+		float m_Near = -1.0f;
+		float m_Far = 1.0f;
+		float m_AspectRatio = 0.0f;
 	};
 }

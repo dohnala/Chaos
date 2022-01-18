@@ -18,6 +18,7 @@
 #include "Chaos/Renderer/Buffer.h"
 #include "Chaos/Renderer/VertexArray.h"
 #include "Chaos/Renderer/Shader.h"
+#include "Chaos/Renderer/Camera.h"
 #include "Chaos/Renderer/OrthographicCamera.h"
 
 #include "Chaos/Other/ParticleSystem.h"

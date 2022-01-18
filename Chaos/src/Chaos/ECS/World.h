@@ -12,20 +12,22 @@ namespace Chaos
 	class World
 	{
 	public:
-		using SystemFn = std::function<void(World&, Timestep)>;
-
 		World() = default;
-		~World() = default;
+		virtual ~World() = default;
 
 		Entity CreateEntity();
 		void DestroyEntity(Entity entity);
 
-		void AddSystem(SystemFn systemFn);
+		template<typename Component, typename... Other, typename... Exclude>
+		entt::basic_view<entt::entity, entt::get_t<Component, Other...>, entt::exclude_t<Exclude...>> View(entt::exclude_t<Exclude...> = {})
+		{
+			return m_Registry.view<Component, Other...>(assure<Exclude>()...);
+		}
 
-		void OnUpdate(Timestep ts);
+		virtual void OnUpdate(Timestep ts) = 0;
+		virtual void OnViewportResize(uint32_t width, uint32_t height) = 0;
 	private:
 		entt::registry m_Registry;
-		std::vector<SystemFn> m_Systems;
 
 		friend class Entity;
 	};

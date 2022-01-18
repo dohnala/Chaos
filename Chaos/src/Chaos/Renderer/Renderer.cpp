@@ -85,15 +85,18 @@ namespace Chaos
 		s_GraphicsAPI->Clear();
 	}
 
-	void Renderer::BeginScene(const OrthographicCamera& camera, Timestep ts)
+	void Renderer::BeginScene(const Camera& camera, const glm::vec2& cameraPosition, Timestep ts)
 	{
+		glm::mat4 view = glm::translate(glm::mat4(1.0f), { cameraPosition.x, cameraPosition.y, 0.0f });
+		glm::mat4 viewProjection = camera.GetProjection() * glm::inverse(view);
+
 		s_Rect->Shader->Bind();
 		s_Rect->Shader->SetFloat("u_Time", ts.GetTime());
-		s_Rect->Shader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+		s_Rect->Shader->SetMat4("u_ViewProjection", viewProjection);
 
 		s_Circle->Shader->Bind();
 		s_Circle->Shader->SetFloat("u_Time", ts.GetTime());
-		s_Circle->Shader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+		s_Circle->Shader->SetMat4("u_ViewProjection", viewProjection);
 	}
 
 	void Renderer::EndScene()
@@ -104,16 +107,11 @@ namespace Chaos
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x, position.y, 0.0f })
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		DrawRect(transform, color);
-	}
+		s_Rect->Shader->Bind();
+		s_Rect->Shader->SetMat4("u_Transform", transform);
+		s_Rect->Shader->SetFloat4("u_Color", color);
 
-	void Renderer::DrawRotatedRect(const glm::vec2& position, float rotation, const glm::vec2& size, const glm::vec4& color)
-	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x, position.y, 0.0f })
-			* glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
-			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-
-		DrawRect(transform, color);
+		s_GraphicsAPI->DrawIndexed(s_Rect->VertexArray);
 	}
 
 	void Renderer::DrawCircle(const glm::vec2& position, float radius, const CircleProps& circleProps)
@@ -132,14 +130,5 @@ namespace Chaos
 		s_Circle->Shader->SetFloat("u_DirectionDistortion", circleProps.DirectionDistortion);
 
 		s_GraphicsAPI->DrawIndexed(s_Circle->VertexArray);
-	}
-
-	void Renderer::DrawRect(const glm::mat4& transform, const glm::vec4& color)
-	{
-		s_Rect->Shader->Bind();
-		s_Rect->Shader->SetMat4("u_Transform", transform);
-		s_Rect->Shader->SetFloat4("u_Color", color);
-
-		s_GraphicsAPI->DrawIndexed(s_Rect->VertexArray);
 	}
 }

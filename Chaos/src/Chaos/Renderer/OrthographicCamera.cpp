@@ -5,31 +5,36 @@
 
 namespace Chaos
 {
-	OrthographicCamera::OrthographicCamera(float left, float right, float bottom, float top, const glm::vec4& viewport)
-		: m_ProjectionMatrix(glm::ortho(left, right, bottom, top, -1.0f, 1.0f)), m_ViewMatrix(1.0f), m_Viewport(viewport)
+	OrthographicCamera::OrthographicCamera()
 	{
-		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
+		RecalculateProjection();
 	}
 
-	void OrthographicCamera::SetProjection(float left, float right, float bottom, float top)
+	void OrthographicCamera::SetProjection(float size, float zNear, float zFar)
 	{
-		m_ProjectionMatrix = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
+		m_Size = size;
+		m_Near = zNear;
+		m_Far = zFar;
 
-		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
+		RecalculateProjection();
 	}
 
-	void OrthographicCamera::RecalculateViewMatrix()
+	void OrthographicCamera::SetViewport(uint32_t width, uint32_t height)
 	{
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { m_Position.x, m_Position.y, 0.0f });
+		CH_CORE_ASSERT(width > 0 && height > 0, "Viewport cannot be 0!");
 
-		m_ViewMatrix = glm::inverse(transform);
-		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
+		m_AspectRatio = (float)width / (float)height;
+
+		RecalculateProjection();
 	}
 
-	glm::vec2 OrthographicCamera::ScreenToWorldPosition(const glm::vec2& screenPosition) const
+	void OrthographicCamera::RecalculateProjection()
 	{
-		auto world = glm::unProject(glm::vec3(screenPosition.x, m_Viewport.w - screenPosition.y, 0.0f), m_ViewMatrix, m_ProjectionMatrix, m_Viewport);
+		float left = -m_Size * m_AspectRatio * 0.5f;
+		float right = m_Size * m_AspectRatio * 0.5f;
+		float bottom = -m_Size * 0.5f;
+		float top = m_Size * 0.5f;
 
-		return { world.x, world.y };
+		m_Projection = glm::ortho(left, right, bottom, top, m_Near, m_Far);
 	}
 }

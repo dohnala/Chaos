@@ -2,7 +2,7 @@
 
 #include "Chaos.h"
 
-#include "Map.h"
+#include "ECS/World.h"
 
 class GameLayer : public Chaos::Layer
 {
@@ -15,10 +15,7 @@ public:
 	virtual void OnUpdate(Chaos::Timestep ts) override;
 	virtual void OnEvent(Chaos::Event& event) override;
 private:
-	const float m_CameraHeight = 30.0f;
-	const float m_CameraSpeed = 3.0f;
-	const MapProps m_MapProps = { { 60.0f, 60.0f } , 20 };
+	bool OnWindowResized(Chaos::WindowResizeEvent& event);
 private:
-	Chaos::OrthographicCameraController m_CameraController;
-	Map m_Map;
+	World m_World = World({ 60.0f, 60.0f });
 };

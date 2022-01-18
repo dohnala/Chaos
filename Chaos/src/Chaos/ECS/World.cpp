@@ -14,17 +14,4 @@ namespace Chaos
 	{
 		m_Registry.destroy(entity);
 	}
-
-	void World::AddSystem(SystemFn systemFn)
-	{
-		m_Systems.push_back(systemFn);
-	}
-
-	void World::OnUpdate(Timestep ts)
-	{
-		for (auto system : m_Systems)
-		{
-			system(*this, ts);
-		}
-	}
 }
