@@ -17,6 +17,7 @@ IncludeDir["glfw"] = "Chaos/vendor/glfw/include"
 IncludeDir["glad"] = "Chaos/vendor/glad/include"
 IncludeDir["glm"] = "Chaos/vendor/glm"
 IncludeDir["imgui"] = "Chaos/vendor/imgui"
+IncludeDir["entt"] = "Chaos/vendor/entt/src"
 
 include "Chaos/vendor/glfw"
 include "Chaos/vendor/glad"
@@ -57,6 +58,7 @@ project "Chaos"
 		"%{IncludeDir.glad}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.imgui}",
+		"%{IncludeDir.entt}",
 	}
 
 	links
@@ -108,6 +110,7 @@ project "Game"
 		"%{prj.name}/src",
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.entt}"
 	}
 
 	links

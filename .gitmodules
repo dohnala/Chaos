@@ -10,3 +10,6 @@
 [submodule "Chaos/vendor/imgui"]
 	path = Chaos/vendor/imgui
 	url = https://github.com/dohnala/imgui
+[submodule "Chaos/vendor/entt"]
+	path = Chaos/vendor/entt
+	url = https://github.com/skypjack/entt
