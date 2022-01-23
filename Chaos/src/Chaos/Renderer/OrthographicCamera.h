@@ -14,13 +14,14 @@ namespace Chaos
 		virtual ~OrthographicCamera() = default;
 
 		void SetProjection(float size, float zNear = -1.0f, float zFar = 1.0f);
+
+		const glm::vec4& GetViewport() const { return m_Viewport; }
 		void SetViewport(uint32_t width, uint32_t height);
 
 		float GetOrthographicSize() const { return m_Size; }
 		void SetOrthographicSize(float size) { m_Size = size; RecalculateProjection(); }
 
-		float GetAspectRatio() const { return m_AspectRatio; }
-		
+		float GetAspectRatio() const { return m_AspectRatio; }	
 	private:
 		void RecalculateProjection();
 	private:
@@ -28,5 +29,6 @@ namespace Chaos
 		float m_Near = -1.0f;
 		float m_Far = 1.0f;
 		float m_AspectRatio = 0.0f;
+		glm::vec4 m_Viewport = glm::vec4(0.0f);
 	};
 }

@@ -25,14 +25,14 @@ void UpdateCollisionSystem(World& world, Chaos::Timestep ts)
 		if (position.x + radius >= world.GetBounds().Max.x)
 		{
 			auto& collision = entity.AddOrReplaceComponent<CollisionComponent>();
-			collision.Position = position + glm::vec2(radius, 0.0f);
+			collision.Position = { world.GetBounds().Max.x, position.y };
 			collision.Normal = glm::vec2(-1.0f, 0.0f);
 			hasCollision = true;
 		}
 		else if (position.x - radius <= world.GetBounds().Min.x)
 		{
 			auto& collision = entity.AddOrReplaceComponent<CollisionComponent>();
-			collision.Position = position - glm::vec2(radius, 0.0f);
+			collision.Position = { world.GetBounds().Min.x, position.y };
 			collision.Normal = glm::vec2(1.0f, 0.0f);
 			hasCollision = true;
 		}
@@ -40,14 +40,14 @@ void UpdateCollisionSystem(World& world, Chaos::Timestep ts)
 		if (position.y + radius >= world.GetBounds().Max.y)
 		{
 			auto& collision = entity.AddOrReplaceComponent<CollisionComponent>();
-			collision.Position = position + glm::vec2(0.0f, radius);
+			collision.Position = { position.x, world.GetBounds().Max.y };
 			collision.Normal = glm::vec2(0.0f, -1.0f);
 			hasCollision = true;
 		}
 		else if (position.y - radius <= world.GetBounds().Min.y)
 		{
 			auto& collision = entity.AddOrReplaceComponent<CollisionComponent>();
-			collision.Position = position - glm::vec2(0.0f, radius);
+			collision.Position = { position.x, world.GetBounds().Min.y };
 			collision.Normal = glm::vec2(0.0f, 1.0f);
 			hasCollision = true;
 		}

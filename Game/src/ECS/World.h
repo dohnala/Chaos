@@ -10,13 +10,14 @@ public:
 	World(glm::vec2 size);
 	virtual ~World() = default;
 
-	const Chaos::Bounds& GetBounds() const { return m_Bounds; }
-
-	glm::vec2 GetRandomLocation() const;
-	Chaos::ParticleSystem& GetParticleSystem() { return m_ParticleSystem; }
-
 	virtual void OnUpdate(Chaos::Timestep ts) override;
 	virtual void OnViewportResize(uint32_t width, uint32_t height) override;
+
+	const Chaos::Bounds& GetBounds() const { return m_Bounds; }
+	Chaos::ParticleSystem& GetParticleSystem() { return m_ParticleSystem; }
+
+	glm::vec2 GetRandomLocation() const;
+	glm::vec2 ScreenToWorldPosition(const glm::vec2& screenPosition) const;
 private:
 	glm::vec2 m_Size;
 	Chaos::Bounds m_Bounds;

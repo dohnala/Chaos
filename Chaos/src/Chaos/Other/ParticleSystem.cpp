@@ -66,7 +66,7 @@ namespace Chaos
 			particle.Active = true;
 
 			particle.Position = position;
-			particle.Position += particleProps.m_PositionRadiusVariance > 0.0f ? glm::circularRand(particleProps.m_PositionRadiusVariance) : glm::vec2(0.0f);
+			particle.Position += particleProps.m_PositionRadiusVariance > 0.0f ? glm::diskRand(particleProps.m_PositionRadiusVariance) : glm::vec2(0.0f);
 
 			float angle = (Random::Float() - 0.5f) * particleProps.m_DirectionAngleVariance;
 			float speed = particleProps.m_Speed + (Random::Float() - 0.5f) * particleProps.m_SpeedVariance;

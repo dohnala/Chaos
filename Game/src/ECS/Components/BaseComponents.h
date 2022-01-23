@@ -22,17 +22,6 @@ struct CameraComponent
 	CameraComponent(const CameraComponent&) = default;
 };
 
-struct KeybindingsComponent
-{
-	uint16_t Up = Chaos::Key::W;
-	uint16_t Left = Chaos::Key::A;
-	uint16_t Down = Chaos::Key::S;
-	uint16_t Right = Chaos::Key::D;
-
-	KeybindingsComponent() = default;
-	KeybindingsComponent(const KeybindingsComponent&) = default;
-};
-
 struct FollowComponent
 {
 	Chaos::Entity Entity;

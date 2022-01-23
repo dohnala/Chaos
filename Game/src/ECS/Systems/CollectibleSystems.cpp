@@ -10,7 +10,7 @@ void UpdateCollectibleCollisionSystem(World& world, Chaos::Timestep ts)
 
 		if (entity.HasComponent<DestroyEffectComponent>())
 		{
-			auto& effect = entity.GetComponent< DestroyEffectComponent>();
+			auto& effect = entity.GetComponent<DestroyEffectComponent>();
 			world.GetParticleSystem().EmitFromPoint(effect.ParticleProps, collisionComp.Position, effect.ParticleCount);
 		}
 

@@ -35,6 +35,18 @@ struct CircleComponent
 		: Radius(radius), CircleProps(circleProps) {}
 };
 
+struct TrailEffectComponent
+{
+	glm::vec2 LastPosition = { 0.0f, 0.0f };
+	float ParticleCountPerUnit = 1.0f;
+	Chaos::ParticleProps ParticleProps = Chaos::ParticleProps::Create();
+
+	TrailEffectComponent() = default;
+	TrailEffectComponent(const TrailEffectComponent&) = default;
+	TrailEffectComponent(const glm::vec2& lastPosition, float particleCountPerUnit, const Chaos::ParticleProps & particleProps)
+		: LastPosition(lastPosition), ParticleCountPerUnit(particleCountPerUnit), ParticleProps(particleProps) {}
+};
+
 struct DestroyEffectComponent
 {
 	uint32_t ParticleCount = 10;

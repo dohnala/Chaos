@@ -40,6 +40,20 @@ void UpdateCircleRenderSystem(World& world, Chaos::Timestep ts)
 	}
 }
 
+void UpdateTrailEffectSystem(World& world, Chaos::Timestep ts)
+{
+	for (auto&& [entityID, positionComp, trailEffecComp] : world.View<PositionComponent, TrailEffectComponent>().each())
+	{
+		auto direction = glm::normalize(trailEffecComp.LastPosition - positionComp.Position);
+		float distance = glm::length(positionComp.Position - trailEffecComp.LastPosition);
+		uint32_t particles = (uint32_t)std::ceil(distance * trailEffecComp.ParticleCountPerUnit);
+
+		world.GetParticleSystem().EmitFromLine(trailEffecComp.ParticleProps, trailEffecComp.LastPosition, positionComp.Position, particles);
+
+		trailEffecComp.LastPosition = positionComp.Position;
+	}
+}
+
 void UpdateParticleEffectRenderSystem(World& world, Chaos::Timestep ts)
 {
 	world.GetParticleSystem().OnUpdate(ts);

@@ -8,4 +8,5 @@
 void UpdateCircleGlowRenderSystem(World& world, Chaos::Timestep ts);
 void UpdateCircleShieldRenderSystem(World& world, Chaos::Timestep ts);
 void UpdateCircleRenderSystem(World& world, Chaos::Timestep ts);
+void UpdateTrailEffectSystem(World& world, Chaos::Timestep ts);
 void UpdateParticleEffectRenderSystem(World& world, Chaos::Timestep ts);

@@ -14,6 +14,5 @@ namespace Chaos
 
 		static bool IsMouseButtonPressed(MouseCode button);
 		static glm::vec2 GetMousePosition();
-		static glm::vec2 GetMouseWorldPosition();
 	};
 }

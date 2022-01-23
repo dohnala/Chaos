@@ -23,6 +23,7 @@ namespace Chaos
 	{
 		CH_CORE_ASSERT(width > 0 && height > 0, "Viewport cannot be 0!");
 
+		m_Viewport = { 0.0f, 0.0f, width, height };
 		m_AspectRatio = (float)width / (float)height;
 
 		RecalculateProjection();

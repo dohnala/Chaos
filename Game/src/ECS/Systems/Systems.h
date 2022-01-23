@@ -5,3 +5,4 @@
 #include "ECS/Systems/PhysicsSystems.h"
 #include "ECS/Systems/CollectibleSystems.h"
 #include "ECS/Systems/RenderSystems.h"
+#include "ECS/Systems/SkillSystems.h"

@@ -30,6 +30,13 @@ namespace Chaos
 		}
 
 		template<typename T>
+		const T& GetComponent() const
+		{
+			CH_CORE_ASSERT(HasComponent<T>(), "Entity does not have component!");
+			return m_World->m_Registry.get<T>(m_ID);
+		}
+
+		template<typename T>
 		T& GetComponent()
 		{
 			CH_CORE_ASSERT(HasComponent<T>(), "Entity does not have component!");
@@ -37,7 +44,7 @@ namespace Chaos
 		}
 
 		template<typename T>
-		bool HasComponent()
+		bool HasComponent() const
 		{
 			return m_World->m_Registry.all_of<T>(m_ID);
 		}
@@ -62,6 +69,8 @@ namespace Chaos
 		{
 			return !(*this == other);
 		}
+	public:
+		static Entity Null;
 	private:
 		entt::entity m_ID = entt::null;
 		World* m_World = nullptr;
