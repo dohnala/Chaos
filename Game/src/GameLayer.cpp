@@ -10,6 +10,8 @@ void GameLayer::OnAttach()
 	m_World.OnViewportResize(
 		Chaos::Application::Get().GetWindow().GetWidth(), 
 		Chaos::Application::Get().GetWindow().GetHeight());
+
+	m_CreatureComponentPanel.SetSelectedEntity(m_World.GetPlayer());
 }
 
 void GameLayer::OnDetach()
@@ -20,6 +22,11 @@ void GameLayer::OnDetach()
 void GameLayer::OnUpdate(Chaos::Timestep ts)
 {
 	m_World.OnUpdate(ts);
+}
+
+void GameLayer::OnImGuiRender()
+{
+	m_CreatureComponentPanel.OnImGuiRender();
 }
 
 void GameLayer::OnEvent(Chaos::Event& event)

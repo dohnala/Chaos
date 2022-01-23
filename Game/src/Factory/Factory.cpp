@@ -8,13 +8,9 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 	player.AddComponent<PositionComponent>();
 	player.AddComponent<KeybindingsComponent>();
 	player.AddComponent<MoveComponent>(15.0f);
-	player.AddComponent<CircleShieldComponent>(1.0f, Chaos::CircleProps::Create()
-		.WithColorGradient(Color::Grey, Color::Black, 1.0f)
-		.WithBorderDistortion(0.1f));
-	player.AddComponent<CircleComponent>(0.6f, Chaos::CircleProps::Create()
-		.WithColorGradient(Color::Blue, Color::Black, 1.5f)
-		.WithBorderDistortion(0.3f));
 	player.AddComponent<CircleColliderComponent>(1.0f);
+	player.AddComponent<CreatureComponent>(1.0f, Chaos::CreatureProps::Create()
+		.WithPixelation(false));
 	
 	auto& skills = player.AddComponent<SkillSlotsComponent>();
 	skills.SkillSlot1 = CreateSkill(world, SkillID::PoisonBolt, player);

@@ -15,6 +15,7 @@ public:
 
 	const Chaos::Bounds& GetBounds() const { return m_Bounds; }
 	Chaos::ParticleSystem& GetParticleSystem() { return m_ParticleSystem; }
+	Chaos::Entity GetPlayer() const { return m_Player; }
 
 	glm::vec2 GetRandomLocation() const;
 	glm::vec2 ScreenToWorldPosition(const glm::vec2& screenPosition) const;

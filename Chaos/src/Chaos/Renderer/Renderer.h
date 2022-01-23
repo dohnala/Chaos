@@ -79,6 +79,42 @@ namespace Chaos
 		CircleProps m_CircleProps;
 	};
 
+	class CreatureProps
+	{
+	public:
+		friend class CreaturePropsBuilder;
+
+		static CreaturePropsBuilder Create();
+	public:
+		bool Antialiasing = false;
+		bool Pixelation = false;
+	private:
+		CreatureProps() = default;
+	};
+
+	class CreaturePropsBuilder
+	{
+	public:
+		CreaturePropsBuilder& WithAntialiasing(bool antialiasing)
+		{
+			m_CreatureProps.Antialiasing = antialiasing;
+			return *this;
+		}
+
+		CreaturePropsBuilder& WithPixelation(bool pixelation)
+		{
+			m_CreatureProps.Pixelation = pixelation;
+			return *this;
+		}
+
+		operator CreatureProps && ()
+		{
+			return std::move(m_CreatureProps);
+		}
+	private:
+		CreatureProps m_CreatureProps;
+	};
+
 	class Renderer
 	{
 	public:
@@ -95,6 +131,7 @@ namespace Chaos
 
 		static void DrawRect(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
 		static void DrawCircle(const glm::vec2& position, float radius, const CircleProps& circleProps);
+		static void DrawCreature(const glm::vec2& position, float radius, const CreatureProps& creatureProps);
 
 		static GraphicsAPI::API GetAPI() { return s_GraphicsAPI->GetAPI(); }
 	private:

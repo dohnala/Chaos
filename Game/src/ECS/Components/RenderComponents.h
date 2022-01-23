@@ -35,6 +35,17 @@ struct CircleComponent
 		: Radius(radius), CircleProps(circleProps) {}
 };
 
+struct CreatureComponent
+{
+	float Radius = 1.0f;
+	Chaos::CreatureProps CreatureProps = Chaos::CreatureProps::Create();
+
+	CreatureComponent() = default;
+	CreatureComponent(const CreatureComponent&) = default;
+	CreatureComponent(float radius, const Chaos::CreatureProps& creatureProps)
+		: Radius(radius), CreatureProps(creatureProps) {}
+};
+
 struct TrailEffectComponent
 {
 	glm::vec2 LastPosition = { 0.0f, 0.0f };

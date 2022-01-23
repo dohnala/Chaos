@@ -18,10 +18,16 @@ namespace Chaos
 
 	static RendererPrimitive* s_Rect;
 	static RendererPrimitive* s_Circle;
+	static RendererPrimitive* s_Creature;
 
 	CirclePropsBuilder CircleProps::Create()
 	{
 		return CirclePropsBuilder();
+	}
+
+	CreaturePropsBuilder CreatureProps::Create()
+	{
+		return CreaturePropsBuilder();
 	}
 
 	void Renderer::Init()
@@ -61,13 +67,19 @@ namespace Chaos
 		s_Circle->VertexArray = m_VertexArray;
 		s_Circle->Shader = Shader::Create("assets/shaders/Circle.glsl");
 
-		// currently we support only rects geometry, so we bind vertex array only once both for rects and circles
+		s_Creature = new RendererPrimitive();
+		s_Creature->VertexArray = m_VertexArray;
+		s_Creature->Shader = Shader::Create("assets/shaders/Creature.glsl");
+
+		// currently we support only rects geometry, so we bind vertex array only once
 		s_Rect->VertexArray->Bind();
 	}
 
 	void Renderer::Shutdown()
 	{
 		delete s_Rect;
+		delete s_Circle;
+		delete s_Creature;
 	}
 
 	void Renderer::Resize(uint32_t width, uint32_t height)
@@ -97,6 +109,10 @@ namespace Chaos
 		s_Circle->Shader->Bind();
 		s_Circle->Shader->SetFloat("u_Time", ts.GetTime());
 		s_Circle->Shader->SetMat4("u_ViewProjection", viewProjection);
+
+		s_Creature->Shader->Bind();
+		s_Creature->Shader->SetFloat("u_Time", ts.GetTime());
+		s_Creature->Shader->SetMat4("u_ViewProjection", viewProjection);
 	}
 
 	void Renderer::EndScene()
@@ -130,5 +146,19 @@ namespace Chaos
 		s_Circle->Shader->SetFloat("u_DirectionDistortion", circleProps.DirectionDistortion);
 
 		s_GraphicsAPI->DrawIndexed(s_Circle->VertexArray);
+	}
+
+	void Renderer::DrawCreature(const glm::vec2& position, float radius, const CreatureProps& creatureProps)
+	{
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { position.x, position.y, 0.0f })
+			* glm::scale(glm::mat4(1.0f), { radius * 2.0f, radius * 2.0f, 1.0f });
+
+		s_Creature->Shader->Bind();
+		s_Creature->Shader->SetMat4("u_Transform", transform);
+		s_Creature->Shader->SetFloat("u_Radius", radius);
+		s_Creature->Shader->SetInt("u_Pixelation", creatureProps.Pixelation);
+		s_Creature->Shader->SetInt("u_Antialiasing", creatureProps.Antialiasing);
+
+		s_GraphicsAPI->DrawIndexed(s_Creature->VertexArray);
 	}
 }
