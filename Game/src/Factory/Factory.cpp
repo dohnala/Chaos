@@ -17,7 +17,7 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 	player.AddComponent<CircleColliderComponent>(1.0f);
 	
 	auto& skills = player.AddComponent<SkillSlotsComponent>();
-	skills.SkillSlot1 = CreateSkill(world, SkillID::Fireball, player);
+	skills.SkillSlot1 = CreateSkill(world, SkillID::PoisonBolt, player);
 
 	return player;
 }
@@ -60,7 +60,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 	if (skill == SkillID::Fireball)
 	{
 		auto fireball = world.CreateEntity();
-		fireball.AddComponent<SkillComponent>(skill, owner, 1.0f);
+		fireball.AddComponent<SkillComponent>(skill, owner, 0.5f);
 		auto& projectile = fireball.AddComponent<ProjectileSkillComponent>(0.45f, 45.0f);
 		projectile.ProjectileProps = Chaos::CircleProps::Create()
 			.WithColorGradient(Color::Yellow, Color::Red, 1.0f)
@@ -86,6 +86,37 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 		projectile.DestroyEffectCount = 20;
 
 		return fireball;
+	}
+
+	if (skill == SkillID::PoisonBolt)
+	{
+		auto poisonBolt = world.CreateEntity();
+		poisonBolt.AddComponent<SkillComponent>(skill, owner, 0.5f);
+		auto& projectile = poisonBolt.AddComponent<ProjectileSkillComponent>(0.45f, 45.0f);
+		projectile.ProjectileProps = Chaos::CircleProps::Create()
+			.WithColorGradient(Color::Yellow, Color::Green, 1.0f)
+			.WithBorderDistortion(0.4f)
+			.WithDirectionDistortion(3.0f);
+		projectile.TrailEffect = Chaos::ParticleProps::Create()
+			.WithPositionVariance(0.1f)
+			.WithDirectionVariance(glm::radians(90.0f))
+			.WithSpeed(0.25f, 0.5f)
+			.WithSize(0.1f, 0.05f)
+			.WithColorGradient(Color::Yellow, Color::Green)
+			.WithAlpha(0.75f, 0.5f, 0.0f)
+			.WithLifeTime(0.25f, 0.5f);
+		projectile.TrailEffectCountPerUnit = 8.0f;
+		projectile.DestroyEffect = Chaos::ParticleProps::Create()
+			.WithPositionVariance(0.1f)
+			.WithDirectionVariance(glm::radians(360.0f))
+			.WithSpeed(1.0f, 2.0f)
+			.WithSize(0.1f, 0.05f)
+			.WithColorGradient(Color::Yellow, Color::Green)
+			.WithAlpha(0.75f, 0.5f, 0.0f)
+			.WithLifeTime(1.0f, 0.5f);
+		projectile.DestroyEffectCount = 20;
+
+		return poisonBolt;
 	}
 
 	CH_ASSERT(false, "Unknown Skill!");

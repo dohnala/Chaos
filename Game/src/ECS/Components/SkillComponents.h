@@ -4,7 +4,8 @@
 
 enum class SkillID
 {
-	Fireball = 0
+	Fireball = 0,
+	PoisonBolt
 };
 
 struct SkillSlotsComponent
