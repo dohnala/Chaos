@@ -44,6 +44,18 @@ namespace Chaos
 		e.Handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
 	}
 
+	bool ImGuiLayer::WantCaptureMouse()
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		return io.WantCaptureMouse;
+	}
+
+	bool ImGuiLayer::WantCaptueKeyboard()
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		return io.WantCaptureKeyboard;
+	}
+
 	void ImGuiLayer::Begin()
 	{
 		ImGui_ImplOpenGL3_NewFrame();

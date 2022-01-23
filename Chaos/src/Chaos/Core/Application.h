@@ -24,6 +24,7 @@ namespace Chaos
 		void PushOverlay(Layer* overlay);
 
 		Window& GetWindow() { return *m_Window; }
+		bool IsWindowFocused();
 
 		static Application& Get() { return *s_Instance; }
 	private:

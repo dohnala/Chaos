@@ -17,6 +17,9 @@ namespace Chaos {
 		virtual void OnDetach() override;
 		virtual void OnEvent(Event& e) override;
 
+		bool WantCaptureMouse();
+		bool WantCaptueKeyboard();
+
 		void Begin();
 		void End();
 	private:

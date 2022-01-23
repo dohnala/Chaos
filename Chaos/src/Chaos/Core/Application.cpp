@@ -53,6 +53,11 @@ namespace Chaos
 		overlay->OnAttach();
 	}
 
+	bool Application::IsWindowFocused()
+	{
+		return !m_ImGuiLayer->WantCaptureMouse() && !m_ImGuiLayer->WantCaptueKeyboard();
+	}
+
 	void Application::Run()
 	{
 		float totalTime = 0.0f;
