@@ -86,7 +86,18 @@ namespace Chaos
 
 		static CreaturePropsBuilder Create();
 	public:
-		bool Antialiasing = false;
+		// Number of tentacles
+		uint32_t TentacleCount = 0;
+
+		// Length of the tentacle compared to its body in [0, 1] range
+		float TentacleLength = 0.0f;
+
+		// Offset of the tentacles around the body on [0, 2*PI] range
+		float TentacleOffset = 0.0f;
+
+		glm::vec2 Velocity = { 0.0f, 0.0f };
+
+		// TODO: should be hardcoded in shader
 		bool Pixelation = false;
 	private:
 		CreatureProps() = default;
@@ -95,9 +106,11 @@ namespace Chaos
 	class CreaturePropsBuilder
 	{
 	public:
-		CreaturePropsBuilder& WithAntialiasing(bool antialiasing)
+		CreaturePropsBuilder& WithTentacles(uint32_t count, float length, float offset = 0.0f)
 		{
-			m_CreatureProps.Antialiasing = antialiasing;
+			m_CreatureProps.TentacleCount = count;
+			m_CreatureProps.TentacleLength = length;
+			m_CreatureProps.TentacleOffset = offset;
 			return *this;
 		}
 

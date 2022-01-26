@@ -8,9 +8,10 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 	player.AddComponent<PositionComponent>();
 	player.AddComponent<KeybindingsComponent>();
 	player.AddComponent<MoveComponent>(15.0f);
-	player.AddComponent<CircleColliderComponent>(1.0f);
-	player.AddComponent<CreatureComponent>(1.0f, Chaos::CreatureProps::Create()
-		.WithPixelation(false));
+	player.AddComponent<CircleColliderComponent>(1.5f);
+	player.AddComponent<CreatureComponent>(1.5f, Chaos::CreatureProps::Create()
+		.WithTentacles(16, 0.3f)
+		.WithPixelation(true));
 	
 	auto& skills = player.AddComponent<SkillSlotsComponent>();
 	skills.SkillSlot1 = CreateSkill(world, SkillID::PoisonBolt, player);

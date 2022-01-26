@@ -157,7 +157,10 @@ namespace Chaos
 		s_Creature->Shader->SetMat4("u_Transform", transform);
 		s_Creature->Shader->SetFloat("u_Radius", radius);
 		s_Creature->Shader->SetInt("u_Pixelation", creatureProps.Pixelation);
-		s_Creature->Shader->SetInt("u_Antialiasing", creatureProps.Antialiasing);
+		s_Creature->Shader->SetInt("u_TentacleCount", creatureProps.TentacleCount);
+		s_Creature->Shader->SetFloat("u_TentacleLength", creatureProps.TentacleLength);
+		s_Creature->Shader->SetFloat("u_TentacleOffset", creatureProps.TentacleOffset);
+		s_Creature->Shader->SetFloat2("u_Velocity", creatureProps.Velocity);
 
 		s_GraphicsAPI->DrawIndexed(s_Creature->VertexArray);
 	}

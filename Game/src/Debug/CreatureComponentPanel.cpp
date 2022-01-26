@@ -2,6 +2,7 @@
 #include "ECS/Components/RenderComponents.h"
 
 #include <imgui/imgui.h>
+#include <glm/gtc/type_ptr.hpp>
 
 void CreatureComponentPanel::OnImGuiRender()
 {
@@ -10,7 +11,12 @@ void CreatureComponentPanel::OnImGuiRender()
 	ImGui::Begin("Creature");
 
 	ImGui::DragFloat("Radius", &creature.Radius, 0.05f, 0.0f, 10.0f);
-	ImGui::Checkbox("Antialiasing", &creature.CreatureProps.Antialiasing);
+
+	ImGui::DragScalar("Tentacles", ImGuiDataType_::ImGuiDataType_U32, &creature.CreatureProps.TentacleCount);
+	ImGui::DragFloat("Tentacle length", &creature.CreatureProps.TentacleLength, 0.05f, 0.0f, 1.0f);
+
+	ImGui::DragFloat2("Velocity", glm::value_ptr(creature.CreatureProps.Velocity), 1.0f, -15.0f, 15.0f);
+
 	ImGui::Checkbox("Pixelation", &creature.CreatureProps.Pixelation);
 
 	ImGui::End();
