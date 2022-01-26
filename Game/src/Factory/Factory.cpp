@@ -7,10 +7,10 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 	auto player = world.CreateEntity();
 	player.AddComponent<PositionComponent>();
 	player.AddComponent<KeybindingsComponent>();
-	player.AddComponent<MoveComponent>(15.0f);
-	player.AddComponent<CircleColliderComponent>(1.5f);
-	player.AddComponent<CreatureComponent>(1.5f, Chaos::CreatureProps::Create()
-		.WithTentacles(16, 0.3f)
+	player.AddComponent<MoveComponent>(75.0f, 10.0f, 3.0f);
+	player.AddComponent<CircleColliderComponent>(1.0f);
+	player.AddComponent<CreatureComponent>(1.0f, Chaos::CreatureProps::Create()
+		.WithTentacles(16, 0.3f, 0.25f)
 		.WithPixelation(true));
 	
 	auto& skills = player.AddComponent<SkillSlotsComponent>();

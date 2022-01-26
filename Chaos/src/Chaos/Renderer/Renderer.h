@@ -92,8 +92,10 @@ namespace Chaos
 		// Length of the tentacle compared to its body in [0, 1] range
 		float TentacleLength = 0.0f;
 
-		// Offset of the tentacles around the body on [0, 2*PI] range
-		float TentacleOffset = 0.0f;
+		// Rigidity of the tentacle
+		// 0 - no rigid at all
+		// 1 - very rigid
+		float TentacleRigidity = 0.25f;
 
 		glm::vec2 Velocity = { 0.0f, 0.0f };
 
@@ -106,11 +108,11 @@ namespace Chaos
 	class CreaturePropsBuilder
 	{
 	public:
-		CreaturePropsBuilder& WithTentacles(uint32_t count, float length, float offset = 0.0f)
+		CreaturePropsBuilder& WithTentacles(uint32_t count, float length, float rigidity = 0.25f)
 		{
 			m_CreatureProps.TentacleCount = count;
 			m_CreatureProps.TentacleLength = length;
-			m_CreatureProps.TentacleOffset = offset;
+			m_CreatureProps.TentacleRigidity = rigidity;
 			return *this;
 		}
 

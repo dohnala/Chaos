@@ -6,7 +6,20 @@ void UpdateMovementSystem(World& world, Chaos::Timestep ts)
 {
 	for (auto&& [entityID, positionComp, moveComp] : world.View<PositionComponent, MoveComponent>().each())
 	{
-		positionComp.Position += moveComp.Direction * moveComp.Speed * ts.GetDeltaTime();
+		glm::vec2 friction = glm::length(moveComp.Direction) > 0.0f ? glm::vec2(0.0f) : moveComp.Velocity * moveComp.Friction;
+
+		glm::vec2 acceleration = moveComp.Direction * moveComp.Acceleration - friction;
+
+		glm::vec2 newVelocity = moveComp.Velocity + acceleration * ts.GetDeltaTime();
+
+		float speed = glm::length(newVelocity);
+
+		if (speed > 0.0f)
+		{
+			moveComp.Velocity = glm::normalize(newVelocity) * glm::clamp(glm::length(newVelocity), -moveComp.MaxSpeed, moveComp.MaxSpeed);
+		}
+	
+		positionComp.Position += moveComp.Velocity * ts.GetDeltaTime();
 	}
 }
 

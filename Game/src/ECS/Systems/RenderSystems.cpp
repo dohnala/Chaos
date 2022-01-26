@@ -34,7 +34,7 @@ void UpdateCreatureRenderSystem(World& world, Chaos::Timestep ts)
 		if (entity.HasComponent<MoveComponent>())
 		{
 			auto& moveComp = entity.GetComponent<MoveComponent>();
-			creatureComp.CreatureProps.Velocity = moveComp.Direction * moveComp.Speed;
+			creatureComp.CreatureProps.Velocity = moveComp.Velocity;
 		}
 
 		Chaos::Renderer::DrawCreature(positionComp.Position, creatureComp.Radius, creatureComp.CreatureProps);

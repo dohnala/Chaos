@@ -6,13 +6,17 @@
 
 struct MoveComponent
 {
-	float Speed = 1.0f;
 	glm::vec2 Direction = { 0.0f, 0.0f };
+	glm::vec2 Velocity = { 0.0f, 0.0f };
+
+	float Acceleration = 10.0f;
+	float MaxSpeed = 10.0f;
+	float Friction = 0.5f;
 
 	MoveComponent() = default;
 	MoveComponent(const MoveComponent&) = default;
-	MoveComponent(float speed, const glm::vec2& direction = { 0.0f, 0.0f })
-		: Speed(speed), Direction(direction) {}
+	MoveComponent(float acceleration = 10.0f, float maxSpeed = 10.0f, float friction = 0.5f)
+		: Acceleration(acceleration), MaxSpeed(maxSpeed), Friction(friction) {}
 };
 
 struct CircleColliderComponent

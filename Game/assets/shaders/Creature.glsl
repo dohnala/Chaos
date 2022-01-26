@@ -27,7 +27,7 @@ uniform float u_Radius;
 uniform int u_Pixelation;
 uniform int u_TentacleCount;
 uniform float u_TentacleLength;
-uniform float u_TentacleOffset;
+uniform float u_TentacleRigidity;
 uniform vec2 u_Velocity;
 
 layout (location = 0) in vec2 v_Position;
@@ -58,10 +58,10 @@ float circle(vec2 pos, vec2 center, float radius)
 float tentacles(vec2 pos, float radius)
 {
 	// Max offset of the tentacle
-	float tentacleMaxOffset = 5.0;
+	float tentacleMaxOffset = 5.;
 
 	// How much is the tentacle influenced by velocity
-	float tentacleOffsetVelocityScale = 0.3;
+	float tentacleOffsetVelocityScale = 1.;
 
 	// How fast can tentacle move when the creature is not moving
 	float tentacleIdleSpeed = 2.;
@@ -71,15 +71,15 @@ float tentacles(vec2 pos, float radius)
 	float tentacleIdleMaxOffset = 2.;
 	
 	vec2 tentaclePos = pos;
-	float d = length(pos) - (1. - u_TentacleLength) * radius;
+	float d = pow(length(pos) - (1. - u_TentacleLength) * radius, 2.);
 
 	vec2 tentacleIdleOffset = vec2(
-		cos(pos.y * tentacleIdleCycles.x + u_Time * tentacleIdleSpeed) * tentacleIdleMaxOffset * d * d,
-		sin(pos.x * tentacleIdleCycles.y + u_Time * tentacleIdleSpeed) * tentacleIdleMaxOffset * d * d);
+		cos(pos.y * tentacleIdleCycles.x + u_Time * tentacleIdleSpeed) * tentacleIdleMaxOffset * d,
+		sin(pos.x * tentacleIdleCycles.y + u_Time * tentacleIdleSpeed) * tentacleIdleMaxOffset * d);
 	
-	vec2 tentacleMoveOffset = normalize(u_Velocity) * min(length(u_Velocity) * tentacleOffsetVelocityScale, tentacleMaxOffset) * d * d;
+	vec2 tentacleMoveOffset = normalize(u_Velocity) * min(length(u_Velocity) * tentacleOffsetVelocityScale, tentacleMaxOffset) * d * (1. - u_TentacleRigidity);
 
-	float a = length(u_Velocity) / (tentacleMaxOffset / tentacleOffsetVelocityScale);
+	float a = clamp(length(u_Velocity) / (tentacleMaxOffset / tentacleOffsetVelocityScale), 0., 1.);
 	tentaclePos += mix(tentacleIdleOffset, tentacleMoveOffset, a);
 
 	return abs(sin((PI / u_TentacleCount + atan(tentaclePos.y, tentaclePos.x)) * u_TentacleCount * 0.5) * u_TentacleLength);

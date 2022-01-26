@@ -34,7 +34,11 @@ void UpdateProjectileSkillSystem(World& world, Chaos::Timestep ts)
 		auto projectile = world.CreateEntity();
 		projectile.AddComponent<PositionComponent>(projectilePosition);
 		projectile.AddComponent<ProjectileComponent>(skillComp.Skill, skillComp.Owner);
-		projectile.AddComponent<MoveComponent>(projectileSkillComp.Speed, direction);
+		
+		auto& moveComp = projectile.AddComponent<MoveComponent>(0.0f, projectileSkillComp.Speed, 0.0f);
+		moveComp.Direction = direction;
+		moveComp.Velocity = direction * projectileSkillComp.Speed;
+		
 		projectile.AddComponent<CircleComponent>(projectileSkillComp.Radius, projectileSkillComp.ProjectileProps);
 		projectile.AddComponent<CircleColliderComponent>(projectileSkillComp.Radius);
 		projectile.AddComponent<TrailEffectComponent>(projectilePosition, projectileSkillComp.TrailEffectCountPerUnit, projectileSkillComp.TrailEffect);
