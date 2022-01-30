@@ -11,6 +11,7 @@ void GameLayer::OnAttach()
 		Chaos::Application::Get().GetWindow().GetWidth(), 
 		Chaos::Application::Get().GetWindow().GetHeight());
 
+	m_CircleComponentPanel.SetSelectedEntity(m_World.GetPlayer());
 	m_CreatureComponentPanel.SetSelectedEntity(m_World.GetPlayer());
 }
 
@@ -26,6 +27,7 @@ void GameLayer::OnUpdate(Chaos::Timestep ts)
 
 void GameLayer::OnImGuiRender()
 {
+	m_CircleComponentPanel.OnImGuiRender();
 	m_CreatureComponentPanel.OnImGuiRender();
 }
 

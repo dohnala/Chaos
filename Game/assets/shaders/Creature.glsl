@@ -17,7 +17,6 @@ void main()
 #type fragment
 #version 450 core
 
-#define PIXELS_PER_UNIT 20
 #define PI 3.14159265358979323846
 
 layout(location = 0) out vec4 color;
@@ -31,22 +30,6 @@ uniform float u_TentacleRigidity;
 uniform vec2 u_Velocity;
 
 layout (location = 0) in vec2 v_Position;
-
-vec2 pixelate(vec2 pos)
-{
-	float pixels = PIXELS_PER_UNIT * u_Radius;
-
-	pos *= pixels;
-
-	pos = vec2(
-		pos.x >= 0 ? floor(pos.x) : ceil(pos.x),
-		pos.y >= 0 ? floor(pos.y) : ceil(pos.y)
-	);
-	
-	pos /= pixels;
-
-	return pos;
-}
 
 float circle(vec2 pos, vec2 center, float radius)
 {
@@ -78,6 +61,10 @@ float tentacles(vec2 pos, float radius)
 		sin(pos.x * tentacleIdleCycles.y + u_Time * tentacleIdleSpeed) * tentacleIdleMaxOffset * d);
 	
 	vec2 tentacleMoveOffset = normalize(u_Velocity) * min(length(u_Velocity) * tentacleOffsetVelocityScale, tentacleMaxOffset) * d * (1. - u_TentacleRigidity);
+	tentacleMoveOffset += vec2(
+		cos(pos.y * 3. + u_Time * 4.) * tentacleIdleMaxOffset * d * (1. - u_TentacleRigidity),
+		sin(pos.x * 4. + u_Time * 4.) * tentacleIdleMaxOffset * d * (1. - u_TentacleRigidity));
+
 
 	float a = clamp(length(u_Velocity) / (tentacleMaxOffset / tentacleOffsetVelocityScale), 0., 1.);
 	tentaclePos += mix(tentacleIdleOffset, tentacleMoveOffset, a);
@@ -103,8 +90,8 @@ float creature(vec2 pos, vec2 center, float radius)
 
 void main()
 {
-	// Convert position to from [-0.5, 0.5] to [-1, 1] and pixelate it if needed
-	vec2 pos = (u_Pixelation == 1) ? pixelate(v_Position * 2.0) : v_Position * 2.0;
+	// Convert position to from [-0.5, 0.5] to [-1, 1] 
+	vec2 pos = v_Position * 2.0;
 
 	float creature = creature(pos, vec2(0), 1);
 

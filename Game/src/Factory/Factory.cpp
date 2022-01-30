@@ -7,11 +7,18 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 	auto player = world.CreateEntity();
 	player.AddComponent<PositionComponent>();
 	player.AddComponent<KeybindingsComponent>();
-	player.AddComponent<MoveComponent>(75.0f, 10.0f, 3.0f);
-	player.AddComponent<CircleColliderComponent>(1.0f);
-	player.AddComponent<CreatureComponent>(1.0f, Chaos::CreatureProps::Create()
-		.WithTentacles(16, 0.3f, 0.25f)
-		.WithPixelation(true));
+	player.AddComponent<MoveComponent>(75.0f, 15.0f, 3.0f);
+	player.AddComponent<CircleColliderComponent>(0.6f);
+	player.AddComponent<CircleGlowComponent>(1.0f, Chaos::CircleProps::Create()
+		.WithColor(Color::WithAlpha(Color::Blue, 0.05f)));
+	player.AddComponent<CircleComponent>(0.6f, Chaos::CircleProps::Create()
+		.WithColor(Color::Blue));
+	player.AddComponent<TrailEffectComponent>(glm::vec2(0.0f), 1.0f, Chaos::ParticleProps::Create()
+		.WithPositionVariance(0.3f)
+		.WithSize(0.1f, 0.05f)
+		.WithColor(Color::Blue)
+		.WithAlpha(0.75f, 0.5f, 0.0f)
+		.WithLifeTime(0.25f, 0.5f));
 	
 	auto& skills = player.AddComponent<SkillSlotsComponent>();
 	skills.SkillSlot1 = CreateSkill(world, SkillID::PoisonBolt, player);
@@ -34,13 +41,11 @@ Chaos::Entity Factory::CreateCollectible(World& world)
 	auto collectible = world.CreateEntity();
 	collectible.AddComponent<PositionComponent>(world.GetRandomLocation());
 	collectible.AddComponent<CollectibleComponent>();
-	collectible.AddComponent<CircleColliderComponent>(0.4f);
-	collectible.AddComponent<CircleComponent>(0.4f, Chaos::CircleProps::Create()
-		.WithColorGradient(Color::Yellow, Color::Black, 1.5f)
-		.WithBorderDistortion(0.3f));
-	collectible.AddComponent<CircleGlowComponent>(0.8f, Chaos::CircleProps::Create()
-		.WithColorGradient(Color::WithAlpha(Color::Yellow, 0.05f), Color::WithAlpha(Color::Yellow, 0.025f), 3.0f)
-		.WithBorderDistortion(0.1f));
+	collectible.AddComponent<CircleColliderComponent>(0.2f);
+	collectible.AddComponent<CircleComponent>(0.2f, Chaos::CircleProps::Create()
+		.WithColor(Color::Yellow));
+	collectible.AddComponent<CircleGlowComponent>(0.4f, Chaos::CircleProps::Create()
+		.WithColor(Color::WithAlpha(Color::Yellow, 0.05f)));
 	collectible.AddComponent<DestroyEffectComponent>(10, Chaos::ParticleProps::Create()
 		.WithDirectionVariance(glm::radians(360.0f))
 		.WithSpeed(3.0f, 6.0f)
@@ -58,11 +63,9 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 	{
 		auto fireball = world.CreateEntity();
 		fireball.AddComponent<SkillComponent>(skill, owner, 0.5f);
-		auto& projectile = fireball.AddComponent<ProjectileSkillComponent>(0.45f, 45.0f);
+		auto& projectile = fireball.AddComponent<ProjectileSkillComponent>(0.2f, 45.0f);
 		projectile.ProjectileProps = Chaos::CircleProps::Create()
-			.WithColorGradient(Color::Yellow, Color::Red, 1.0f)
-			.WithBorderDistortion(0.4f)
-			.WithDirectionDistortion(3.0f);
+			.WithColor(Color::Yellow);
 		projectile.TrailEffect = Chaos::ParticleProps::Create()
 			.WithPositionVariance(0.1f)
 			.WithDirectionVariance(glm::radians(90.0f))
@@ -71,16 +74,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 			.WithColorGradient(Color::Yellow, Color::Red)
 			.WithAlpha(0.75f, 0.5f, 0.0f)
 			.WithLifeTime(0.25f, 0.5f);
-		projectile.TrailEffectCountPerUnit = 8.0f;
-		projectile.DestroyEffect = Chaos::ParticleProps::Create()
-			.WithPositionVariance(0.1f)
-			.WithDirectionVariance(glm::radians(360.0f))
-			.WithSpeed(1.0f, 2.0f)
-			.WithSize(0.1f, 0.05f)
-			.WithColorGradient(Color::Yellow, Color::Red)
-			.WithAlpha(0.75f, 0.5f, 0.0f)
-			.WithLifeTime(1.0f, 0.5f);
-		projectile.DestroyEffectCount = 20;
+		projectile.TrailEffectCountPerUnit = 4.0f;
 
 		return fireball;
 	}
@@ -89,11 +83,9 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 	{
 		auto poisonBolt = world.CreateEntity();
 		poisonBolt.AddComponent<SkillComponent>(skill, owner, 0.5f);
-		auto& projectile = poisonBolt.AddComponent<ProjectileSkillComponent>(0.45f, 45.0f);
+		auto& projectile = poisonBolt.AddComponent<ProjectileSkillComponent>(0.2f, 45.0f);
 		projectile.ProjectileProps = Chaos::CircleProps::Create()
-			.WithColorGradient(Color::Yellow, Color::Green, 1.0f)
-			.WithBorderDistortion(0.4f)
-			.WithDirectionDistortion(3.0f);
+			.WithColor(Color::Green);
 		projectile.TrailEffect = Chaos::ParticleProps::Create()
 			.WithPositionVariance(0.1f)
 			.WithDirectionVariance(glm::radians(90.0f))
@@ -102,16 +94,16 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 			.WithColorGradient(Color::Yellow, Color::Green)
 			.WithAlpha(0.75f, 0.5f, 0.0f)
 			.WithLifeTime(0.25f, 0.5f);
-		projectile.TrailEffectCountPerUnit = 8.0f;
+		projectile.TrailEffectCountPerUnit = 4.0f;
 		projectile.DestroyEffect = Chaos::ParticleProps::Create()
 			.WithPositionVariance(0.1f)
 			.WithDirectionVariance(glm::radians(360.0f))
-			.WithSpeed(1.0f, 2.0f)
+			.WithSpeed(3.0f, 6.0f)
 			.WithSize(0.1f, 0.05f)
 			.WithColorGradient(Color::Yellow, Color::Green)
-			.WithAlpha(0.75f, 0.5f, 0.0f)
-			.WithLifeTime(1.0f, 0.5f);
-		projectile.DestroyEffectCount = 20;
+			.WithAlpha(0.5f, 1.0f, 0.0f)
+			.WithLifeTime(1.0f, 1.0f);
+		projectile.DestroyEffectCount = 10;
 
 		return poisonBolt;
 	}

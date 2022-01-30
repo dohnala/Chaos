@@ -50,14 +50,14 @@ struct SkillCooldownComponent
 
 struct ProjectileSkillComponent
 {
-	float Radius;
-	float Speed;
+	float Radius = 0.5f;
+	float Speed = 50.0f;
 
 	Chaos::CircleProps ProjectileProps = Chaos::CircleProps::Create();
 	Chaos::ParticleProps TrailEffect = Chaos::ParticleProps::Create();
-	float TrailEffectCountPerUnit = 1;
+	float TrailEffectCountPerUnit = 0.0f;
 	Chaos::ParticleProps DestroyEffect = Chaos::ParticleProps::Create();
-	uint32_t DestroyEffectCount = 10;
+	uint32_t DestroyEffectCount = 0;
 
 	ProjectileSkillComponent() = default;
 	ProjectileSkillComponent(const ProjectileSkillComponent&) = default;
