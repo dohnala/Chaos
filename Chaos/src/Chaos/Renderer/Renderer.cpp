@@ -137,13 +137,7 @@ namespace Chaos
 
 		s_Circle->Shader->Bind();
 		s_Circle->Shader->SetMat4("u_Transform", transform);
-		s_Circle->Shader->SetFloat("u_Radius", radius);
-		s_Circle->Shader->SetFloat4("u_ColorInside", circleProps.ColorInside);
-		s_Circle->Shader->SetFloat4("u_ColorOutside", circleProps.ColorOutside);
-		s_Circle->Shader->SetFloat("u_ColorRatio", circleProps.ColorRatio);
-		s_Circle->Shader->SetFloat("u_BorderDistortion", circleProps.BorderDistortion);
-		s_Circle->Shader->SetFloat2("u_Direction", circleProps.Direction);
-		s_Circle->Shader->SetFloat("u_DirectionDistortion", circleProps.DirectionDistortion);
+		s_Circle->Shader->SetFloat4("u_Color", circleProps.Color);
 
 		s_GraphicsAPI->DrawIndexed(s_Circle->VertexArray);
 	}
@@ -156,7 +150,6 @@ namespace Chaos
 		s_Creature->Shader->Bind();
 		s_Creature->Shader->SetMat4("u_Transform", transform);
 		s_Creature->Shader->SetFloat("u_Radius", radius);
-		s_Creature->Shader->SetInt("u_Pixelation", creatureProps.Pixelation);
 		s_Creature->Shader->SetInt("u_TentacleCount", creatureProps.TentacleCount);
 		s_Creature->Shader->SetFloat("u_TentacleLength", creatureProps.TentacleLength);
 		s_Creature->Shader->SetFloat("u_TentacleRigidity", creatureProps.TentacleRigidity);

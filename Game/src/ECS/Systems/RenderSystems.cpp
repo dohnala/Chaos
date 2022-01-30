@@ -16,11 +16,6 @@ void UpdateCircleRenderSystem(World& world, Chaos::Timestep ts)
 	{
 		auto entity = Chaos::Entity(entityID, &world);
 
-		if (entity.HasComponent<MoveComponent>())
-		{
-			circleComp.CircleProps.Direction = entity.GetComponent<MoveComponent>().Direction;
-		}
-
 		Chaos::Renderer::DrawCircle(positionComp.Position, circleComp.Radius, circleComp.CircleProps);
 	}
 }
