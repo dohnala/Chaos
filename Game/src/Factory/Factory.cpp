@@ -13,7 +13,7 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 		.WithColor(Color::WithAlpha(Color::Blue, 0.05f)));
 	player.AddComponent<CircleComponent>(0.6f, Chaos::CircleProps::Create()
 		.WithColor(Color::Blue));
-	player.AddComponent<TrailEffectComponent>(glm::vec2(0.0f), 1.0f, Chaos::ParticleProps::Create()
+	player.AddComponent<TrailEffectComponent>(glm::vec2(0.0f), 3.0f, Chaos::ParticleProps::Create()
 		.WithPositionVariance(0.3f)
 		.WithSize(0.1f, 0.05f)
 		.WithColor(Color::Blue)
@@ -74,7 +74,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 			.WithColorGradient(Color::Yellow, Color::Red)
 			.WithAlpha(0.75f, 0.5f, 0.0f)
 			.WithLifeTime(0.25f, 0.5f);
-		projectile.TrailEffectCountPerUnit = 4.0f;
+		projectile.TrailEffectCountPerUnit = 6.0f;
 
 		return fireball;
 	}
@@ -94,7 +94,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 			.WithColorGradient(Color::Yellow, Color::Green)
 			.WithAlpha(0.75f, 0.5f, 0.0f)
 			.WithLifeTime(0.25f, 0.5f);
-		projectile.TrailEffectCountPerUnit = 4.0f;
+		projectile.TrailEffectCountPerUnit = 6.0f;
 		projectile.DestroyEffect = Chaos::ParticleProps::Create()
 			.WithPositionVariance(0.1f)
 			.WithDirectionVariance(glm::radians(360.0f))

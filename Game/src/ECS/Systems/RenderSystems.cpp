@@ -42,10 +42,12 @@ void UpdateTrailEffectSystem(World& world, Chaos::Timestep ts)
 	{
 		auto direction = glm::normalize(trailEffecComp.LastPosition - positionComp.Position);
 		float distance = glm::length(positionComp.Position - trailEffecComp.LastPosition);
-		uint32_t particles = (uint32_t)std::ceil(distance * trailEffecComp.ParticleCountPerUnit);
+		float particlesF = distance * trailEffecComp.ParticleCountPerUnit + trailEffecComp.Remainder;
+		uint32_t particles = static_cast<uint32_t>(floor(particlesF));
 
 		world.GetParticleSystem().EmitFromLine(trailEffecComp.ParticleProps, trailEffecComp.LastPosition, positionComp.Position, particles);
 
+		trailEffecComp.Remainder = particlesF - static_cast<float>(particles);
 		trailEffecComp.LastPosition = positionComp.Position;
 	}
 }

@@ -49,6 +49,7 @@ struct CreatureComponent
 struct TrailEffectComponent
 {
 	glm::vec2 LastPosition = { 0.0f, 0.0f };
+	float Remainder = 0.0f;
 	float ParticleCountPerUnit = 1.0f;
 	Chaos::ParticleProps ParticleProps = Chaos::ParticleProps::Create();
 
