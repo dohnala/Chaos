@@ -54,9 +54,24 @@ void UpdateTrailEffectSystem(World& world, Chaos::Timestep ts)
 
 void UpdateImpactEffectSystem(World& world, Chaos::Timestep ts)
 {
+	// Update time to next impact effect
+	for (auto&& [entityID, impactEffectComp] : world.View<ImpactEffectComponent>().each())
+	{
+		impactEffectComp.TimeLeft = glm::max(impactEffectComp.TimeLeft - ts.GetDeltaTime(), 0.0f);
+	}
+
 	for (auto&& [entityID, collisionComp, impactEffectComp] : world.View<CollisionComponent, ImpactEffectComponent>().each())
 	{
-		world.GetParticleSystem().EmitFromPoint(impactEffectComp.ParticleProps, collisionComp.Position, -collisionComp.Normal, impactEffectComp.ParticleCount);
+		if (impactEffectComp.TimeLeft == 0.0f)
+		{
+			impactEffectComp.TimeLeft = impactEffectComp.Cooldown;
+
+			world.GetParticleSystem().EmitFromPoint(
+				impactEffectComp.ParticleProps, 
+				collisionComp.Position, 
+				-collisionComp.Normal, 
+				impactEffectComp.ParticleCount);
+		}
 	}
 }
 

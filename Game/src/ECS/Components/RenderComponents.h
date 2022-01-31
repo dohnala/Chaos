@@ -64,10 +64,16 @@ struct ImpactEffectComponent
 	uint32_t ParticleCount = 10;
 	Chaos::ParticleProps ParticleProps = Chaos::ParticleProps::Create();
 
+	// How often can the effect occur in seconds
+	float Cooldown = 0.2f;
+
+	// Time left to another effect occurence (0 means its ready)
+	float TimeLeft = 0.0f;
+
 	ImpactEffectComponent() = default;
 	ImpactEffectComponent(const ImpactEffectComponent&) = default;
-	ImpactEffectComponent(uint32_t particleCount, const Chaos::ParticleProps& particleProps)
-		: ParticleCount(particleCount), ParticleProps(particleProps) {}
+	ImpactEffectComponent(uint32_t particleCount, const Chaos::ParticleProps& particleProps, float cooldown = 0.2f)
+		: ParticleCount(particleCount), ParticleProps(particleProps), Cooldown(cooldown) {}
 };
 
 struct DestroyEffectComponent
