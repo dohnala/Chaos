@@ -1,4 +1,5 @@
 #include "ECS/Systems/InputSystems.h"
+#include "ECS/Components/Components.h"
 
 #include <glm/glm.hpp>
 
@@ -17,7 +18,7 @@ static bool IsKeybindPressed(const Keybind& keyBind)
 
 void UpdateInputMovementSystem(World& world, Chaos::Timestep ts)
 {
-	for (auto&& [entityID, kbComp, moveComp] : world.View<KeybindingsComponent, MoveComponent>().each())
+	for (auto&& [entityID, kbComp, moveComp] : world.View<InputComponent, MoveComponent>().each())
 	{
 		glm::vec2 direction(0.0f, 0.0f);
 
@@ -47,7 +48,7 @@ void UpdateInputMovementSystem(World& world, Chaos::Timestep ts)
 
 void UpdateInputSkillSystem(World& world, Chaos::Timestep ts)
 {
-	for (auto&& [entityID, kbComp, skillComp] : world.View<KeybindingsComponent, SkillSlotsComponent>().each())
+	for (auto&& [entityID, kbComp, skillComp] : world.View<InputComponent, SkillSlotsComponent>().each())
 	{
 		if (IsKeybindPressed(kbComp.SkillSlot1) && 
 			skillComp.SkillSlot1 &&

@@ -14,7 +14,7 @@ struct Keybind
 	uint16_t Code;
 };
 
-struct KeybindingsComponent
+struct InputComponent
 {
 	Keybind Up			= { Keybind::Type::Key, Chaos::Key::W };
 	Keybind Left		= { Keybind::Type::Key, Chaos::Key::A };
@@ -22,6 +22,6 @@ struct KeybindingsComponent
 	Keybind Right		= { Keybind::Type::Key, Chaos::Key::D };
 	Keybind SkillSlot1	= { Keybind::Type::Mouse, Chaos::Mouse::ButtonLeft };
 
-	KeybindingsComponent() = default;
-	KeybindingsComponent(const KeybindingsComponent&) = default;
+	InputComponent() = default;
+	InputComponent(const InputComponent&) = default;
 };

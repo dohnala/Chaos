@@ -6,7 +6,7 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 {
 	auto player = world.CreateEntity();
 	player.AddComponent<PositionComponent>();
-	player.AddComponent<KeybindingsComponent>();
+	player.AddComponent<InputComponent>();
 	player.AddComponent<MoveComponent>(75.0f, 15.0f, 3.0f);
 	player.AddComponent<CircleColliderComponent>(0.6f);
 	player.AddComponent<CircleGlowComponent>(1.0f, Chaos::CircleProps::Create()
