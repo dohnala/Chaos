@@ -4,7 +4,6 @@
 
 #include "ECS/World.h"
 #include "Debug/CircleComponentPanel.h"
-#include "Debug/CreatureComponentPanel.h"
 
 class GameLayer : public Chaos::Layer
 {
@@ -22,7 +21,6 @@ private:
 private:
 	bool m_showDebug = true;
 	CircleComponentPanel m_CircleComponentPanel;
-	CreatureComponentPanel m_CreatureComponentPanel;
 private:
 	World m_World = World({ 60.0f, 60.0f });
 };

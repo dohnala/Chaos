@@ -31,3 +31,11 @@ struct FollowComponent
 	FollowComponent(Chaos::Entity entity)
 		: Entity(entity) {}
 };
+
+struct AimComponent
+{
+	glm::vec2 Direction = { 0.0f, 0.0f };
+
+	AimComponent() = default;
+	AimComponent(const AimComponent&) = default;
+};

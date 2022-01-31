@@ -25,6 +25,7 @@ void World::OnUpdate(Chaos::Timestep ts)
 {
 	// Input
 	UpdateInputMovementSystem(*this, ts);
+	UpdateInputAimSystem(*this, ts);
 	UpdateInputSkillSystem(*this, ts);
 
 	// Skills
@@ -57,8 +58,10 @@ void World::OnUpdate(Chaos::Timestep ts)
 
 		// Rendering
 		UpdateCircleGlowRenderSystem(*this, ts);
-		UpdateCreatureRenderSystem(*this, ts);
 		UpdateCircleRenderSystem(*this, ts);
+		UpdateAimIndicatorRenderSystem(*this, ts);
+		
+		// Particle systems
 		UpdateTrailEffectSystem(*this, ts);
 		UpdateImpactEffectSystem(*this, ts);
 		UpdateParticleEffectRenderSystem(*this, ts);

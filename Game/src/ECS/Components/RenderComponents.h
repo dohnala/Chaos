@@ -35,15 +35,21 @@ struct CircleComponent
 		: Radius(radius), CircleProps(circleProps) {}
 };
 
-struct CreatureComponent
+struct AimIndicatorComponent
 {
-	float Radius = 1.0f;
-	Chaos::CreatureProps CreatureProps = Chaos::CreatureProps::Create();
+	// Distance of the indicator from the center
+	float Distance = 1.0f;
 
-	CreatureComponent() = default;
-	CreatureComponent(const CreatureComponent&) = default;
-	CreatureComponent(float radius, const Chaos::CreatureProps& creatureProps)
-		: Radius(radius), CreatureProps(creatureProps) {}
+	// Radius of the indicator
+	float Radius = 0.1f;
+
+	// Props of the circle indicator
+	Chaos::CircleProps CircleProps = Chaos::CircleProps::Create();
+
+	AimIndicatorComponent() = default;
+	AimIndicatorComponent(const AimIndicatorComponent&) = default;
+	AimIndicatorComponent(float distance, float radius, const Chaos::CircleProps& circleProps)
+		: Distance(distance), Radius(radius), CircleProps(circleProps) {}
 };
 
 struct TrailEffectComponent

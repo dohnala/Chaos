@@ -18,26 +18,26 @@ static bool IsKeybindPressed(const Keybind& keyBind)
 
 void UpdateInputMovementSystem(World& world, Chaos::Timestep ts)
 {
-	for (auto&& [entityID, kbComp, moveComp] : world.View<InputComponent, MoveComponent>().each())
+	for (auto&& [entityID, inputComp, moveComp] : world.View<InputComponent, MoveComponent>().each())
 	{
 		glm::vec2 direction(0.0f, 0.0f);
 
-		if (IsKeybindPressed(kbComp.Right))
+		if (IsKeybindPressed(inputComp.Right))
 		{
 			direction.x += 1;
 		}
 
-		if (IsKeybindPressed(kbComp.Left))
+		if (IsKeybindPressed(inputComp.Left))
 		{
 			direction.x -= 1;
 		}
 
-		if (IsKeybindPressed(kbComp.Up))
+		if (IsKeybindPressed(inputComp.Up))
 		{
 			direction.y += 1;
 		}
 
-		if (IsKeybindPressed(kbComp.Down))
+		if (IsKeybindPressed(inputComp.Down))
 		{
 			direction.y -= 1;
 		}
@@ -46,11 +46,21 @@ void UpdateInputMovementSystem(World& world, Chaos::Timestep ts)
 	}
 }
 
+void UpdateInputAimSystem(World& world, Chaos::Timestep ts)
+{
+	auto targetPosition = world.ScreenToWorldPosition(Chaos::Input::GetMousePosition());
+
+	for (auto&& [entityID, inputComp, positionComponent, aimComp] : world.View<InputComponent, PositionComponent, AimComponent>().each())
+	{
+		aimComp.Direction = glm::normalize(targetPosition - positionComponent.Position);
+	}
+}
+
 void UpdateInputSkillSystem(World& world, Chaos::Timestep ts)
 {
-	for (auto&& [entityID, kbComp, skillComp] : world.View<InputComponent, SkillSlotsComponent>().each())
+	for (auto&& [entityID, inputComp, skillComp] : world.View<InputComponent, SkillSlotsComponent>().each())
 	{
-		if (IsKeybindPressed(kbComp.SkillSlot1) && 
+		if (IsKeybindPressed(inputComp.SkillSlot1) &&
 			skillComp.SkillSlot1 &&
 			!skillComp.SkillSlot1.HasComponent<SkillActiveComponent>() &&
 			!skillComp.SkillSlot1.HasComponent<SkillCooldownComponent>())

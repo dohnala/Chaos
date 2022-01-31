@@ -24,8 +24,7 @@ void UpdateProjectileSkillSystem(World& world, Chaos::Timestep ts)
 		auto owner = skillComp.Owner;
 		auto ownerPosition = owner.GetComponent<PositionComponent>().Position;
 		auto ownerRadius = owner.GetComponent<CircleColliderComponent>().Radius;
-		auto targetPosition = world.ScreenToWorldPosition(Chaos::Input::GetMousePosition());
-		auto direction = glm::normalize(targetPosition - ownerPosition);
+		auto direction = owner.GetComponent<AimComponent>().Direction;
 		auto projectilePosition = ownerPosition + direction * (ownerRadius + projectileSkillComp.Radius);
 
 		entity.RemoveComponent<SkillActiveComponent>();
@@ -34,11 +33,11 @@ void UpdateProjectileSkillSystem(World& world, Chaos::Timestep ts)
 		auto projectile = world.CreateEntity();
 		projectile.AddComponent<PositionComponent>(projectilePosition);
 		projectile.AddComponent<ProjectileComponent>(skillComp.Skill, skillComp.Owner);
-		
+
 		auto& moveComp = projectile.AddComponent<MoveComponent>(0.0f, projectileSkillComp.Speed, 0.0f);
 		moveComp.Direction = direction;
 		moveComp.Velocity = direction * projectileSkillComp.Speed;
-		
+
 		projectile.AddComponent<CircleComponent>(projectileSkillComp.Radius, projectileSkillComp.ProjectileProps);
 		projectile.AddComponent<CircleColliderComponent>(projectileSkillComp.Radius);
 		projectile.AddComponent<TrailEffectComponent>(projectilePosition, projectileSkillComp.TrailEffectCountPerUnit, projectileSkillComp.TrailEffect);

@@ -7,12 +7,17 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 	auto player = world.CreateEntity();
 	player.AddComponent<PositionComponent>();
 	player.AddComponent<InputComponent>();
+	player.AddComponent<AimComponent>();
 	player.AddComponent<MoveComponent>(75.0f, 15.0f, 3.0f);
 	player.AddComponent<CircleColliderComponent>(0.6f);
-	player.AddComponent<CircleGlowComponent>(1.0f, Chaos::CircleProps::Create()
-		.WithColor(Color::WithAlpha(Color::Blue, 0.05f)));
+	
 	player.AddComponent<CircleComponent>(0.6f, Chaos::CircleProps::Create()
 		.WithColor(Color::Blue));
+	player.AddComponent<AimIndicatorComponent>(0.8f, 0.125f, Chaos::CircleProps::Create()
+		.WithColor(Color::Blue));
+	player.AddComponent<CircleGlowComponent>(1.0f, Chaos::CircleProps::Create()
+		.WithColor(Color::WithAlpha(Color::Blue, 0.05f)));
+
 	player.AddComponent<TrailEffectComponent>(glm::vec2(0.0f), 3.0f, Chaos::ParticleProps::Create()
 		.WithPositionVariance(0.3f)
 		.WithSize(0.1f, 0.05f)

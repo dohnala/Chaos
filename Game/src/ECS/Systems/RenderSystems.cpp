@@ -14,25 +14,17 @@ void UpdateCircleRenderSystem(World& world, Chaos::Timestep ts)
 {
 	for (auto&& [entityID, positionComp, circleComp] : world.View<PositionComponent, CircleComponent>().each())
 	{
-		auto entity = Chaos::Entity(entityID, &world);
-
 		Chaos::Renderer::DrawCircle(positionComp.Position, circleComp.Radius, circleComp.CircleProps);
 	}
 }
 
-void UpdateCreatureRenderSystem(World& world, Chaos::Timestep ts)
+void UpdateAimIndicatorRenderSystem(World& world, Chaos::Timestep ts)
 {
-	for (auto&& [entityID, positionComp, creatureComp] : world.View<PositionComponent, CreatureComponent>().each())
+	for (auto&& [entityID, positionComp, aimComponent, aimIndicatorComponent] : 
+		world.View<PositionComponent, AimComponent, AimIndicatorComponent>().each())
 	{
-		auto entity = Chaos::Entity(entityID, &world);
-
-		if (entity.HasComponent<MoveComponent>())
-		{
-			auto& moveComp = entity.GetComponent<MoveComponent>();
-			creatureComp.CreatureProps.Velocity = moveComp.Velocity;
-		}
-
-		Chaos::Renderer::DrawCreature(positionComp.Position, creatureComp.Radius, creatureComp.CreatureProps);
+		auto position = positionComp.Position + aimComponent.Direction * aimIndicatorComponent.Distance;
+		Chaos::Renderer::DrawCircle(position, aimIndicatorComponent.Radius, aimIndicatorComponent.CircleProps);
 	}
 }
 
