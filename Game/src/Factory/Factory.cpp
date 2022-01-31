@@ -20,7 +20,6 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 		.WithAlpha(0.75f, 0.5f, 0.0f)
 		.WithLifeTime(0.25f, 0.5f));
 	player.AddComponent<ImpactEffectComponent>(5, Chaos::ParticleProps::Create()
-		.WithPositionVariance(0.1f)
 		.WithDirectionVariance(glm::radians(90.0f))
 		.WithSpeed(2.0f, 4.0f)
 		.WithSize(0.1f, 0.05f)
@@ -65,6 +64,26 @@ Chaos::Entity Factory::CreateCollectible(World& world)
 	return collectible;
 }
 
+Chaos::Entity Factory::CreateEnemy(World& world)
+{
+	auto enemy = world.CreateEntity();
+	enemy.AddComponent<PositionComponent>(world.GetRandomLocation());
+	enemy.AddComponent<CircleColliderComponent>(0.4f);
+	enemy.AddComponent<CircleGlowComponent>(0.7f, Chaos::CircleProps::Create()
+		.WithColor(Color::WithAlpha(Color::Red, 0.05f)));
+	enemy.AddComponent<CircleComponent>(0.4f, Chaos::CircleProps::Create()
+		.WithColor(Color::Red));
+	enemy.AddComponent<ImpactEffectComponent>(5, Chaos::ParticleProps::Create()
+		.WithDirectionVariance(glm::radians(90.0f))
+		.WithSpeed(2.0f, 4.0f)
+		.WithSize(0.1f, 0.05f)
+		.WithColor(Color::Red)
+		.WithAlpha(0.5f, 1.0f, 0.0f)
+		.WithLifeTime(1.0f, 1.0f));
+
+	return enemy;
+}
+
 Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity owner)
 {
 	if (skill == SkillID::Fireball)
@@ -104,9 +123,8 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 			.WithLifeTime(0.25f, 0.5f);
 		projectile.TrailEffectCountPerUnit = 6.0f;
 		projectile.DestroyEffect = Chaos::ParticleProps::Create()
-			.WithPositionVariance(0.1f)
-			.WithDirectionVariance(glm::radians(360.0f))
-			.WithSpeed(3.0f, 6.0f)
+			.WithDirectionVariance(glm::radians(90.0f))
+			.WithSpeed(2.0f, 4.0f)
 			.WithSize(0.1f, 0.05f)
 			.WithColorGradient(Color::Yellow, Color::Green)
 			.WithAlpha(0.5f, 1.0f, 0.0f)

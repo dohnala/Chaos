@@ -25,6 +25,14 @@ void UpdateMovementSystem(World& world, Chaos::Timestep ts)
 
 void UpdateCollisionSystem(World& world, Chaos::Timestep ts)
 {
+	// First clear collisions from previous frame
+	for (auto&& [entityID, collisionComp] : world.View<CollisionComponent>().each())
+	{
+		auto entity = Chaos::Entity(entityID, &world);
+
+		entity.RemoveComponent<CollisionComponent>();
+	}
+
 	for (auto&& [entityID, positionComp, coliderComp, moveComp] : world.View<PositionComponent, CircleColliderComponent, MoveComponent>().each())
 	{
 		auto entity = Chaos::Entity(entityID, &world);
@@ -82,18 +90,20 @@ void UpdateCollisionSystem(World& world, Chaos::Timestep ts)
 				// Add collision to current entity
 				{
 					auto& collision = entity.AddOrReplaceComponent<CollisionComponent>();
+					auto direction = glm::normalize(otherPosition - position);
 					collision.Entity = otherEntity;
-					collision.Position = position + glm::normalize(otherPosition - position) * radius;
-					collision.Normal = (otherPosition - position) * -1.0f;
+					collision.Position = position + direction * radius;
+					collision.Normal = direction * -1.0f;
 					hasCollision = true;
 				}
 
 				// Add collision to other entity
 				{
 					auto& collision = otherEntity.AddOrReplaceComponent<CollisionComponent>();
+					auto direction = glm::normalize(position - otherPosition);
 					collision.Entity = entity;
-					collision.Position = otherPosition + glm::normalize(position - otherPosition) * otherRadius;
-					collision.Normal = (position - otherPosition) * -1.0f;
+					collision.Position = otherPosition + direction * otherRadius;
+					collision.Normal = direction * -1.0f;
 				}
 			}
 		}

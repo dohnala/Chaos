@@ -16,6 +16,9 @@ World::World(glm::vec2 size)
 
 	for (uint32_t i = 0; i < 20; i++)
 		Factory::CreateCollectible(*this);
+
+	for (uint32_t i = 0; i < 3; i++)
+		Factory::CreateEnemy(*this);
 }
 
 void World::OnUpdate(Chaos::Timestep ts)

@@ -11,5 +11,6 @@ public:
 	static Chaos::Entity CreatePlayer(World& world);
 	static Chaos::Entity CreateCamera(World& world, Chaos::Entity player);
 	static Chaos::Entity CreateCollectible(World& world);
+	static Chaos::Entity CreateEnemy(World& world);
 	static Chaos::Entity CreateSkill(World& world, SkillID skill, Chaos::Entity owner);
 };
