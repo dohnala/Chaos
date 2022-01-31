@@ -19,6 +19,14 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 		.WithColor(Color::Blue)
 		.WithAlpha(0.75f, 0.5f, 0.0f)
 		.WithLifeTime(0.25f, 0.5f));
+	player.AddComponent<ImpactEffectComponent>(5, Chaos::ParticleProps::Create()
+		.WithPositionVariance(0.1f)
+		.WithDirectionVariance(glm::radians(90.0f))
+		.WithSpeed(2.0f, 4.0f)
+		.WithSize(0.1f, 0.05f)
+		.WithColor(Color::Blue)
+		.WithAlpha(0.5f, 1.0f, 0.0f)
+		.WithLifeTime(1.0f, 1.0f));
 	
 	auto& skills = player.AddComponent<SkillSlotsComponent>();
 	skills.SkillSlot1 = CreateSkill(world, SkillID::PoisonBolt, player);

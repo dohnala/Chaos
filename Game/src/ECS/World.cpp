@@ -57,6 +57,7 @@ void World::OnUpdate(Chaos::Timestep ts)
 		UpdateCreatureRenderSystem(*this, ts);
 		UpdateCircleRenderSystem(*this, ts);
 		UpdateTrailEffectSystem(*this, ts);
+		UpdateImpactEffectSystem(*this, ts);
 		UpdateParticleEffectRenderSystem(*this, ts);
 
 		Chaos::Renderer::EndScene();

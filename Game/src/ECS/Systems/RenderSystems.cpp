@@ -52,6 +52,14 @@ void UpdateTrailEffectSystem(World& world, Chaos::Timestep ts)
 	}
 }
 
+void UpdateImpactEffectSystem(World& world, Chaos::Timestep ts)
+{
+	for (auto&& [entityID, collisionComp, impactEffectComp] : world.View<CollisionComponent, ImpactEffectComponent>().each())
+	{
+		world.GetParticleSystem().EmitFromPoint(impactEffectComp.ParticleProps, collisionComp.Position, -collisionComp.Normal, impactEffectComp.ParticleCount);
+	}
+}
+
 void UpdateParticleEffectRenderSystem(World& world, Chaos::Timestep ts)
 {
 	world.GetParticleSystem().OnUpdate(ts);

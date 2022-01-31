@@ -59,6 +59,17 @@ struct TrailEffectComponent
 		: LastPosition(lastPosition), ParticleCountPerUnit(particleCountPerUnit), ParticleProps(particleProps) {}
 };
 
+struct ImpactEffectComponent
+{
+	uint32_t ParticleCount = 10;
+	Chaos::ParticleProps ParticleProps = Chaos::ParticleProps::Create();
+
+	ImpactEffectComponent() = default;
+	ImpactEffectComponent(const ImpactEffectComponent&) = default;
+	ImpactEffectComponent(uint32_t particleCount, const Chaos::ParticleProps& particleProps)
+		: ParticleCount(particleCount), ParticleProps(particleProps) {}
+};
+
 struct DestroyEffectComponent
 {
 	uint32_t ParticleCount = 10;
