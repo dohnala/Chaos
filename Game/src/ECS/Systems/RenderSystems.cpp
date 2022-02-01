@@ -1,6 +1,7 @@
 #include "ECS/Systems/RenderSystems.h"
 
 #include <glm/glm.hpp>
+#include <glm/gtx/vector_angle.hpp>
 
 void UpdateCircleGlowRenderSystem(World& world, Chaos::Timestep ts)
 {
@@ -24,7 +25,11 @@ void UpdateAimIndicatorRenderSystem(World& world, Chaos::Timestep ts)
 		world.View<PositionComponent, AimComponent, AimIndicatorComponent>().each())
 	{
 		auto position = positionComp.Position + aimComponent.Direction * aimIndicatorComponent.Distance;
-		Chaos::Renderer::DrawCircle(position, aimIndicatorComponent.Radius, aimIndicatorComponent.CircleProps);
+		Chaos::Renderer::DrawPolygon(
+			position, 
+			glm::orientedAngle({ 0.0f, 1.0f }, aimComponent.Direction),
+			{ aimIndicatorComponent.Size, aimIndicatorComponent.Size }, 
+			aimIndicatorComponent.PolygonProps);
 	}
 }
 

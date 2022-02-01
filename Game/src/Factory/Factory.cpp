@@ -14,7 +14,8 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 	
 	player.AddComponent<CircleComponent>(0.6f, Chaos::CircleProps::Create()
 		.WithColor(Color::Blue));
-	player.AddComponent<AimIndicatorComponent>(0.8f, 0.125f, Chaos::CircleProps::Create()
+	player.AddComponent<AimIndicatorComponent>(0.75f, 0.3f, Chaos::PolygonProps::Create()
+		.WithVertexCount(3)
 		.WithColor(Color::Blue));
 	player.AddComponent<CircleGlowComponent>(1.0f, Chaos::CircleProps::Create()
 		.WithColor(Color::WithAlpha(Color::Blue, 0.05f)));

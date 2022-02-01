@@ -40,16 +40,16 @@ struct AimIndicatorComponent
 	// Distance of the indicator from the center
 	float Distance = 1.0f;
 
-	// Radius of the indicator
-	float Radius = 0.1f;
+	// Size of the indicator
+	float Size = 0.1f;
 
 	// Props of the circle indicator
-	Chaos::CircleProps CircleProps = Chaos::CircleProps::Create();
+	Chaos::PolygonProps PolygonProps = Chaos::PolygonProps::Create();
 
 	AimIndicatorComponent() = default;
 	AimIndicatorComponent(const AimIndicatorComponent&) = default;
-	AimIndicatorComponent(float distance, float radius, const Chaos::CircleProps& circleProps)
-		: Distance(distance), Radius(radius), CircleProps(circleProps) {}
+	AimIndicatorComponent(float distance, float size, const Chaos::PolygonProps& polygonProps)
+		: Distance(distance), Size(size), PolygonProps(polygonProps) {}
 };
 
 struct TrailEffectComponent
