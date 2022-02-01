@@ -25,11 +25,12 @@ struct CameraComponent
 struct FollowComponent
 {
 	Chaos::Entity Entity;
+	float Damp = 1.0;
 
 	FollowComponent() = default;
 	FollowComponent(const FollowComponent&) = default;
-	FollowComponent(Chaos::Entity entity)
-		: Entity(entity) {}
+	FollowComponent(Chaos::Entity entity, float damp = 1.0f)
+		: Entity(entity), Damp(damp) {}
 };
 
 struct AimComponent

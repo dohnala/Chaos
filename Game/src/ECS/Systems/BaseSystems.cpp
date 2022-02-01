@@ -6,6 +6,7 @@ void UpdateFollowSystem(World& world, Chaos::Timestep ts)
 {
 	for (auto&& [entityID, positionComp, followComp] : world.View<PositionComponent, FollowComponent>().each())
 	{
-		positionComp.Position = followComp.Entity.GetComponent<PositionComponent>().Position;
+		auto target = followComp.Entity.GetComponent<PositionComponent>().Position;
+		positionComp.Position += Chaos::Math::Damp(target - positionComp.Position, followComp.Damp, ts.GetDeltaTime());
 	}
 }
