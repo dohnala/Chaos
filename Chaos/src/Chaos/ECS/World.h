@@ -21,7 +21,7 @@ namespace Chaos
 		template<typename Component, typename... Other, typename... Exclude>
 		entt::basic_view<entt::entity, entt::get_t<Component, Other...>, entt::exclude_t<Exclude...>> View(entt::exclude_t<Exclude...> = {})
 		{
-			return m_Registry.view<Component, Other...>(assure<Exclude>()...);
+			return m_Registry.view<Component, Other...>(entt::exclude<Exclude...>);
 		}
 
 		virtual void OnUpdate(Timestep ts) = 0;

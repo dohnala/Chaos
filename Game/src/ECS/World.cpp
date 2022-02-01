@@ -41,6 +41,7 @@ void World::OnUpdate(Chaos::Timestep ts)
 	UpdateCameraCollisionSystem(*this, ts);
 
 	// Collectible
+	UpdateCollectibleFollowSystem(*this, ts);
 	UpdateCollectibleCollisionSystem(*this, ts);
 
 	// Projectile

@@ -22,15 +22,18 @@ struct CameraComponent
 	CameraComponent(const CameraComponent&) = default;
 };
 
+// Follow given entity with a damp based on the distance between the entity
 struct FollowComponent
 {
 	Chaos::Entity Entity;
-	float Damp = 1.0;
+	float DampMin = 1.0;
+	float DampMax = 1.0;
+	float Distance = 0.0f;
 
 	FollowComponent() = default;
 	FollowComponent(const FollowComponent&) = default;
-	FollowComponent(Chaos::Entity entity, float damp = 1.0f)
-		: Entity(entity), Damp(damp) {}
+	FollowComponent(Chaos::Entity entity, float dampMin = 1.0f, float dampMax = 1.0f, float distance = 0.0f)
+		: Entity(entity), DampMin(dampMin), DampMax(dampMax), Distance(distance) {}
 };
 
 struct AimComponent
