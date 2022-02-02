@@ -43,34 +43,37 @@ void UpdateCollisionSystem(World& world, Chaos::Timestep ts)
 		bool hasCollision = false;
 
 		// Collision with world bounds
-		if (position.x + radius >= world.GetBounds().Max.x)
+		if ((coliderComp.CollidesWith & Layer::World) == Layer::World)
 		{
-			auto& collision = entity.AddOrReplaceComponent<CollisionComponent>();
-			collision.Position = { world.GetBounds().Max.x, position.y };
-			collision.Normal = glm::vec2(-1.0f, 0.0f);
-			hasCollision = true;
-		}
-		else if (position.x - radius <= world.GetBounds().Min.x)
-		{
-			auto& collision = entity.AddOrReplaceComponent<CollisionComponent>();
-			collision.Position = { world.GetBounds().Min.x, position.y };
-			collision.Normal = glm::vec2(1.0f, 0.0f);
-			hasCollision = true;
-		}
+			if (position.x + radius >= world.GetBounds().Max.x)
+			{
+				auto& collision = entity.AddOrReplaceComponent<CollisionComponent>();
+				collision.Position = { world.GetBounds().Max.x, position.y };
+				collision.Normal = glm::vec2(-1.0f, 0.0f);
+				hasCollision = true;
+			}
+			else if (position.x - radius <= world.GetBounds().Min.x)
+			{
+				auto& collision = entity.AddOrReplaceComponent<CollisionComponent>();
+				collision.Position = { world.GetBounds().Min.x, position.y };
+				collision.Normal = glm::vec2(1.0f, 0.0f);
+				hasCollision = true;
+			}
 
-		if (position.y + radius >= world.GetBounds().Max.y)
-		{
-			auto& collision = entity.AddOrReplaceComponent<CollisionComponent>();
-			collision.Position = { position.x, world.GetBounds().Max.y };
-			collision.Normal = glm::vec2(0.0f, -1.0f);
-			hasCollision = true;
-		}
-		else if (position.y - radius <= world.GetBounds().Min.y)
-		{
-			auto& collision = entity.AddOrReplaceComponent<CollisionComponent>();
-			collision.Position = { position.x, world.GetBounds().Min.y };
-			collision.Normal = glm::vec2(0.0f, 1.0f);
-			hasCollision = true;
+			if (position.y + radius >= world.GetBounds().Max.y)
+			{
+				auto& collision = entity.AddOrReplaceComponent<CollisionComponent>();
+				collision.Position = { position.x, world.GetBounds().Max.y };
+				collision.Normal = glm::vec2(0.0f, -1.0f);
+				hasCollision = true;
+			}
+			else if (position.y - radius <= world.GetBounds().Min.y)
+			{
+				auto& collision = entity.AddOrReplaceComponent<CollisionComponent>();
+				collision.Position = { position.x, world.GetBounds().Min.y };
+				collision.Normal = glm::vec2(0.0f, 1.0f);
+				hasCollision = true;
+			}
 		}
 
 		// Collision with other entities
@@ -80,6 +83,13 @@ void UpdateCollisionSystem(World& world, Chaos::Timestep ts)
 
 			if (entity == otherEntity) continue;
 
+			if ((coliderComp.BelongsTo == Layer::None) || (otherColiderComp.BelongsTo == Layer::None))
+				continue;
+			
+			if (((coliderComp.CollidesWith & otherColiderComp.BelongsTo) != otherColiderComp.BelongsTo) &&
+				((coliderComp.BelongsTo & otherColiderComp.CollidesWith) != coliderComp.BelongsTo))
+				continue;
+
 			auto otherPosition = otherPositionComp.Position;
 			auto otherRadius = otherColiderComp.Radius;
 
@@ -88,6 +98,7 @@ void UpdateCollisionSystem(World& world, Chaos::Timestep ts)
 			if (distance <= radius + otherRadius)
 			{
 				// Add collision to current entity
+				if ((coliderComp.CollidesWith & otherColiderComp.BelongsTo) == otherColiderComp.BelongsTo)
 				{
 					auto& collision = entity.AddOrReplaceComponent<CollisionComponent>();
 					auto direction = glm::normalize(otherPosition - position);
@@ -98,6 +109,7 @@ void UpdateCollisionSystem(World& world, Chaos::Timestep ts)
 				}
 
 				// Add collision to other entity
+				if ((otherColiderComp.CollidesWith & coliderComp.BelongsTo) == coliderComp.BelongsTo)
 				{
 					auto& collision = otherEntity.AddOrReplaceComponent<CollisionComponent>();
 					auto direction = glm::normalize(position - otherPosition);
@@ -106,12 +118,6 @@ void UpdateCollisionSystem(World& world, Chaos::Timestep ts)
 					collision.Normal = direction * -1.0f;
 				}
 			}
-		}
-
-		// Remove collision component if no collision was found
-		if (!hasCollision && entity.HasComponent<CollisionComponent>())
-		{
-			entity.RemoveComponent<CollisionComponent>();
 		}
 	}
 

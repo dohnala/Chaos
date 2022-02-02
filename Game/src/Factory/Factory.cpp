@@ -9,7 +9,7 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 	player.AddComponent<InputComponent>();
 	player.AddComponent<AimComponent>();
 	player.AddComponent<MoveComponent>(75.0f, 15.0f, 3.0f);
-	player.AddComponent<CircleColliderComponent>(0.6f);
+	player.AddComponent<CircleColliderComponent>(0.6f, Layer::Player, Layer::Enemy | Layer::Collectible);
 	player.AddComponent<CollectibleFollowComponent>(3.0f, 0.0f, 0.75f);
 	
 	player.AddComponent<CircleComponent>(0.6f, Chaos::CircleProps::Create()
@@ -55,7 +55,7 @@ Chaos::Entity Factory::CreateCollectible(World& world)
 	auto collectible = world.CreateEntity();
 	collectible.AddComponent<PositionComponent>(world.GetRandomLocation());
 	collectible.AddComponent<CollectibleComponent>();
-	collectible.AddComponent<CircleColliderComponent>(0.2f);
+	collectible.AddComponent<CircleColliderComponent>(0.2f, Layer::Collectible, Layer::Player);
 	collectible.AddComponent<CircleComponent>(0.2f, Chaos::CircleProps::Create()
 		.WithColor(Color::Yellow));
 	collectible.AddComponent<CircleGlowComponent>(0.4f, Chaos::CircleProps::Create()
@@ -75,7 +75,7 @@ Chaos::Entity Factory::CreateEnemy(World& world)
 {
 	auto enemy = world.CreateEntity();
 	enemy.AddComponent<PositionComponent>(world.GetRandomLocation());
-	enemy.AddComponent<CircleColliderComponent>(0.4f);
+	enemy.AddComponent<CircleColliderComponent>(0.4f, Layer::Enemy, Layer::Player | Layer::Projectile);
 	enemy.AddComponent<CircleGlowComponent>(0.7f, Chaos::CircleProps::Create()
 		.WithColor(Color::WithAlpha(Color::Red, 0.05f)));
 	enemy.AddComponent<CircleComponent>(0.4f, Chaos::CircleProps::Create()

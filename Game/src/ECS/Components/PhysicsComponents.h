@@ -2,6 +2,8 @@
 
 #include "Chaos.h"
 
+#include "Layer.h"
+
 #include <glm/glm.hpp>
 
 struct MoveComponent
@@ -22,11 +24,13 @@ struct MoveComponent
 struct CircleColliderComponent
 {
 	float Radius = 1.0f;
+	LayerMask BelongsTo = Layer::None;
+	LayerMask CollidesWith = Layer::None;
 
 	CircleColliderComponent() = default;
 	CircleColliderComponent(const CircleColliderComponent&) = default;
-	CircleColliderComponent(float radius)
-		: Radius(radius) {}
+	CircleColliderComponent(float radius, LayerMask belongsTo = Layer::None, LayerMask collidesWith = Layer::None)
+		: Radius(radius), BelongsTo(belongsTo), CollidesWith(collidesWith) {}
 };
 
 struct CollisionComponent
