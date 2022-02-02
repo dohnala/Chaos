@@ -1,4 +1,6 @@
 #include "ECS/Systems/PhysicsSystems.h"
+#include "ECS/Components/BaseComponents.h"
+#include "ECS/Components/PhysicsComponents.h"
 
 #include <glm/glm.hpp>
 

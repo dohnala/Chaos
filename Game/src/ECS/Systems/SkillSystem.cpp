@@ -1,4 +1,8 @@
 #include "ECS/Systems/SkillSystems.h"
+#include "ECS/Components/BaseComponents.h"
+#include "ECS/Components/SkillComponents.h"
+#include "ECS/Components/PhysicsComponents.h"
+#include "ECS/Components/RenderComponents.h"
 
 void UpdateSkillCooldownSystem(World& world, Chaos::Timestep ts)
 {

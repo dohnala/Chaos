@@ -1,4 +1,8 @@
 #include "ECS/Systems/CollectibleSystems.h"
+#include "ECS/Components/BaseComponents.h"
+#include "ECS/Components/CollectibleComponents.h"
+#include "ECS/Components/PhysicsComponents.h"
+#include "ECS/Components/RenderComponents.h"
 
 #include <glm/glm.hpp>
 

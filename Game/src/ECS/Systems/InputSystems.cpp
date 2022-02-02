@@ -1,5 +1,8 @@
 #include "ECS/Systems/InputSystems.h"
-#include "ECS/Components/Components.h"
+#include "ECS/Components/BaseComponents.h"
+#include "ECS/Components/InputComponents.h"
+#include "ECS/Components/PhysicsComponents.h"
+#include "ECS/Components/SkillComponents.h"
 
 #include <glm/glm.hpp>
 

@@ -1,4 +1,7 @@
 #include "ECS/Systems/RenderSystems.h"
+#include "ECS/Components/BaseComponents.h"
+#include "ECS/Components/PhysicsComponents.h"
+#include "ECS/Components/RenderComponents.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtx/vector_angle.hpp>

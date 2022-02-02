@@ -1,4 +1,5 @@
 #include "ECS/Systems/BaseSystems.h"
+#include "ECS/Components/BaseComponents.h"
 
 #include <glm/glm.hpp>
 
