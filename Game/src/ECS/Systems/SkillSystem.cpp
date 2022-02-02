@@ -44,7 +44,7 @@ void UpdateProjectileSkillSystem(World& world, Chaos::Timestep ts)
 
 		projectile.AddComponent<CircleComponent>(projectileSkillComp.Radius, projectileSkillComp.ProjectileProps);
 		projectile.AddComponent<CircleColliderComponent>(projectileSkillComp.Radius, Layer::Projectile, Layer::World | Layer::Enemy);
-		projectile.AddComponent<TrailEffectComponent>(projectilePosition, projectileSkillComp.TrailEffectCountPerUnit, projectileSkillComp.TrailEffect);
+		projectile.AddComponent<TrailEffectComponent>(projectilePosition, projectileSkillComp.TrailEffect);
 		projectile.AddComponent<DestroyEffectComponent>(projectileSkillComp.DestroyEffectCount, projectileSkillComp.DestroyEffect);
 	}
 }

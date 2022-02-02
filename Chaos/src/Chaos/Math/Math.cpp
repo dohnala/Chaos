@@ -31,4 +31,14 @@ namespace Chaos::Math
 			Damp(value.y, damp, deltaTime)
 		};
 	}
+
+	glm::vec2 PerpendicularClockwise(const glm::vec2& vec)
+	{
+		return { vec.y, -vec.x };
+	}
+
+	glm::vec2 PerpendicularCounterClockwise(const glm::vec2& vec)
+	{
+		return { -vec.y, vec.x };
+	}
 }

@@ -2,10 +2,13 @@
 
 #include "Chaos.h"
 
+#include "ECS/Components/RenderComponents.h"
+
 enum class SkillID
 {
 	Fireball = 0,
-	PoisonBolt
+	PoisonBolt,
+	ArcaneShot
 };
 
 struct SkillSlotsComponent
@@ -54,8 +57,9 @@ struct ProjectileSkillComponent
 	float Speed = 50.0f;
 
 	Chaos::CircleProps ProjectileProps = Chaos::CircleProps::Create();
-	Chaos::ParticleProps TrailEffect = Chaos::ParticleProps::Create();
-	float TrailEffectCountPerUnit = 0.0f;
+	
+	Effect::TrailEffect TrailEffect = Effect::TrailEffect::Create();
+	
 	Chaos::ParticleProps DestroyEffect = Chaos::ParticleProps::Create();
 	uint32_t DestroyEffectCount = 0;
 

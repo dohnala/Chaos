@@ -40,14 +40,39 @@ void UpdateTrailEffectSystem(World& world, Chaos::Timestep ts)
 {
 	for (auto&& [entityID, positionComp, trailEffecComp] : world.View<PositionComponent, TrailEffectComponent>().each())
 	{
-		auto direction = glm::normalize(trailEffecComp.LastPosition - positionComp.Position);
-		float distance = glm::length(positionComp.Position - trailEffecComp.LastPosition);
-		float particlesF = distance * trailEffecComp.ParticleCountPerUnit + trailEffecComp.Remainder;
-		uint32_t particles = static_cast<uint32_t>(floor(particlesF));
+		auto direction = glm::normalize(positionComp.Position - trailEffecComp.LastPosition);
+		auto distance = glm::length(positionComp.Position - trailEffecComp.LastPosition);
+		auto particlesF = distance * trailEffecComp.TrailEffect.ParticleCountPerUnit + trailEffecComp.Remainder;
+		auto particles = static_cast<uint32_t>(floor(particlesF));
+		auto deltaPos = direction * (distance / particles);
 
-		world.GetParticleSystem().EmitFromLine(trailEffecComp.ParticleProps, trailEffecComp.LastPosition, positionComp.Position, particles);
+		for (uint32_t i = 0; i < particles; i++)
+		{
+			auto particleDirection = direction;
+
+			switch (trailEffecComp.TrailEffect.Direction)
+			{
+			case Effect::TrailEffect::DirectionType::Forward:
+				break;
+			case Effect::TrailEffect::DirectionType::Sin:
+				particleDirection = Chaos::Math::PerpendicularClockwise(direction) * 
+					glm::sin(trailEffecComp.Distance + static_cast<float>(i) * deltaPos);
+				break;
+			case Effect::TrailEffect::DirectionType::Cos:
+				particleDirection = Chaos::Math::PerpendicularClockwise(direction) *
+					glm::cos(trailEffecComp.Distance + static_cast<float>(i) * deltaPos);
+				break;
+			}
+
+			world.GetParticleSystem().EmitFromPoint(
+				trailEffecComp.TrailEffect.ParticleProps, 
+				trailEffecComp.LastPosition + static_cast<float>(i) * deltaPos, 
+				particleDirection,
+				1);
+		}
 
 		trailEffecComp.Remainder = particlesF - static_cast<float>(particles);
+		trailEffecComp.Distance += distance;
 		trailEffecComp.LastPosition = positionComp.Position;
 	}
 }

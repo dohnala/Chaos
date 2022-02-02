@@ -2,6 +2,8 @@
 
 #include "Chaos.h"
 
+#include "Effect.h"
+
 struct CircleGlowComponent
 {
 	float Radius = 1.0f;
@@ -54,15 +56,15 @@ struct AimIndicatorComponent
 
 struct TrailEffectComponent
 {
+	Effect::TrailEffect TrailEffect = Effect::TrailEffect::Create();
 	glm::vec2 LastPosition = { 0.0f, 0.0f };
 	float Remainder = 0.0f;
-	float ParticleCountPerUnit = 1.0f;
-	Chaos::ParticleProps ParticleProps = Chaos::ParticleProps::Create();
+	float Distance = 0.0f;
 
 	TrailEffectComponent() = default;
 	TrailEffectComponent(const TrailEffectComponent&) = default;
-	TrailEffectComponent(const glm::vec2& lastPosition, float particleCountPerUnit, const Chaos::ParticleProps & particleProps)
-		: LastPosition(lastPosition), ParticleCountPerUnit(particleCountPerUnit), ParticleProps(particleProps) {}
+	TrailEffectComponent(const glm::vec2& lastPosition, const Effect::TrailEffect& trailEffect)
+		: LastPosition(lastPosition), TrailEffect(trailEffect) {}
 };
 
 struct ImpactEffectComponent

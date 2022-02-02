@@ -2,6 +2,7 @@
 #include "Chaos/Other/ParticleSystem.h"
 #include "Chaos/Renderer/Renderer.h"
 #include "Chaos/Core/Random.h"
+#include "Chaos/Math/Math.h"
 
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/compatibility.hpp>
