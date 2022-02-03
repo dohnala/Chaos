@@ -48,7 +48,8 @@ struct SkillCooldownComponent
 struct ProjectileSkillComponent
 {
 	float Radius = 0.5f;
-	float Speed = 50.0f;
+	float Acceleration = 200.0f;
+	float MaxSpeed = 50.0f;
 
 	Chaos::CircleProps ProjectileProps = Chaos::CircleProps::Create();
 	
@@ -59,6 +60,6 @@ struct ProjectileSkillComponent
 
 	ProjectileSkillComponent() = default;
 	ProjectileSkillComponent(const ProjectileSkillComponent&) = default;
-	ProjectileSkillComponent(float radius, float speed)
-		: Radius(radius), Speed(speed) {}
+	ProjectileSkillComponent(float radius, float acceleration, float maxSpeed)
+		: Radius(radius), Acceleration(acceleration), MaxSpeed(maxSpeed) {}
 };

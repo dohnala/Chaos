@@ -39,9 +39,8 @@ void UpdateProjectileSkillSystem(World& world, Chaos::Timestep ts)
 		projectile.AddComponent<PositionComponent>(projectilePosition);
 		projectile.AddComponent<ProjectileComponent>(skillComp.Skill, skillComp.Owner);
 
-		auto& moveComp = projectile.AddComponent<MoveComponent>(0.0f, projectileSkillComp.Speed, 0.0f);
+		auto& moveComp = projectile.AddComponent<MoveComponent>(projectileSkillComp.Acceleration, projectileSkillComp.MaxSpeed, 0.0f);
 		moveComp.Direction = direction;
-		moveComp.Velocity = direction * projectileSkillComp.Speed;
 
 		projectile.AddComponent<CircleComponent>(projectileSkillComp.Radius, projectileSkillComp.ProjectileProps);
 		projectile.AddComponent<CircleColliderComponent>(projectileSkillComp.Radius, Layer::Projectile, Layer::World | Layer::Enemy);

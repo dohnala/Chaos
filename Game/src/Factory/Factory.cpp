@@ -111,7 +111,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 
 		fireball.AddComponent<SkillComponent>(skill, owner, 0.5f);
 		
-		auto& projectile = fireball.AddComponent<ProjectileSkillComponent>(0.2f, 45.0f);
+		auto& projectile = fireball.AddComponent<ProjectileSkillComponent>(0.2f, 200.0f, 50.0f);
 		
 		projectile.ProjectileProps = Chaos::CircleProps::Create()
 			.WithColor(Color::Yellow);
@@ -136,7 +136,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 		
 		poisonBolt.AddComponent<SkillComponent>(skill, owner, 0.5f);
 		
-		auto& projectile = poisonBolt.AddComponent<ProjectileSkillComponent>(0.2f, 45.0f);
+		auto& projectile = poisonBolt.AddComponent<ProjectileSkillComponent>(0.2f, 200.0f, 50.0f);
 		
 		projectile.ProjectileProps = Chaos::CircleProps::Create()
 			.WithColor(Color::Green);
@@ -168,9 +168,9 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 	{
 		auto arcaneShot = world.CreateEntity();
 		
-		arcaneShot.AddComponent<SkillComponent>(skill, owner, 0.25f);
+		arcaneShot.AddComponent<SkillComponent>(skill, owner, 0.3f);
 		
-		auto& projectile = arcaneShot.AddComponent<ProjectileSkillComponent>(0.15f, 45.0f);
+		auto& projectile = arcaneShot.AddComponent<ProjectileSkillComponent>(0.15f, 200.0f, 50.0f);
 		
 		projectile.ProjectileProps = Chaos::CircleProps::Create()
 			.WithColor(Color::Pink);
