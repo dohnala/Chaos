@@ -51,6 +51,9 @@ struct ProjectileSkillComponent
 	float Acceleration = 200.0f;
 	float MaxSpeed = 50.0f;
 
+	float HomingDistance = 0.0;
+	float HomingAngle = 0.0;
+
 	Chaos::CircleProps ProjectileProps = Chaos::CircleProps::Create();
 	
 	VFX::TrailEffect TrailEffect = VFX::TrailEffect::Create();
@@ -60,6 +63,48 @@ struct ProjectileSkillComponent
 
 	ProjectileSkillComponent() = default;
 	ProjectileSkillComponent(const ProjectileSkillComponent&) = default;
-	ProjectileSkillComponent(float radius, float acceleration, float maxSpeed)
-		: Radius(radius), Acceleration(acceleration), MaxSpeed(maxSpeed) {}
+
+	ProjectileSkillComponent& WithRadius(float radius)
+	{
+		Radius = radius;
+		return *this;
+	}
+
+	ProjectileSkillComponent& WithAcceleration(float acceleration)
+	{
+		Acceleration = acceleration;
+		return *this;
+	}
+
+	ProjectileSkillComponent& WithMaxSpeed(float maxSpeed)
+	{
+		MaxSpeed = maxSpeed;
+		return *this;
+	}
+
+	ProjectileSkillComponent& WithHoming(float distance, float angle)
+	{
+		HomingDistance = distance;
+		HomingAngle = angle;
+		return *this;
+	}
+
+	ProjectileSkillComponent& WithProjectileProps(const Chaos::CircleProps& projectileProps)
+	{
+		ProjectileProps = projectileProps;
+		return *this;
+	}
+
+	ProjectileSkillComponent& WithTrailEffect(const VFX::TrailEffect& trailEffect)
+	{
+		TrailEffect = trailEffect;
+		return *this;
+	}
+
+	ProjectileSkillComponent& WithDestroyEffect(uint32_t particleCount, const Chaos::ParticleProps& destroyEffect)
+	{
+		DestroyEffectCount = particleCount;
+		DestroyEffect = destroyEffect;
+		return *this;
+	}
 };

@@ -28,9 +28,12 @@ void World::OnUpdate(Chaos::Timestep ts)
 	UpdateInputAimSystem(*this, ts);
 	UpdateInputSkillSystem(*this, ts);
 
-	// Skills
+	// Skill
 	UpdateSkillCooldownSystem(*this, ts);
 	UpdateProjectileSkillSystem(*this, ts);
+
+	// Projectile
+	UpdateHomingProjectileSystem(*this, ts);
 
 	// Movement
 	UpdateMovementSystem(*this, ts);

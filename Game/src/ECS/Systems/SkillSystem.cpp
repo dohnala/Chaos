@@ -37,14 +37,19 @@ void UpdateProjectileSkillSystem(World& world, Chaos::Timestep ts)
 
 		auto projectile = world.CreateEntity();
 		projectile.AddComponent<PositionComponent>(projectilePosition);
-		projectile.AddComponent<ProjectileComponent>(skillComp.Skill, skillComp.Owner);
-
+		
 		auto& moveComp = projectile.AddComponent<MoveComponent>(projectileSkillComp.Acceleration, projectileSkillComp.MaxSpeed, 0.0f);
 		moveComp.Direction = direction;
 
-		projectile.AddComponent<CircleComponent>(projectileSkillComp.Radius, projectileSkillComp.ProjectileProps);
 		projectile.AddComponent<CircleColliderComponent>(projectileSkillComp.Radius, Layer::Projectile, Layer::World | Layer::Enemy);
+		projectile.AddComponent<ProjectileComponent>(skillComp.Skill, skillComp.Owner);
+		projectile.AddComponent<CircleComponent>(projectileSkillComp.Radius, projectileSkillComp.ProjectileProps);
 		projectile.AddComponent<TrailEffectComponent>(projectilePosition, projectileSkillComp.TrailEffect);
 		projectile.AddComponent<DestroyEffectComponent>(projectileSkillComp.DestroyEffectCount, projectileSkillComp.DestroyEffect);
+
+		if (projectileSkillComp.HomingDistance != 0.0f && projectileSkillComp.HomingAngle != 0.0f)
+		{
+			projectile.AddComponent<HomingProjectileComponent>(projectileSkillComp.HomingDistance, projectileSkillComp.HomingAngle, Layer::Enemy);
+		}
 	}
 }
