@@ -49,18 +49,12 @@ void UpdateProjectileSkillSystem(World& world, Chaos::Timestep ts)
 	}
 }
 
-void UpdateProjectileDestroySystem(World& world, Chaos::Timestep ts)
+void UpdateProjectileCollisionSystem(World& world, Chaos::Timestep ts)
 {
 	for (auto&& [entityID, projectileComp, collisionComp] : world.View<ProjectileComponent, CollisionComponent>().each())
 	{
 		auto entity = Chaos::Entity(entityID, &world);
 
-		if (entity.HasComponent<DestroyEffectComponent>())
-		{
-			auto& effect = entity.GetComponent<DestroyEffectComponent>();
-			world.GetParticleSystem().EmitFromPoint(effect.ParticleProps, collisionComp.Position, collisionComp.Normal, effect.ParticleCount);
-		}
-
-		world.DestroyEntity(entity);
+		entity.AddComponent<DestroyComponent>(0.0f);
 	}
 }

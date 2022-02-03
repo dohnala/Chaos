@@ -22,6 +22,17 @@ struct CameraComponent
 	CameraComponent(const CameraComponent&) = default;
 };
 
+// Entities with this component will be destroyed after given delay
+struct DestroyComponent
+{
+	float Delay = 0.0f;
+
+	DestroyComponent() = default;
+	DestroyComponent(const DestroyComponent&) = default;
+	DestroyComponent(float delay = 0.0f)
+		: Delay(delay) {}
+};
+
 // Follow given entity with a damp based on the distance between the entity
 struct FollowComponent
 {

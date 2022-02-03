@@ -6,4 +6,4 @@
 
 void UpdateSkillCooldownSystem(World& world, Chaos::Timestep ts);
 void UpdateProjectileSkillSystem(World& world, Chaos::Timestep ts);
-void UpdateProjectileDestroySystem(World& world, Chaos::Timestep ts);
+void UpdateProjectileCollisionSystem(World& world, Chaos::Timestep ts);

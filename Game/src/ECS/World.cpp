@@ -36,16 +36,14 @@ void World::OnUpdate(Chaos::Timestep ts)
 	UpdateMovementSystem(*this, ts);
 	UpdateFollowSystem(*this, ts);
 
+	// Collectible
+	UpdateCollectibleFollowSystem(*this, ts);
+
 	// Collision
 	UpdateCollisionSystem(*this, ts);
 	UpdateCameraCollisionSystem(*this, ts);
-
-	// Collectible
-	UpdateCollectibleFollowSystem(*this, ts);
+	UpdateProjectileCollisionSystem(*this, ts);
 	UpdateCollectibleCollisionSystem(*this, ts);
-
-	// Projectile
-	UpdateProjectileDestroySystem(*this, ts);
 
 	if (m_Camera)
 	{
@@ -69,6 +67,10 @@ void World::OnUpdate(Chaos::Timestep ts)
 
 		Chaos::Renderer::EndScene();
 	}
+
+	// Destroy
+	UpdateDestroySystem(*this, ts);
+
 }
 
 void World::OnViewportResize(uint32_t width, uint32_t height)
