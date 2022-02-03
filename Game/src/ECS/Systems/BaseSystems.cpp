@@ -31,22 +31,26 @@ void UpdateDestroySystem(World& world, Chaos::Timestep ts)
 		{
 			if (entity.HasComponent<DestroyEffectComponent>())
 			{
-				auto& destroyEffect = entity.GetComponent<DestroyEffectComponent>();
+				auto& destroyEffectComp = entity.GetComponent<DestroyEffectComponent>();
 
 				if (entity.HasComponent<CollisionComponent>())
 				{
 					auto& collision = entity.GetComponent<CollisionComponent>();
 					
 					world.GetParticleSystem().EmitFromPoint(
-						destroyEffect.ParticleProps, 
+						destroyEffectComp.DestroyEffect.ParticleProps,
 						collision.Position, 
 						collision.Normal, 
-						destroyEffect.ParticleCount);
+						destroyEffectComp.DestroyEffect.ParticleCount);
 				}
 				else if (entity.HasComponent<PositionComponent>())
 				{
-					auto position = entity.GetComponent<PositionComponent>().Position;
-					world.GetParticleSystem().EmitFromPoint(destroyEffect.ParticleProps, position, destroyEffect.ParticleCount);
+					auto& positionComp = entity.GetComponent<PositionComponent>();
+					
+					world.GetParticleSystem().EmitFromPoint(
+						destroyEffectComp.DestroyEffect.ParticleProps, 
+						positionComp.Position,
+						destroyEffectComp.DestroyEffect.ParticleCount);
 				}
 			}
 

@@ -57,9 +57,7 @@ struct ProjectileSkillComponent
 	Chaos::CircleProps ProjectileProps = Chaos::CircleProps::Create();
 	
 	VFX::TrailEffect TrailEffect = VFX::TrailEffect::Create();
-	
-	Chaos::ParticleProps DestroyEffect = Chaos::ParticleProps::Create();
-	uint32_t DestroyEffectCount = 0;
+	VFX::BurstEffect DestroyEffect = VFX::BurstEffect::Create();
 
 	ProjectileSkillComponent() = default;
 	ProjectileSkillComponent(const ProjectileSkillComponent&) = default;
@@ -101,9 +99,8 @@ struct ProjectileSkillComponent
 		return *this;
 	}
 
-	ProjectileSkillComponent& WithDestroyEffect(uint32_t particleCount, const Chaos::ParticleProps& destroyEffect)
+	ProjectileSkillComponent& WithDestroyEffect(const VFX::BurstEffect& destroyEffect)
 	{
-		DestroyEffectCount = particleCount;
 		DestroyEffect = destroyEffect;
 		return *this;
 	}

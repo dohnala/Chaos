@@ -92,10 +92,10 @@ void UpdateImpactEffectSystem(World& world, Chaos::Timestep ts)
 			impactEffectComp.TimeLeft = impactEffectComp.Cooldown;
 
 			world.GetParticleSystem().EmitFromPoint(
-				impactEffectComp.ParticleProps, 
+				impactEffectComp.ImpactEffect.ParticleProps, 
 				collisionComp.Position, 
 				-collisionComp.Normal, 
-				impactEffectComp.ParticleCount);
+				impactEffectComp.ImpactEffect.ParticleCount);
 		}
 	}
 }

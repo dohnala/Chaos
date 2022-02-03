@@ -22,7 +22,7 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 		.WithColor(Color::WithAlpha(Color::Blue, 0.05f)));
 
 	player.AddComponent<TrailEffectComponent>(glm::vec2(0.0f), VFX::TrailEffect::Create()
-		.WithParticleCount(3.0f)
+		.WithParticleCountPerUnit(3.0f)
 		.WithParticle(Chaos::ParticleProps::Create()
 			.WithPositionVariance(0.3f)
 			.WithSize(0.1f, 0.05f)
@@ -30,15 +30,16 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 			.WithAlpha(0.75f, 0.5f, 0.0f)
 			.WithLifeTime(0.25f, 0.5f)));
 		
+	player.AddComponent<ImpactEffectComponent>(0.2f, VFX::BurstEffect::Create()
+		.WithParticleCount(5)
+		.WithParticle(Chaos::ParticleProps::Create()
+			.WithDirectionVariance(glm::radians(90.0f))
+			.WithSpeed(2.0f, 4.0f)
+			.WithSize(0.1f, 0.05f)
+			.WithColor(Color::Blue)
+			.WithAlpha(0.5f, 1.0f, 0.0f)
+			.WithLifeTime(1.0f, 1.0f)));
 
-	player.AddComponent<ImpactEffectComponent>(5, Chaos::ParticleProps::Create()
-		.WithDirectionVariance(glm::radians(90.0f))
-		.WithSpeed(2.0f, 4.0f)
-		.WithSize(0.1f, 0.05f)
-		.WithColor(Color::Blue)
-		.WithAlpha(0.5f, 1.0f, 0.0f)
-		.WithLifeTime(1.0f, 1.0f));
-	
 	auto& skills = player.AddComponent<SkillSlotsComponent>();
 	skills.SkillSlot1 = CreateSkill(world, SkillID::ArcaneShot, player);
 
@@ -69,13 +70,15 @@ Chaos::Entity Factory::CreateCollectible(World& world)
 	collectible.AddComponent<CircleGlowComponent>(0.4f, Chaos::CircleProps::Create()
 		.WithColor(Color::WithAlpha(Color::Yellow, 0.05f)));
 	
-	collectible.AddComponent<DestroyEffectComponent>(10, Chaos::ParticleProps::Create()
-		.WithDirectionVariance(glm::radians(360.0f))
-		.WithSpeed(3.0f, 6.0f)
-		.WithSize(0.1f, 0.05f)
-		.WithColor(Color::Yellow)
-		.WithAlpha(0.5f, 1.0f, 0.0f)
-		.WithLifeTime(1.0f, 1.0f));
+	collectible.AddComponent<DestroyEffectComponent>(VFX::BurstEffect::Create()
+		.WithParticleCount(10)
+		.WithParticle(Chaos::ParticleProps::Create()
+			.WithDirectionVariance(glm::radians(360.0f))
+			.WithSpeed(3.0f, 6.0f)
+			.WithSize(0.1f, 0.05f)
+			.WithColor(Color::Yellow)
+			.WithAlpha(0.5f, 1.0f, 0.0f)
+			.WithLifeTime(1.0f, 1.0f)));
 
 	return collectible;
 }
@@ -91,14 +94,16 @@ Chaos::Entity Factory::CreateEnemy(World& world)
 		.WithColor(Color::WithAlpha(Color::Red, 0.05f)));
 	enemy.AddComponent<CircleComponent>(0.4f, Chaos::CircleProps::Create()
 		.WithColor(Color::Red));
-	
-	enemy.AddComponent<ImpactEffectComponent>(5, Chaos::ParticleProps::Create()
-		.WithDirectionVariance(glm::radians(90.0f))
-		.WithSpeed(2.0f, 4.0f)
-		.WithSize(0.1f, 0.05f)
-		.WithColor(Color::Red)
-		.WithAlpha(0.5f, 1.0f, 0.0f)
-		.WithLifeTime(1.0f, 1.0f));
+
+	enemy.AddComponent<ImpactEffectComponent>(0.2f, VFX::BurstEffect::Create()
+		.WithParticleCount(5)
+		.WithParticle(Chaos::ParticleProps::Create()
+			.WithDirectionVariance(glm::radians(90.0f))
+			.WithSpeed(2.0f, 4.0f)
+			.WithSize(0.1f, 0.05f)
+			.WithColor(Color::Red)
+			.WithAlpha(0.5f, 1.0f, 0.0f)
+			.WithLifeTime(1.0f, 1.0f)));
 
 	return enemy;
 }
@@ -117,7 +122,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 			.WithProjectileProps(Chaos::CircleProps::Create()
 				.WithColor(Color::Yellow))
 			.WithTrailEffect(VFX::TrailEffect::Create()
-				.WithParticleCount(6.0f)
+				.WithParticleCountPerUnit(6.0f)
 				.WithParticle(Chaos::ParticleProps::Create()
 					.WithPositionVariance(0.1f)
 					.WithDirectionVariance(glm::radians(90.0f))
@@ -142,7 +147,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 			.WithProjectileProps(Chaos::CircleProps::Create()
 				.WithColor(Color::Green))
 			.WithTrailEffect(VFX::TrailEffect::Create()
-				.WithParticleCount(6.0f)
+				.WithParticleCountPerUnit(6.0f)
 				.WithParticle(Chaos::ParticleProps::Create()
 					.WithPositionVariance(0.1f)
 					.WithDirectionVariance(glm::radians(90.0f))
@@ -151,13 +156,15 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 					.WithColorGradient(Color::Yellow, Color::Green)
 					.WithAlpha(0.75f, 0.5f, 0.0f)
 					.WithLifeTime(0.25f, 0.5f)))
-			.WithDestroyEffect(10, Chaos::ParticleProps::Create()
-				.WithDirectionVariance(glm::radians(90.0f))
-				.WithSpeed(2.0f, 4.0f)
-				.WithSize(0.1f, 0.05f)
-				.WithColorGradient(Color::Yellow, Color::Green)
-				.WithAlpha(0.5f, 1.0f, 0.0f)
-				.WithLifeTime(1.0f, 1.0f));
+			.WithDestroyEffect(VFX::BurstEffect::Create()
+				.WithParticleCount(10)
+				.WithParticle(Chaos::ParticleProps::Create()
+					.WithDirectionVariance(glm::radians(90.0f))
+					.WithSpeed(2.0f, 4.0f)
+					.WithSize(0.1f, 0.05f)
+					.WithColorGradient(Color::Yellow, Color::Green)
+					.WithAlpha(0.5f, 1.0f, 0.0f)
+					.WithLifeTime(1.0f, 1.0f)));
 
 		return poisonBolt;
 	}
@@ -175,7 +182,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 			.WithProjectileProps(Chaos::CircleProps::Create()
 				.WithColor(Color::Pink))
 			.WithTrailEffect(VFX::TrailEffect::Create()
-				.WithParticleCount(6.0f)
+				.WithParticleCountPerUnit(6.0f)
 				.WithDirectionType(VFX::TrailEffect::DirectionType::Sin)
 				.WithParticle(Chaos::ParticleProps::Create()
 					.WithPositionVariance(0.1f)
@@ -185,13 +192,15 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 					.WithColorGradient(Color::White, Color::Pink)
 					.WithAlpha(0.75f, 0.5f, 0.0f)
 					.WithLifeTime(0.25f, 0.5f)))
-			.WithDestroyEffect(10, Chaos::ParticleProps::Create()
-				.WithDirectionVariance(glm::radians(90.0f))
-				.WithSpeed(2.0f, 4.0f)
-				.WithSize(0.1f, 0.05f)
-				.WithColorGradient(Color::White, Color::Pink)
-				.WithAlpha(0.5f, 1.0f, 0.0f)
-				.WithLifeTime(1.0f, 1.0f));
+			.WithDestroyEffect(VFX::BurstEffect::Create()
+				.WithParticleCount(10)
+				.WithParticle(Chaos::ParticleProps::Create()
+					.WithDirectionVariance(glm::radians(90.0f))
+					.WithSpeed(2.0f, 4.0f)
+					.WithSize(0.1f, 0.05f)
+					.WithColorGradient(Color::White, Color::Pink)
+					.WithAlpha(0.5f, 1.0f, 0.0f)
+					.WithLifeTime(1.0f, 1.0f)));
 
 		return arcaneShot;
 	}

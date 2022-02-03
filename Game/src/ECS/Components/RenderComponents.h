@@ -56,10 +56,11 @@ struct AimIndicatorComponent
 
 struct TrailEffectComponent
 {
-	VFX::TrailEffect TrailEffect = VFX::TrailEffect::Create();
 	glm::vec2 LastPosition = { 0.0f, 0.0f };
 	float Remainder = 0.0f;
 	float Distance = 0.0f;
+
+	VFX::TrailEffect TrailEffect = VFX::TrailEffect::Create();
 
 	TrailEffectComponent() = default;
 	TrailEffectComponent(const TrailEffectComponent&) = default;
@@ -69,28 +70,26 @@ struct TrailEffectComponent
 
 struct ImpactEffectComponent
 {
-	uint32_t ParticleCount = 10;
-	Chaos::ParticleProps ParticleProps = Chaos::ParticleProps::Create();
-
 	// How often can the effect occur in seconds
 	float Cooldown = 0.2f;
 
 	// Time left to another effect occurence (0 means its ready)
 	float TimeLeft = 0.0f;
 
+	VFX::BurstEffect ImpactEffect = VFX::BurstEffect::Create();
+
 	ImpactEffectComponent() = default;
 	ImpactEffectComponent(const ImpactEffectComponent&) = default;
-	ImpactEffectComponent(uint32_t particleCount, const Chaos::ParticleProps& particleProps, float cooldown = 0.2f)
-		: ParticleCount(particleCount), ParticleProps(particleProps), Cooldown(cooldown) {}
+	ImpactEffectComponent(float cooldown, const VFX::BurstEffect& impactEffect)
+		: Cooldown(cooldown), ImpactEffect(impactEffect) {}
 };
 
 struct DestroyEffectComponent
 {
-	uint32_t ParticleCount = 10;
-	Chaos::ParticleProps ParticleProps = Chaos::ParticleProps::Create();
+	VFX::BurstEffect DestroyEffect = VFX::BurstEffect::Create();
 
 	DestroyEffectComponent() = default;
 	DestroyEffectComponent(const DestroyEffectComponent&) = default;
-	DestroyEffectComponent(uint32_t particleCount, const Chaos::ParticleProps& particleProps)
-		: ParticleCount(particleCount), ParticleProps(particleProps) {}
+	DestroyEffectComponent(const VFX::BurstEffect& destroyEffect)
+		: DestroyEffect(destroyEffect) {}
 };

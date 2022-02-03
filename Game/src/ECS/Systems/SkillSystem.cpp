@@ -45,7 +45,7 @@ void UpdateProjectileSkillSystem(World& world, Chaos::Timestep ts)
 		projectile.AddComponent<ProjectileComponent>(skillComp.Skill, skillComp.Owner);
 		projectile.AddComponent<CircleComponent>(projectileSkillComp.Radius, projectileSkillComp.ProjectileProps);
 		projectile.AddComponent<TrailEffectComponent>(projectilePosition, projectileSkillComp.TrailEffect);
-		projectile.AddComponent<DestroyEffectComponent>(projectileSkillComp.DestroyEffectCount, projectileSkillComp.DestroyEffect);
+		projectile.AddComponent<DestroyEffectComponent>(projectileSkillComp.DestroyEffect);
 
 		if (projectileSkillComp.HomingDistance != 0.0f && projectileSkillComp.HomingAngle != 0.0f)
 		{
