@@ -21,7 +21,7 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 	player.AddComponent<CircleGlowComponent>(1.0f, Chaos::CircleProps::Create()
 		.WithColor(Color::WithAlpha(Color::Blue, 0.05f)));
 
-	player.AddComponent<TrailEffectComponent>(glm::vec2(0.0f), Effect::TrailEffect::Create()
+	player.AddComponent<TrailEffectComponent>(glm::vec2(0.0f), VFX::TrailEffect::Create()
 		.WithParticleCount(3.0f)
 		.WithParticle(Chaos::ParticleProps::Create()
 			.WithPositionVariance(0.3f)
@@ -116,7 +116,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 		projectile.ProjectileProps = Chaos::CircleProps::Create()
 			.WithColor(Color::Yellow);
 		
-		projectile.TrailEffect = Effect::TrailEffect::Create()
+		projectile.TrailEffect = VFX::TrailEffect::Create()
 			.WithParticleCount(6.0f)
 			.WithParticle(Chaos::ParticleProps::Create()
 				.WithPositionVariance(0.1f)
@@ -141,7 +141,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 		projectile.ProjectileProps = Chaos::CircleProps::Create()
 			.WithColor(Color::Green);
 
-		projectile.TrailEffect = Effect::TrailEffect::Create()
+		projectile.TrailEffect = VFX::TrailEffect::Create()
 			.WithParticleCount(6.0f)
 			.WithParticle(Chaos::ParticleProps::Create()
 				.WithPositionVariance(0.1f)
@@ -175,9 +175,9 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 		projectile.ProjectileProps = Chaos::CircleProps::Create()
 			.WithColor(Color::Pink);
 		
-		projectile.TrailEffect = Effect::TrailEffect::Create()
+		projectile.TrailEffect = VFX::TrailEffect::Create()
 			.WithParticleCount(6.0f)
-			.WithDirectionType(Effect::TrailEffect::DirectionType::Sin)
+			.WithDirectionType(VFX::TrailEffect::DirectionType::Sin)
 			.WithParticle(Chaos::ParticleProps::Create()
 				.WithPositionVariance(0.1f)
 				.WithDirectionVariance(glm::radians(0.0f))

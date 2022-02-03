@@ -2,7 +2,7 @@
 
 #include "Chaos.h"
 
-namespace Effect
+namespace VFX
 {
 	class TrailEffect
 	{

@@ -58,7 +58,7 @@ struct ProjectileSkillComponent
 
 	Chaos::CircleProps ProjectileProps = Chaos::CircleProps::Create();
 	
-	Effect::TrailEffect TrailEffect = Effect::TrailEffect::Create();
+	VFX::TrailEffect TrailEffect = VFX::TrailEffect::Create();
 	
 	Chaos::ParticleProps DestroyEffect = Chaos::ParticleProps::Create();
 	uint32_t DestroyEffectCount = 0;

@@ -52,13 +52,13 @@ void UpdateTrailEffectSystem(World& world, Chaos::Timestep ts)
 
 			switch (trailEffecComp.TrailEffect.Direction)
 			{
-			case Effect::TrailEffect::DirectionType::Forward:
+			case VFX::TrailEffect::DirectionType::Forward:
 				break;
-			case Effect::TrailEffect::DirectionType::Sin:
+			case VFX::TrailEffect::DirectionType::Sin:
 				particleDirection = Chaos::Math::PerpendicularClockwise(direction) * 
 					glm::sin(trailEffecComp.Distance + static_cast<float>(i) * deltaPos);
 				break;
-			case Effect::TrailEffect::DirectionType::Cos:
+			case VFX::TrailEffect::DirectionType::Cos:
 				particleDirection = Chaos::Math::PerpendicularClockwise(direction) *
 					glm::cos(trailEffecComp.Distance + static_cast<float>(i) * deltaPos);
 				break;

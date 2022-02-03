@@ -1,6 +1,6 @@
-#include "Effect.h"
+#include "VFX.h"
 
-namespace Effect
+namespace VFX
 {
 	TrailEffectBuilder TrailEffect::Create()
 	{

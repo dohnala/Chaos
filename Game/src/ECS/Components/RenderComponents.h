@@ -2,7 +2,7 @@
 
 #include "Chaos.h"
 
-#include "Effect.h"
+#include "VFX.h"
 
 struct CircleGlowComponent
 {
@@ -56,14 +56,14 @@ struct AimIndicatorComponent
 
 struct TrailEffectComponent
 {
-	Effect::TrailEffect TrailEffect = Effect::TrailEffect::Create();
+	VFX::TrailEffect TrailEffect = VFX::TrailEffect::Create();
 	glm::vec2 LastPosition = { 0.0f, 0.0f };
 	float Remainder = 0.0f;
 	float Distance = 0.0f;
 
 	TrailEffectComponent() = default;
 	TrailEffectComponent(const TrailEffectComponent&) = default;
-	TrailEffectComponent(const glm::vec2& lastPosition, const Effect::TrailEffect& trailEffect)
+	TrailEffectComponent(const glm::vec2& lastPosition, const VFX::TrailEffect& trailEffect)
 		: LastPosition(lastPosition), TrailEffect(trailEffect) {}
 };
 
