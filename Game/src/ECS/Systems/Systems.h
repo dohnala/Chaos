@@ -6,3 +6,4 @@
 #include "ECS/Systems/CollectibleSystems.h"
 #include "ECS/Systems/RenderSystems.h"
 #include "ECS/Systems/SkillSystems.h"
+#include "ECS/Systems/ProjectileSystems.h"

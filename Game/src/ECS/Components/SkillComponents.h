@@ -2,14 +2,8 @@
 
 #include "Chaos.h"
 
+#include "Constants.h"
 #include "ECS/Components/RenderComponents.h"
-
-enum class SkillID
-{
-	Fireball = 0,
-	PoisonBolt,
-	ArcaneShot
-};
 
 struct SkillSlotsComponent
 {
@@ -67,15 +61,4 @@ struct ProjectileSkillComponent
 	ProjectileSkillComponent(const ProjectileSkillComponent&) = default;
 	ProjectileSkillComponent(float radius, float speed)
 		: Radius(radius), Speed(speed) {}
-};
-
-struct ProjectileComponent
-{
-	SkillID Skill;
-	Chaos::Entity Owner;
-
-	ProjectileComponent() = default;
-	ProjectileComponent(const ProjectileComponent&) = default;
-	ProjectileComponent(SkillID skill, Chaos::Entity owner)
-		: Skill(skill), Owner(owner) {}
 };

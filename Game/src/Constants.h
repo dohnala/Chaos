@@ -20,3 +20,26 @@ namespace Color
 		return { color.r, color.g, color.b,alpha };
 	}
 }
+
+using LayerMask = uint32_t;
+
+namespace Layer
+{
+	enum : LayerMask
+	{
+		None = 0,
+		Everything = ~0u,
+		World = 1,
+		Player = 2,
+		Enemy = 4,
+		Collectible = 8,
+		Projectile = 16
+	};
+}
+
+enum class SkillID
+{
+	Fireball = 0,
+	PoisonBolt,
+	ArcaneShot
+};

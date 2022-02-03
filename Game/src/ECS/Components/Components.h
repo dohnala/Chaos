@@ -6,3 +6,4 @@
 #include "ECS/Components/RenderComponents.h"
 #include "ECS/Components/CollectibleComponents.h"
 #include "ECS/Components/SkillComponents.h"
+#include "ECS/Components/ProjectileComponents.h"

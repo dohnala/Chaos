@@ -1,6 +1,6 @@
 #include "Factory/Factory.h"
 
-#include "Color.h"
+#include "Constants.h"
 
 Chaos::Entity Factory::CreatePlayer(World& world)
 {
