@@ -169,7 +169,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 		arcaneShot.AddComponent<SkillComponent>(skill, owner, 0.3f);
 		arcaneShot.AddComponent<ProjectileSkillComponent>()
 			.WithRadius(0.15f)
-			.WithAcceleration(200.0f)
+			.WithAcceleration(100.0f)
 			.WithMaxSpeed(50.0f)
 			.WithHoming(20.0f, 5.0f)
 			.WithProjectileProps(Chaos::CircleProps::Create()
