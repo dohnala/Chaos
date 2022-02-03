@@ -12,15 +12,15 @@ struct CollectibleComponent
 		: Amount(amount) {}
 };
 
-// Collectibles within given radius will follow entity with given damp base on the distance
-struct CollectibleFollowComponent
+// Entities with this component will attract collectibles in given radius
+struct CollectiblePickupRadiusComponent
 {
-	float Radius = 5.0f;
-	float DampMin = 0.25f;
-	float DampMax = 1.0f;
+	float Radius = 3.0f;
+	float DampMin = 0.0f;
+	float DampMax = 0.75f;
 
-	CollectibleFollowComponent() = default;
-	CollectibleFollowComponent(const CollectibleFollowComponent&) = default;
-	CollectibleFollowComponent(float radius, float dampMin, float dampMax)
+	CollectiblePickupRadiusComponent() = default;
+	CollectiblePickupRadiusComponent(const CollectiblePickupRadiusComponent&) = default;
+	CollectiblePickupRadiusComponent(float radius, float dampMin = 0.0f, float dampMax = 0.75)
 		: Radius(radius), DampMin(dampMin), DampMax(dampMax) {}
 };

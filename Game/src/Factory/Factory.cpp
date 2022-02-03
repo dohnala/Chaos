@@ -11,7 +11,7 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 	player.AddComponent<AimComponent>();
 	player.AddComponent<MoveComponent>(75.0f, 15.0f, 3.0f);
 	player.AddComponent<CircleColliderComponent>(0.6f, Layer::Player, Layer::Enemy | Layer::Collectible);
-	player.AddComponent<CollectibleFollowComponent>(3.0f, 0.0f, 0.75f);
+	player.AddComponent<CollectiblePickupRadiusComponent>(3.0f, 0.0f, 0.75f);
 	
 	player.AddComponent<CircleComponent>(0.6f, Chaos::CircleProps::Create()
 		.WithColor(Color::Blue));

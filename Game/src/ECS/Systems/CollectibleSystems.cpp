@@ -4,28 +4,40 @@
 #include "ECS/Components/PhysicsComponents.h"
 #include "ECS/Components/RenderComponents.h"
 
+#include <limits>
 #include <glm/glm.hpp>
 
 void UpdateCollectibleFollowSystem(World& world, Chaos::Timestep ts)
 {
-	for (auto&& [entityID, positionComp, collectibleFollowComp] : world.View<PositionComponent, CollectibleFollowComponent>().each())
+	for (auto&& [collectibleID, collectiblePositionComp, collectibleComp] : 
+		world.View<PositionComponent, CollectibleComponent>(entt::exclude<FollowComponent>).each())
 	{
-		auto entity = Chaos::Entity(entityID, &world);
+		auto collectibleEntity = Chaos::Entity(collectibleID, &world);
 
-		for (auto&& [collectibleEntityID, collectiblePositionComp, collectibleComp] : 
-			world.View<PositionComponent, CollectibleComponent>(entt::exclude<FollowComponent>).each())
+		float minDistance = std::numeric_limits<float>::max();
+		Chaos::Entity closestEntity;
+		CollectiblePickupRadiusComponent closestPickupRadiusComponent;
+
+		for (auto&& [entityID, positionComp, pickupRadiusComp] : world.View<PositionComponent, CollectiblePickupRadiusComponent>().each())
 		{
-			auto collectibleEntity = Chaos::Entity(collectibleEntityID, &world);
+			auto entity = Chaos::Entity(entityID, &world);
 
 			auto distance = glm::length(collectiblePositionComp.Position - positionComp.Position);
 
-			if (distance <= collectibleFollowComp.Radius)
+			if (distance <= pickupRadiusComp.Radius && distance < minDistance)
 			{
-				collectibleEntity.AddComponent<FollowComponent>(entity, 
-					collectibleFollowComp.DampMin,
-					collectibleFollowComp.DampMax,
-					collectibleFollowComp.Radius);
+				minDistance = distance;
+				closestEntity = entity;
+				closestPickupRadiusComponent = pickupRadiusComp;
 			}
+		}
+
+		if (closestEntity)
+		{
+			collectibleEntity.AddComponent<FollowComponent>(closestEntity,
+				closestPickupRadiusComponent.DampMin,
+				closestPickupRadiusComponent.DampMax,
+				closestPickupRadiusComponent.Radius);
 		}
 	}
 }
