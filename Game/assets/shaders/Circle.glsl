@@ -36,15 +36,19 @@ layout (location = 0) in vec2 v_Position;
 vec2 rotate(vec2 pos, float angle)
 {
     mat2 rot = mat2(cos(angle), sin(angle), -sin(angle), cos(angle));
-    //return rot * pos;
-	return pos;
+    return rot * pos;
+}
+
+float atan2(vec2 pos)
+{
+	return atan(pos.y, pos.x);
 }
 
 void main()
 {
 	// Convert position to from [-0.5, 0.5] to [-1, 1]
-	vec2 pos = rotate(v_Position * 2, u_Rotation * TWO_PI);
-	float angle = H_PI - atan(pos.x * -1, pos.y * -1);
+	vec2 pos = v_Position * 2;
+	float angle = atan2(pos);
 	float radius = 1;
 
 	float distance = length(pos);
@@ -57,10 +61,13 @@ void main()
 	circle -= smoothstep(0, aa, radius - u_Thickness - distance);
 
 	// Preserve only defined circumference
-	circle *= 1 - smoothstep(0, 2 * aa, angle + H_PI - u_Circumference * TWO_PI + (u_Circumference == 0 ? 0.1 : 0.0));
+	// TODO antialiasing on both edges and with no artefacts
+	circle *= 1 - smoothstep(0, (1.0 / distance) * aa, atan2(rotate(pos, H_PI)) - (u_Circumference * TWO_PI -PI));
 
 	// Add gaps
-	circle *= 1 - smoothstep(0 , 2 * aa, -1 + u_GapSize * 2 - cos( u_Rotation * TWO_PI + angle * u_GapCount));
+	// TODO antialiasing for different gap counts
+	float gaa = 1 - abs(u_GapSize - 0.5);
+	circle *= smoothstep(0, ((u_GapCount * gaa * gaa) / distance) * aa, cos((u_Rotation * TWO_PI + angle) * u_GapCount) - (-1 + u_GapSize * 2));
 
 	color = vec4(u_Color.rgb, u_Color.a * circle);
 }

@@ -27,7 +27,7 @@ namespace Chaos
 		uint32_t GapCount = 0;
 
 		// Size of the gap in range [0,1]
-		float GapSize = 0.0;
+		float GapSize = 0.5;
 
 		// Rotation in range [0, 1]
 		float Rotation = 0.0f;
