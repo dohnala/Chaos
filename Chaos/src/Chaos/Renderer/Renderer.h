@@ -7,33 +7,61 @@
 
 namespace Chaos
 {
-	class CircleProps
+	struct CircleProps
 	{
 	public:
-		friend class CirclePropsBuilder;
-
-		static CirclePropsBuilder Create();
+		static CircleProps Create()
+		{
+			return CircleProps();
+		}
 	public:
 		glm::vec4 Color = { 1.0f, 1.0f , 1.0f , 1.0f };
-	private:
-		CircleProps() = default;
-	};
 
-	class CirclePropsBuilder
-	{
+		// Thickness of the circle in range [0,1]
+		float Thickness = 1.0f;
+
+		// Circumference of the circle in range [0,1]
+		float Circumference = 1.0;
+
+		// Number of gaps in the circle
+		uint32_t GapCount = 0;
+
+		// Size of the gap in range [0,1]
+		float GapSize = 0.0;
+
+		// Rotation in range [0, 1]
+		float Rotation = 0.0f;
 	public:
-		CirclePropsBuilder& WithColor(const glm::vec4& color)
+		CircleProps& WithColor(const glm::vec4& color)
 		{
-			m_CircleProps.Color = color;
+			Color = color;
 			return *this;
 		}
 
-		operator CircleProps && ()
+		CircleProps& WithThickness(float thickness)
 		{
-			return std::move(m_CircleProps);
+			Thickness = thickness;
+			return *this;
 		}
-	private:
-		CircleProps m_CircleProps;
+
+		CircleProps& WithCircumference(float circumference)
+		{
+			Circumference = circumference;
+			return *this;
+		}
+
+		CircleProps& WithGaps(uint32_t count, float size)
+		{
+			GapCount = count;
+			GapSize = size;
+			return *this;
+		}
+
+		CircleProps& WithRotation(float rotation)
+		{
+			Rotation = rotation;
+			return *this;
+		}
 	};
 
 	class PolygonProps

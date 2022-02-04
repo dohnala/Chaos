@@ -30,12 +30,12 @@ layout (location = 0) in vec2 v_Position;
 
 float polygon(vec2 pos, int n)
 {
-	float aaf = fwidth(length(v_Position)); 
+	float aaf = fwidth(length(pos)); 
     float a = atan(pos.x, pos.y) + PI;
     float r = TWO_PI / float(n);
 
 	float d = cos(floor(0.5 + a / r) * r - a) * length(pos);
-	return smoothstep(0, 2 * aaf, 0.5 - d);
+	return smoothstep(0, aaf, 0.5 - d);
 }
 
 void main()

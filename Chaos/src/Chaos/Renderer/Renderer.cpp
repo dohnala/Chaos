@@ -20,11 +20,6 @@ namespace Chaos
 	static RendererPrimitive* s_Circle;
 	static RendererPrimitive* s_Polygon;
 
-	CirclePropsBuilder CircleProps::Create()
-	{
-		return CirclePropsBuilder();
-	}
-
 	PolygonPropsBuilder PolygonProps::Create()
 	{
 		return PolygonPropsBuilder();
@@ -138,6 +133,11 @@ namespace Chaos
 		s_Circle->Shader->Bind();
 		s_Circle->Shader->SetMat4("u_Transform", transform);
 		s_Circle->Shader->SetFloat4("u_Color", circleProps.Color);
+		s_Circle->Shader->SetFloat("u_Thickness", circleProps.Thickness);
+		s_Circle->Shader->SetFloat("u_Circumference", circleProps.Circumference);
+		s_Circle->Shader->SetInt("u_GapCount", circleProps.GapCount);
+		s_Circle->Shader->SetFloat("u_GapSize", circleProps.GapSize);
+		s_Circle->Shader->SetFloat("u_Rotation", circleProps.Rotation);
 
 		s_GraphicsAPI->DrawIndexed(s_Circle->VertexArray);
 	}

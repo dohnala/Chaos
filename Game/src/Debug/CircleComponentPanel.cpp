@@ -16,6 +16,11 @@ void CircleComponentPanel::OnImGuiRender()
 
 		ImGui::DragFloat("Radius", &circle.Radius, 0.05f, 0.0f, 10.0f);
 		ImGui::ColorEdit4("Color", glm::value_ptr(circle.CircleProps.Color));
+		ImGui::DragFloat("Thickness", &circle.CircleProps.Thickness, 0.01f, 0.0f, 1.0f);
+		ImGui::DragFloat("Circumference", &circle.CircleProps.Circumference, 0.01f, 0.0f, 1.0f);
+		ImGui::DragScalar("Gap count", ImGuiDataType_::ImGuiDataType_U32, &circle.CircleProps.GapCount);
+		ImGui::DragFloat("Gap size", &circle.CircleProps.GapSize, 0.01f, 0.0f, 1.0f);
+		ImGui::DragFloat("Rotation", &circle.CircleProps.Rotation, 0.01f, 0.0f, 1.0f);
 		
 		ImGui::End();
 	}
