@@ -6,6 +6,16 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
+static Chaos::CircleProps s_HealthBarBackground = Chaos::CircleProps::Create()
+	.WithColor(Color::DarkGrey);
+
+static Chaos::CircleProps s_HealthBarInactive = Chaos::CircleProps::Create()
+	.WithGaps(10, 0.0f)
+	.WithColor(Color::Grey);
+
+static Chaos::CircleProps s_HealthBarActive = Chaos::CircleProps::Create()
+	.WithGaps(10, 0.0f);
+
 void UpdateCircleGlowRenderSystem(World& world, Chaos::Timestep ts)
 {
 	for (auto&& [entityID, positionComp, circleGlowComp] : world.View<PositionComponent, CircleGlowComponent>().each())
@@ -33,6 +43,24 @@ void UpdateAimIndicatorRenderSystem(World& world, Chaos::Timestep ts)
 			glm::orientedAngle({ 0.0f, 1.0f }, aimComponent.Direction),
 			{ aimIndicatorComponent.Size, aimIndicatorComponent.Size }, 
 			aimIndicatorComponent.PolygonProps);
+	}
+}
+
+void UpdateHealthBarRenderSystem(World& world, Chaos::Timestep ts)
+{
+
+	for (auto&& [entityID, positionComp, healthComp, healthBarComp] : world.View<PositionComponent, HealthComponent, HealthBarComponent>().each())
+	{
+		s_HealthBarBackground.WithThickness(healthBarComp.BackgroundThickness);
+		s_HealthBarInactive.WithThickness(healthBarComp.Thickness);
+		s_HealthBarActive
+			.WithThickness(healthBarComp.Thickness)
+			.WithCircumference(healthComp.MaxHealth <= 0.0f ? 0.0f : healthComp.Health / healthComp.MaxHealth)
+			.WithColor(healthBarComp.Color);
+
+		Chaos::Renderer::DrawCircle(positionComp.Position, healthBarComp.Radius + healthBarComp.Thickness * 0.5f, s_HealthBarBackground);
+		Chaos::Renderer::DrawCircle(positionComp.Position, healthBarComp.Radius, s_HealthBarInactive);
+		Chaos::Renderer::DrawCircle(positionComp.Position, healthBarComp.Radius, s_HealthBarActive);
 	}
 }
 

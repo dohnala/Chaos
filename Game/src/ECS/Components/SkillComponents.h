@@ -15,9 +15,9 @@ struct SkillSlotsComponent
 
 struct SkillComponent
 {
-	SkillID Skill;
+	SkillID Skill = SkillID::Fireball;
 	Chaos::Entity Owner;
-	float Cooldown;
+	float Cooldown = 0.5f;
 
 	SkillComponent() = default;
 	SkillComponent(const SkillComponent&) = default;

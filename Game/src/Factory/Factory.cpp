@@ -5,14 +5,15 @@
 Chaos::Entity Factory::CreatePlayer(World& world)
 {
 	auto player = world.CreateEntity();
-	
+
 	player.AddComponent<PositionComponent>();
 	player.AddComponent<InputComponent>();
+	player.AddComponent<HealthComponent>(20.0f, 20.0f);
 	player.AddComponent<AimComponent>();
 	player.AddComponent<MoveComponent>(75.0f, 15.0f, 3.0f);
 	player.AddComponent<CircleColliderComponent>(0.6f, Layer::Player, Layer::Enemy | Layer::Collectible);
 	player.AddComponent<CollectiblePickupRadiusComponent>(3.0f, 0.0f, 0.75f);
-	
+
 	player.AddComponent<CircleComponent>(0.6f, Chaos::CircleProps::Create()
 		.WithColor(Color::Blue));
 	player.AddComponent<AimIndicatorComponent>(0.75f, 0.3f, Chaos::PolygonProps::Create()
@@ -20,7 +21,9 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 		.WithColor(Color::Blue));
 	player.AddComponent<CircleGlowComponent>(1.0f, Chaos::CircleProps::Create()
 		.WithColor(Color::WithAlpha(Color::Blue, 0.05f)));
+	player.AddComponent<HealthBarComponent>(0.5f, 0.2f, 0.5f, Color::Green);
 
+	/*
 	player.AddComponent<TrailEffectComponent>(glm::vec2(0.0f), VFX::TrailEffect::Create()
 		.WithParticleCountPerUnit(3.0f)
 		.WithParticle(Chaos::ParticleProps::Create()
@@ -29,6 +32,7 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 			.WithColor(Color::Blue)
 			.WithAlpha(0.75f, 0.5f, 0.0f)
 			.WithLifeTime(0.25f, 0.5f)));
+	*/
 		
 	player.AddComponent<ImpactEffectComponent>(0.2f, VFX::BurstEffect::Create()
 		.WithParticleCount(5)
@@ -88,12 +92,14 @@ Chaos::Entity Factory::CreateEnemy(World& world)
 	auto enemy = world.CreateEntity();
 	
 	enemy.AddComponent<PositionComponent>(world.GetRandomLocation());
+	enemy.AddComponent<HealthComponent>(3.0f, 3.0f);
 	enemy.AddComponent<CircleColliderComponent>(0.4f, Layer::Enemy, Layer::Player | Layer::Projectile);
 	
 	enemy.AddComponent<CircleGlowComponent>(0.7f, Chaos::CircleProps::Create()
 		.WithColor(Color::WithAlpha(Color::Red, 0.05f)));
 	enemy.AddComponent<CircleComponent>(0.4f, Chaos::CircleProps::Create()
 		.WithColor(Color::Red));
+	enemy.AddComponent<HealthBarComponent>(0.3f, 0.2f, 0.6f, Color::Red);
 
 	enemy.AddComponent<ImpactEffectComponent>(0.2f, VFX::BurstEffect::Create()
 		.WithParticleCount(5)
@@ -145,7 +151,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 			.WithAcceleration(200.0f)
 			.WithMaxSpeed(50.0f)
 			.WithProjectileProps(Chaos::CircleProps::Create()
-				.WithColor(Color::Green))
+				.WithColor(Color::GreenYellow))
 			.WithTrailEffect(VFX::TrailEffect::Create()
 				.WithParticleCountPerUnit(6.0f)
 				.WithParticle(Chaos::ParticleProps::Create()
@@ -153,7 +159,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 					.WithDirectionVariance(glm::radians(90.0f))
 					.WithSpeed(0.25f, 0.5f)
 					.WithSize(0.1f, 0.05f)
-					.WithColorGradient(Color::Yellow, Color::Green)
+					.WithColorGradient(Color::Yellow, Color::GreenYellow)
 					.WithAlpha(0.75f, 0.5f, 0.0f)
 					.WithLifeTime(0.25f, 0.5f)))
 			.WithDestroyEffect(VFX::BurstEffect::Create()
@@ -162,7 +168,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 					.WithDirectionVariance(glm::radians(90.0f))
 					.WithSpeed(2.0f, 4.0f)
 					.WithSize(0.1f, 0.05f)
-					.WithColorGradient(Color::Yellow, Color::Green)
+					.WithColorGradient(Color::Yellow, Color::GreenYellow)
 					.WithAlpha(0.5f, 1.0f, 0.0f)
 					.WithLifeTime(1.0f, 1.0f)));
 

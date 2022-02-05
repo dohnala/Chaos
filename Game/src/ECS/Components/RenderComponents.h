@@ -2,6 +2,7 @@
 
 #include "Chaos.h"
 
+#include "Constants.h"
 #include "VFX.h"
 
 struct CircleGlowComponent
@@ -52,6 +53,19 @@ struct AimIndicatorComponent
 	AimIndicatorComponent(const AimIndicatorComponent&) = default;
 	AimIndicatorComponent(float distance, float size, const Chaos::PolygonProps& polygonProps)
 		: Distance(distance), Size(size), PolygonProps(polygonProps) {}
+};
+
+struct HealthBarComponent
+{
+	float Radius = 1.0f;
+	float Thickness = 0.2f;
+	float BackgroundThickness = 0.4f;
+	glm::vec4 Color = Color::Green;
+
+	HealthBarComponent() = default;
+	HealthBarComponent(const HealthBarComponent&) = default;
+	HealthBarComponent(float radius, float thickness, float backgroundThickness, const glm::vec4& color = Color::Green)
+		: Radius(radius), Thickness(thickness), BackgroundThickness(backgroundThickness), Color(color) {}
 };
 
 struct TrailEffectComponent

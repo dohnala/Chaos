@@ -48,6 +48,9 @@ void World::OnUpdate(Chaos::Timestep ts)
 	UpdateProjectileCollisionSystem(*this, ts);
 	UpdateCollectibleCollisionSystem(*this, ts);
 
+	// Destroy
+	UpdateDestroySystem(*this, ts);
+
 	if (m_Camera)
 	{
 		Chaos::Renderer::SetClearColor(Color::DarkGrey);
@@ -62,6 +65,7 @@ void World::OnUpdate(Chaos::Timestep ts)
 		UpdateCircleGlowRenderSystem(*this, ts);
 		UpdateCircleRenderSystem(*this, ts);
 		UpdateAimIndicatorRenderSystem(*this, ts);
+		UpdateHealthBarRenderSystem(*this, ts);
 		
 		// Particle systems
 		UpdateTrailEffectSystem(*this, ts);
@@ -70,10 +74,6 @@ void World::OnUpdate(Chaos::Timestep ts)
 
 		Chaos::Renderer::EndScene();
 	}
-
-	// Destroy
-	UpdateDestroySystem(*this, ts);
-
 }
 
 void World::OnViewportResize(uint32_t width, uint32_t height)

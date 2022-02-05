@@ -7,6 +7,7 @@
 void UpdateCircleGlowRenderSystem(World& world, Chaos::Timestep ts);
 void UpdateCircleRenderSystem(World& world, Chaos::Timestep ts);
 void UpdateAimIndicatorRenderSystem(World& world, Chaos::Timestep ts);
+void UpdateHealthBarRenderSystem(World& world, Chaos::Timestep ts);
 
 // Particle systems
 void UpdateTrailEffectSystem(World& world, Chaos::Timestep ts);
