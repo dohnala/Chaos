@@ -7,7 +7,7 @@ namespace VFX
 	struct BurstEffect
 	{
 	public:
-		uint32_t ParticleCount = 10;
+		uint32_t ParticleCount = 0;
 
 		Chaos::ParticleProps ParticleProps = Chaos::ParticleProps::Create();
 	public:
@@ -39,7 +39,7 @@ namespace VFX
 			Cos
 		};
 	public:
-		float ParticleCountPerUnit = 1.0f;
+		float ParticleCountPerUnit = 0.0f;
 
 		Chaos::ParticleProps ParticleProps = Chaos::ParticleProps::Create();
 

@@ -28,7 +28,7 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 		.WithParticleCountPerUnit(3.0f)
 		.WithParticle(Chaos::ParticleProps::Create()
 			.WithPositionVariance(0.3f)
-			.WithSize(0.1f, 0.05f)
+			.WithSize(0.075f, 0.025f)
 			.WithColor(Color::Blue)
 			.WithAlpha(0.75f, 0.5f, 0.0f)
 			.WithLifeTime(0.25f, 0.5f)));
@@ -39,7 +39,7 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 		.WithParticle(Chaos::ParticleProps::Create()
 			.WithDirectionVariance(glm::radians(90.0f))
 			.WithSpeed(2.0f, 4.0f)
-			.WithSize(0.1f, 0.05f)
+			.WithSize(0.075f, 0.025f)
 			.WithColor(Color::Blue)
 			.WithAlpha(0.5f, 1.0f, 0.0f)
 			.WithLifeTime(1.0f, 1.0f)));
@@ -79,7 +79,7 @@ Chaos::Entity Factory::CreateCollectible(World& world)
 		.WithParticle(Chaos::ParticleProps::Create()
 			.WithDirectionVariance(glm::radians(360.0f))
 			.WithSpeed(3.0f, 6.0f)
-			.WithSize(0.1f, 0.05f)
+			.WithSize(0.075f, 0.025f)
 			.WithColor(Color::Yellow)
 			.WithAlpha(0.5f, 1.0f, 0.0f)
 			.WithLifeTime(1.0f, 1.0f)));
@@ -106,7 +106,7 @@ Chaos::Entity Factory::CreateEnemy(World& world)
 		.WithParticle(Chaos::ParticleProps::Create()
 			.WithDirectionVariance(glm::radians(90.0f))
 			.WithSpeed(2.0f, 4.0f)
-			.WithSize(0.1f, 0.05f)
+			.WithSize(0.075f, 0.025f)
 			.WithColor(Color::Red)
 			.WithAlpha(0.5f, 1.0f, 0.0f)
 			.WithLifeTime(1.0f, 1.0f)));
@@ -122,7 +122,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 
 		fireball.AddComponent<SkillComponent>(skill, owner, 0.5f);
 		fireball.AddComponent<ProjectileSkillComponent>()
-			.WithRadius(0.2f)
+			.WithRadius(0.15f)
 			.WithAcceleration(200.0f)
 			.WithMaxSpeed(50.0f)
 			.WithProjectileProps(Chaos::CircleProps::Create()
@@ -133,7 +133,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 					.WithPositionVariance(0.1f)
 					.WithDirectionVariance(glm::radians(90.0f))
 					.WithSpeed(0.25f, 0.5f)
-					.WithSize(0.1f, 0.05f)
+					.WithSize(0.075f, 0.025f)
 					.WithColorGradient(Color::Yellow, Color::Red)
 					.WithAlpha(0.75f, 0.5f, 0.0f)
 					.WithLifeTime(0.25f, 0.5f)));
@@ -147,7 +147,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 		
 		poisonBolt.AddComponent<SkillComponent>(skill, owner, 0.5f);
 		poisonBolt.AddComponent<ProjectileSkillComponent>()
-			.WithRadius(0.2f)
+			.WithRadius(0.1f)
 			.WithAcceleration(200.0f)
 			.WithMaxSpeed(50.0f)
 			.WithProjectileProps(Chaos::CircleProps::Create()
@@ -158,7 +158,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 					.WithPositionVariance(0.1f)
 					.WithDirectionVariance(glm::radians(90.0f))
 					.WithSpeed(0.25f, 0.5f)
-					.WithSize(0.1f, 0.05f)
+					.WithSize(0.075f, 0.025f)
 					.WithColorGradient(Color::Yellow, Color::GreenYellow)
 					.WithAlpha(0.75f, 0.5f, 0.0f)
 					.WithLifeTime(0.25f, 0.5f)))
@@ -167,7 +167,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 				.WithParticle(Chaos::ParticleProps::Create()
 					.WithDirectionVariance(glm::radians(90.0f))
 					.WithSpeed(2.0f, 4.0f)
-					.WithSize(0.1f, 0.05f)
+					.WithSize(0.075f, 0.025f)
 					.WithColorGradient(Color::Yellow, Color::GreenYellow)
 					.WithAlpha(0.5f, 1.0f, 0.0f)
 					.WithLifeTime(1.0f, 1.0f)));
@@ -181,7 +181,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 		
 		arcaneShot.AddComponent<SkillComponent>(skill, owner, 0.3f);
 		arcaneShot.AddComponent<ProjectileSkillComponent>()
-			.WithRadius(0.15f)
+			.WithRadius(0.1f)
 			.WithAcceleration(100.0f)
 			.WithMaxSpeed(50.0f)
 			.WithHoming(20.0f, 5.0f)
@@ -194,7 +194,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 					.WithPositionVariance(0.1f)
 					.WithDirectionVariance(glm::radians(0.0f))
 					.WithSpeed(3.0f, 3.0f)
-					.WithSize(0.1f, 0.05f)
+					.WithSize(0.075f, 0.025f)
 					.WithColorGradient(Color::White, Color::Pink)
 					.WithAlpha(0.75f, 0.5f, 0.0f)
 					.WithLifeTime(0.25f, 0.5f)))
@@ -203,7 +203,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 				.WithParticle(Chaos::ParticleProps::Create()
 					.WithDirectionVariance(glm::radians(90.0f))
 					.WithSpeed(2.0f, 4.0f)
-					.WithSize(0.1f, 0.05f)
+					.WithSize(0.075f, 0.025f)
 					.WithColorGradient(Color::White, Color::Pink)
 					.WithAlpha(0.5f, 1.0f, 0.0f)
 					.WithLifeTime(1.0f, 1.0f)));
