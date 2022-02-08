@@ -7,3 +7,4 @@
 #include "ECS/Components/CollectibleComponents.h"
 #include "ECS/Components/SkillComponents.h"
 #include "ECS/Components/ProjectileComponents.h"
+#include "ECS/Components/DamageComponents.h"

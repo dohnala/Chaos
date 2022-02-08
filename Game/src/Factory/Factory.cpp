@@ -9,6 +9,7 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 	player.AddComponent<PositionComponent>();
 	player.AddComponent<InputComponent>();
 	player.AddComponent<HealthComponent>(20.0f, 20.0f);
+	player.AddComponent<DamageableComponent>();
 	player.AddComponent<AimComponent>();
 	player.AddComponent<MoveComponent>(75.0f, 15.0f, 3.0f);
 	player.AddComponent<CircleColliderComponent>(0.6f, Layer::Player, Layer::Enemy | Layer::Collectible);
@@ -32,7 +33,7 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 			.WithAlpha(0.75f, 0.5f, 0.0f)
 			.WithLifeTime(0.25f, 0.5f)));
 		
-	player.AddComponent<ImpactEffectComponent>(0.2f, VFX::BurstEffect::Create()
+	player.AddComponent<ImpactEffectComponent>(VFX::BurstEffect::Create()
 		.WithParticleCount(5)
 		.WithParticle(Chaos::ParticleProps::Create()
 			.WithDirectionVariance(glm::radians(90.0f))
@@ -91,6 +92,7 @@ Chaos::Entity Factory::CreateEnemy(World& world)
 	
 	enemy.AddComponent<PositionComponent>(world.GetRandomLocation());
 	enemy.AddComponent<HealthComponent>(3.0f, 3.0f);
+	enemy.AddComponent<DamageableComponent>();
 	enemy.AddComponent<CircleColliderComponent>(0.4f, Layer::Enemy, Layer::Player | Layer::Projectile);
 	
 	enemy.AddComponent<CircleGlowComponent>(0.7f, Chaos::CircleProps::Create()
@@ -99,11 +101,21 @@ Chaos::Entity Factory::CreateEnemy(World& world)
 		.WithColor(Color::Red));
 	enemy.AddComponent<HealthBarComponent>(0.3f, 0.2f, 0.6f, Color::Red);
 
-	enemy.AddComponent<ImpactEffectComponent>(0.2f, VFX::BurstEffect::Create()
+	enemy.AddComponent<ImpactEffectComponent>(VFX::BurstEffect::Create()
 		.WithParticleCount(5)
 		.WithParticle(Chaos::ParticleProps::Create()
 			.WithDirectionVariance(glm::radians(90.0f))
 			.WithSpeed(2.0f, 4.0f)
+			.WithSize(0.075f, 0.025f)
+			.WithColor(Color::Red)
+			.WithAlpha(0.5f, 1.0f, 0.0f)
+			.WithLifeTime(1.0f, 1.0f)));
+
+	enemy.AddComponent<DestroyEffectComponent>(VFX::BurstEffect::Create()
+		.WithParticleCount(25)
+		.WithParticle(Chaos::ParticleProps::Create()
+			.WithDirectionVariance(glm::radians(360.0f))
+			.WithSpeed(3.0f, 6.0f)
 			.WithSize(0.075f, 0.025f)
 			.WithColor(Color::Red)
 			.WithAlpha(0.5f, 1.0f, 0.0f)
@@ -123,6 +135,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 			.WithRadius(0.15f)
 			.WithAcceleration(200.0f)
 			.WithMaxSpeed(50.0f)
+			.WithDamage(2.0f)
 			.WithProjectileProps(Chaos::CircleProps::Create()
 				.WithColor(Color::Yellow))
 			.WithTrailEffect(VFX::TrailEffect::Create()
@@ -148,6 +161,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 			.WithRadius(0.1f)
 			.WithAcceleration(200.0f)
 			.WithMaxSpeed(50.0f)
+			.WithDamage(1.0f)
 			.WithProjectileProps(Chaos::CircleProps::Create()
 				.WithColor(Color::GreenYellow))
 			.WithTrailEffect(VFX::TrailEffect::Create()
@@ -183,6 +197,7 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 			.WithAcceleration(100.0f)
 			.WithMaxSpeed(50.0f)
 			.WithHoming(20.0f, 5.0f)
+			.WithDamage(1.0f)
 			.WithProjectileProps(Chaos::CircleProps::Create()
 				.WithColor(Color::Pink))
 			.WithTrailEffect(VFX::TrailEffect::Create()
@@ -210,5 +225,5 @@ Chaos::Entity Factory::CreateSkill(World& world, SkillID skill, Chaos::Entity ow
 	}
 
 	CH_ASSERT(false, "Unknown Skill!");
-	return Chaos::Entity::Null;
+	return Chaos::Entity();
 }

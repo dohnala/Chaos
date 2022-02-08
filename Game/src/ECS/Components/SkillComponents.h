@@ -54,6 +54,8 @@ struct ProjectileSkillComponent
 	float HomingDistance = 0.0;
 	float HomingAngle = 0.0;
 
+	float Damage = 1.0;
+
 	Chaos::CircleProps ProjectileProps = Chaos::CircleProps::Create();
 	
 	VFX::TrailEffect TrailEffect = VFX::TrailEffect::Create();
@@ -84,6 +86,12 @@ struct ProjectileSkillComponent
 	{
 		HomingDistance = distance;
 		HomingAngle = angle;
+		return *this;
+	}
+
+	ProjectileSkillComponent& WithDamage(float damage)
+	{
+		Damage = damage;
 		return *this;
 	}
 

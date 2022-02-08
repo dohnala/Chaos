@@ -11,5 +11,4 @@ void UpdateHealthBarRenderSystem(World& world, Chaos::Timestep ts);
 
 // Particle systems
 void UpdateTrailEffectRenderSystem(World& world, Chaos::Timestep ts);
-void UpdateImpactEffectSystem(World& world, Chaos::Timestep ts);
 void UpdateParticleEffectRenderSystem(World& world, Chaos::Timestep ts);

@@ -1,6 +1,7 @@
 #include "ECS/Systems/ProjectileSystems.h"
 #include "ECS/Components/BaseComponents.h"
 #include "ECS/Components/ProjectileComponents.h"
+#include "ECS/Components/DamageComponents.h"
 #include "ECS/Components/PhysicsComponents.h"
 
 #include <limits>
@@ -54,10 +55,21 @@ void UpdateHomingProjectileSystem(World& world, Chaos::Timestep ts)
 
 void UpdateProjectileCollisionSystem(World& world, Chaos::Timestep ts)
 {
-	for (auto&& [entityID, projectileComp, collisionComp] : world.View<ProjectileComponent, CollisionComponent>().each())
+	for (auto&& [projectileID, projectileComp, projectileCollisionComp, projectileDamageComp] : 
+		world.View<ProjectileComponent, CollisionComponent, DamageComponent>().each())
 	{
-		auto entity = Chaos::Entity(entityID, &world);
+		auto projectile = Chaos::Entity(projectileID, &world);
 
-		entity.AddComponent<DestroyComponent>(0.0f);
+		auto target = projectileCollisionComp.Entity;
+
+		if (target && target.HasComponent<DamageableComponent>())
+		{
+			target.AddComponent<ReceivedDamageComponent>(target, 
+				projectileCollisionComp.Position, 
+				projectileCollisionComp.Normal, 
+				projectileDamageComp.Damage);
+		}
+
+		projectile.AddComponent<DestroyComponent>(0.0f);
 	}
 }

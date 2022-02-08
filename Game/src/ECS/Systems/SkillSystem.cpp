@@ -3,6 +3,7 @@
 #include "ECS/Components/SkillComponents.h"
 #include "ECS/Components/PhysicsComponents.h"
 #include "ECS/Components/ProjectileComponents.h"
+#include "ECS/Components/DamageComponents.h"
 #include "ECS/Components/RenderComponents.h"
 
 void UpdateSkillCooldownSystem(World& world, Chaos::Timestep ts)
@@ -43,6 +44,7 @@ void UpdateProjectileSkillSystem(World& world, Chaos::Timestep ts)
 
 		projectile.AddComponent<CircleColliderComponent>(projectileSkillComp.Radius, Layer::Projectile, Layer::World | Layer::Enemy);
 		projectile.AddComponent<ProjectileComponent>(skillComp.Skill, skillComp.Owner);
+		projectile.AddComponent<DamageComponent>(projectileSkillComp.Damage);
 		projectile.AddComponent<CircleComponent>(projectileSkillComp.Radius, projectileSkillComp.ProjectileProps);
 		projectile.AddComponent<TrailEffectComponent>(projectilePosition, projectileSkillComp.TrailEffect);
 		projectile.AddComponent<DestroyEffectComponent>(projectileSkillComp.DestroyEffect);

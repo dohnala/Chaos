@@ -48,6 +48,10 @@ void World::OnUpdate(Chaos::Timestep ts)
 	UpdateProjectileCollisionSystem(*this, ts);
 	UpdateCollectibleCollisionSystem(*this, ts);
 
+	// Health + Damage
+	UpdateDamageImpactEffectSystem(*this, ts);
+	UpdateHealthSystem(*this, ts);
+
 	// Destroy
 	UpdateDestroySystem(*this, ts);
 
@@ -75,7 +79,6 @@ void World::OnUpdate(Chaos::Timestep ts)
 		UpdateHealthBarRenderSystem(*this, ts);
 		
 		// Particle systems
-		UpdateImpactEffectSystem(*this, ts);
 		UpdateParticleEffectRenderSystem(*this, ts);
 
 		Chaos::Renderer::EndScene();

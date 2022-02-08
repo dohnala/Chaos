@@ -54,14 +54,3 @@ struct AimComponent
 	AimComponent() = default;
 	AimComponent(const AimComponent&) = default;
 };
-
-struct HealthComponent
-{
-	float Health = 5.0f;
-	float MaxHealth = 5.0f;
-
-	HealthComponent() = default;
-	HealthComponent(const HealthComponent&) = default;
-	HealthComponent(float health, float maxHealth)
-		: Health(health), MaxHealth(maxHealth) {}
-};

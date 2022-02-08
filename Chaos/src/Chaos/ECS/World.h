@@ -3,6 +3,7 @@
 #include "Chaos/Core/Base.h"
 #include "Chaos/Core/Timestep.h"
 
+#define ENTT_NO_ETO
 #include <entt/entity/registry.hpp>
 
 namespace Chaos

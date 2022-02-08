@@ -84,18 +84,12 @@ struct TrailEffectComponent
 
 struct ImpactEffectComponent
 {
-	// How often can the effect occur in seconds
-	float Cooldown = 0.2f;
-
-	// Time left to another effect occurence (0 means its ready)
-	float TimeLeft = 0.0f;
-
 	VFX::BurstEffect ImpactEffect = VFX::BurstEffect::Create();
 
 	ImpactEffectComponent() = default;
 	ImpactEffectComponent(const ImpactEffectComponent&) = default;
-	ImpactEffectComponent(float cooldown, const VFX::BurstEffect& impactEffect)
-		: Cooldown(cooldown), ImpactEffect(impactEffect) {}
+	ImpactEffectComponent(const VFX::BurstEffect& impactEffect)
+		: ImpactEffect(impactEffect) {}
 };
 
 struct DestroyEffectComponent

@@ -1,6 +1,7 @@
 #include "ECS/Systems/RenderSystems.h"
 #include "ECS/Components/BaseComponents.h"
 #include "ECS/Components/PhysicsComponents.h"
+#include "ECS/Components/DamageComponents.h"
 #include "ECS/Components/RenderComponents.h"
 
 #include <glm/glm.hpp>
@@ -106,29 +107,6 @@ void UpdateTrailEffectRenderSystem(World& world, Chaos::Timestep ts)
 
 	world.GetTrailParticleSystem().OnUpdate(ts);
 	world.GetTrailParticleSystem().OnRender();
-}
-
-void UpdateImpactEffectSystem(World& world, Chaos::Timestep ts)
-{
-	// Update time to next impact effect
-	for (auto&& [entityID, impactEffectComp] : world.View<ImpactEffectComponent>().each())
-	{
-		impactEffectComp.TimeLeft = glm::max(impactEffectComp.TimeLeft - ts.GetDeltaTime(), 0.0f);
-	}
-
-	for (auto&& [entityID, collisionComp, impactEffectComp] : world.View<CollisionComponent, ImpactEffectComponent>().each())
-	{
-		if (impactEffectComp.TimeLeft == 0.0f)
-		{
-			impactEffectComp.TimeLeft = impactEffectComp.Cooldown;
-
-			world.GetParticleSystem().EmitFromPoint(
-				impactEffectComp.ImpactEffect.ParticleProps, 
-				collisionComp.Position, 
-				-collisionComp.Normal, 
-				impactEffectComp.ImpactEffect.ParticleCount);
-		}
-	}
 }
 
 void UpdateParticleEffectRenderSystem(World& world, Chaos::Timestep ts)

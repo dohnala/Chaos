@@ -11,8 +11,10 @@ namespace Chaos
 	{
 	public:
 		Entity() = default;
-		Entity(entt::entity id, World* world);
 		Entity(const Entity& other) = default;
+		Entity(entt::entity id, World* world)
+			: m_ID(id), m_World(world)
+		{}
 
 		template<typename T, typename... Args>
 		T& AddComponent(Args&&... args)
@@ -69,8 +71,6 @@ namespace Chaos
 		{
 			return !(*this == other);
 		}
-	public:
-		static Entity Null;
 	private:
 		entt::entity m_ID = entt::null;
 		World* m_World = nullptr;
