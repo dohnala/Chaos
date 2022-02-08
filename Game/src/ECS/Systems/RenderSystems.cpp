@@ -64,7 +64,7 @@ void UpdateHealthBarRenderSystem(World& world, Chaos::Timestep ts)
 	}
 }
 
-void UpdateTrailEffectSystem(World& world, Chaos::Timestep ts)
+void UpdateTrailEffectRenderSystem(World& world, Chaos::Timestep ts)
 {
 	for (auto&& [entityID, positionComp, trailEffecComp] : world.View<PositionComponent, TrailEffectComponent>().each())
 	{
@@ -92,7 +92,7 @@ void UpdateTrailEffectSystem(World& world, Chaos::Timestep ts)
 				break;
 			}
 
-			world.GetParticleSystem().EmitFromPoint(
+			world.GetTrailParticleSystem().EmitFromPoint(
 				trailEffecComp.TrailEffect.ParticleProps, 
 				trailEffecComp.LastPosition + static_cast<float>(i) * deltaPos, 
 				particleDirection,
@@ -103,6 +103,9 @@ void UpdateTrailEffectSystem(World& world, Chaos::Timestep ts)
 		trailEffecComp.Distance += distance;
 		trailEffecComp.LastPosition = positionComp.Position;
 	}
+
+	world.GetTrailParticleSystem().OnUpdate(ts);
+	world.GetTrailParticleSystem().OnRender();
 }
 
 void UpdateImpactEffectSystem(World& world, Chaos::Timestep ts)

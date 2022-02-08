@@ -23,7 +23,6 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 		.WithColor(Color::WithAlpha(Color::Blue, 0.05f)));
 	player.AddComponent<HealthBarComponent>(0.5f, 0.2f, 0.5f, Color::Green);
 
-	/*
 	player.AddComponent<TrailEffectComponent>(glm::vec2(0.0f), VFX::TrailEffect::Create()
 		.WithParticleCountPerUnit(3.0f)
 		.WithParticle(Chaos::ParticleProps::Create()
@@ -32,7 +31,6 @@ Chaos::Entity Factory::CreatePlayer(World& world)
 			.WithColor(Color::Blue)
 			.WithAlpha(0.75f, 0.5f, 0.0f)
 			.WithLifeTime(0.25f, 0.5f)));
-	*/
 		
 	player.AddComponent<ImpactEffectComponent>(0.2f, VFX::BurstEffect::Create()
 		.WithParticleCount(5)

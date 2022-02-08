@@ -14,8 +14,10 @@ public:
 	virtual void OnViewportResize(uint32_t width, uint32_t height) override;
 
 	const Chaos::Bounds& GetBounds() const { return m_Bounds; }
-	Chaos::ParticleSystem& GetParticleSystem() { return m_ParticleSystem; }
 	Chaos::Entity GetPlayer() const { return m_Player; }
+
+	Chaos::ParticleSystem& GetTrailParticleSystem() { return m_TrailParticleSystem; }
+	Chaos::ParticleSystem& GetParticleSystem() { return m_ParticleSystem; }
 
 	glm::vec2 GetRandomLocation() const;
 	glm::vec2 ScreenToWorldPosition(const glm::vec2& screenPosition) const;
@@ -25,5 +27,6 @@ private:
 	Chaos::Entity m_Camera;
 	Chaos::Entity m_Player;
 
+	Chaos::ParticleSystem m_TrailParticleSystem = Chaos::ParticleSystem(500);
 	Chaos::ParticleSystem m_ParticleSystem = Chaos::ParticleSystem(500);
 };

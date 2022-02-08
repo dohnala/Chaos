@@ -61,14 +61,20 @@ void World::OnUpdate(Chaos::Timestep ts)
 			m_Camera.GetComponent<PositionComponent>().Position,
 			ts);
 
-		// Rendering
+		// Trails
+		UpdateTrailEffectRenderSystem(*this, ts);
+
+		// Glow
 		UpdateCircleGlowRenderSystem(*this, ts);
+		
+		// Circles
 		UpdateCircleRenderSystem(*this, ts);
+		
+		// HUD
 		UpdateAimIndicatorRenderSystem(*this, ts);
 		UpdateHealthBarRenderSystem(*this, ts);
 		
 		// Particle systems
-		UpdateTrailEffectSystem(*this, ts);
 		UpdateImpactEffectSystem(*this, ts);
 		UpdateParticleEffectRenderSystem(*this, ts);
 

@@ -10,6 +10,6 @@ void UpdateAimIndicatorRenderSystem(World& world, Chaos::Timestep ts);
 void UpdateHealthBarRenderSystem(World& world, Chaos::Timestep ts);
 
 // Particle systems
-void UpdateTrailEffectSystem(World& world, Chaos::Timestep ts);
+void UpdateTrailEffectRenderSystem(World& world, Chaos::Timestep ts);
 void UpdateImpactEffectSystem(World& world, Chaos::Timestep ts);
 void UpdateParticleEffectRenderSystem(World& world, Chaos::Timestep ts);
